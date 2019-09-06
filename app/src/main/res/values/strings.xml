@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Philonoist</string>
+    <string name="hostName">Name</string>
+    <string name="remunerationText">Renumeration</string>
+    <string name="remunerationNumber">8000/=</string>
+    <string name="classNumber">8</string>
+</resources>
