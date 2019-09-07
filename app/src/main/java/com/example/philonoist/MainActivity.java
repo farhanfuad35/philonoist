@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String[] options = new String[]{"Tuition Details", "My Offers", "Tuition List"};
+        String[] options = new String[]{"Tuition Details", "My Offers", "Tuition List", "Candidate List", "Notifications"};
 
         ListView listView = findViewById(R.id.lvMain_Options);
 
@@ -38,6 +38,14 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(i == 2){
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.TuitionList.class);
+                    startActivity(intent);
+                }
+                if(i == 3){
+                    Intent intent = new Intent(view.getContext(), com.example.philonoist.CandidateList.class);
+                    startActivity(intent);
+                }
+                if(i == 4){
+                    Intent intent = new Intent(view.getContext(), com.example.philonoist.Notifications.class);
                     startActivity(intent);
                 }
             }

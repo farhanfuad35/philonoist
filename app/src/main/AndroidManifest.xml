@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TuitionList"></activity>
+        <activity android:name=".CandidateList"></activity>
+        <activity android:name=".Notifications" />
+        <activity android:name=".TuitionList" />
         <activity android:name=".MyOffers" />
         <activity android:name=".TuitionDetails" />
         <activity android:name=".MainActivity">
