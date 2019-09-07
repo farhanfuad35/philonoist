@@ -15,7 +15,8 @@ public class TuitionDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tuition_details);
-            String[] subjects = new String[]{"Higher Math", "Physics", "Chemistry"};
+
+        String[] subjects = new String[]{"Higher Math", "Physics", "Chemistry"};
 
         ListView listView = findViewById(R.id.lvDetails_Subject);
 
