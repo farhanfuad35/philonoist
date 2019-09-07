@@ -17,9 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent inten = new Intent(this, com.example.philonoist.TuitionDetails.class);
-
-        String[] options = new String[]{"Tuition Details"};
+        String[] options = new String[]{"Tuition Details", "My Offers", "Tuition List"};
 
         ListView listView = findViewById(R.id.lvMain_Options);
 
@@ -32,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i == 0){
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.TuitionDetails.class);
+                    startActivity(intent);
+                }
+                if(i == 1){
+                    Intent intent = new Intent(view.getContext(), com.example.philonoist.MyOffers.class);
+                    startActivity(intent);
+                }
+                if(i == 2){
+                    Intent intent = new Intent(view.getContext(), com.example.philonoist.TuitionList.class);
                     startActivity(intent);
                 }
             }
