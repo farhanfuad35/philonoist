@@ -8,10 +8,8 @@
     tools:context=".TuitionList">
 
     <ListView
-        android:id="@+id/lvTuitionList"
+        android:id="@+id/lvTuitionList_TuitionList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="114dp"
-        tools:layout_editor_absoluteY="116dp"
-        />
+        android:layout_height="wrap_content"></ListView>
+
 </LinearLayout>
