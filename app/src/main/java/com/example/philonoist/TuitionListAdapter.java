@@ -1,6 +1,7 @@
 package com.example.philonoist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.ColorSpace;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import org.w3c.dom.Text;
@@ -52,7 +54,7 @@ public class TuitionListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         ViewHolder holder;
         if(view == null){
             holder = new ViewHolder();
@@ -71,7 +73,11 @@ public class TuitionListAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(tuitionList.get(position).getTuitionName().equals("Tuition 1")){
+                    Intent intent = new Intent(view.getContext(), com.example.philonoist.TuitionDetails.class);
+                    view.getContext().startActivity(intent);
+                }
+                //Toast.makeText(context, "Item Clicked in Adapter", Toast.LENGTH_SHORT).show();
             }
         });
 

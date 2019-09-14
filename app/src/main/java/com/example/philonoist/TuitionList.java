@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -24,7 +25,6 @@ public class TuitionList extends AppCompatActivity {
 
     ListView listView;
     String[] tuitionTitles;
-    SearchView editSearch;
     TuitionListAdapter adapter;
     ArrayList<Tuition> tuitionArrayList = new ArrayList<Tuition>();
 
@@ -35,6 +35,8 @@ public class TuitionList extends AppCompatActivity {
 
         tuitionTitles = new String[]{"Tuition 1",
         "Tuition 2", "Tuition 3"};
+
+        Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
 
         listView = findViewById(R.id.lvTuitionList_TuitionList);
 
@@ -47,7 +49,16 @@ public class TuitionList extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "Item Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,8 +68,6 @@ public class TuitionList extends AppCompatActivity {
 
         MenuItem actionMenuItem = menu.findItem(R.id.menuMain_Search);
 
-        //SearchManager searchManager =
-                //(SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.menuMain_Search).getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
