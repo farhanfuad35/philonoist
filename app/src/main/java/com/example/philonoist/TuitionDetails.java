@@ -25,7 +25,7 @@ public class TuitionDetails extends AppCompatActivity {
         listView.setAdapter(listViewAdapter);
 
         TextView hostName = findViewById(R.id.tvDetails_hostName);
-        hostName.setText("Rahat Hossain");
+        hostName.setText("Nafis Al Mahmud");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

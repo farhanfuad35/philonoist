@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menuMain_profile"
+        app:showAsAction="collapseActionView|ifRoom"
+        android:title="Profile"
+        android:icon="@drawable/ic_account_circle_black_24dp" />
+
+    <item
         android:id="@+id/menuMain_Search"
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="collapseActionView|ifRoom"
