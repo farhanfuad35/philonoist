@@ -99,6 +99,10 @@ public class TuitionList extends AppCompatActivity {
 
             return true;
         }
+        if(id == R.id.menuMain_profile){
+            Intent intent = new Intent(this, com.example.philonoist.ProfileActivities.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 }
