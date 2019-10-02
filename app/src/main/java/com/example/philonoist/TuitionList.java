@@ -33,6 +33,11 @@ public class TuitionList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tuition_list);
 
+        setTitle("Tuition List");
+
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_TuitionList);
+        setSupportActionBar(toolbar);
+
         tuitionTitles = new String[]{"Tuition 1",
         "Tuition 2", "Tuition 3"};
 

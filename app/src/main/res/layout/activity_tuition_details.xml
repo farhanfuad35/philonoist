@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <include
+        android:id="@+id/toolbar_TuitionDetails"
+        layout="@layout/toolbar" />
+
     <TextView
         android:id="@+id/tvDetails_hostName"
         android:textColor="@color/black"

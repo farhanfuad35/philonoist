@@ -15,6 +15,10 @@ public class Notifications extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
+        setTitle("Notifications");
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_Notifications);
+        setSupportActionBar(toolbar);
+
         //Notification[]
         String[] notifications = new String[]{"Notification1", "Notification2", "Notification3"};
 

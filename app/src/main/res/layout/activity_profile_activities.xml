@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context=".ProfileActivities">
 
+    <include
+        android:id="@+id/toolbar_ProfileActivities"
+        layout="@layout/toolbar" />
+
     <ListView
         android:id="@+id/lvProfAct"
         android:layout_width="match_parent"

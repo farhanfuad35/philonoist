@@ -10,5 +10,9 @@ public class postOffer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_offer);
+
+        setTitle("Post Offer");
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_PostOffer);
+        setSupportActionBar(toolbar);
     }
 }

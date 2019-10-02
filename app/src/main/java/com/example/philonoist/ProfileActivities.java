@@ -16,6 +16,10 @@ public class ProfileActivities extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_activities);
 
+        setTitle("Profile Activities");
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_ProfileActivities);
+        setSupportActionBar(toolbar);
+
         String[] options = new String[]{"My Offers", "Notifications", "Post Offer", "Candidate List"};
 
         ListView listView = findViewById(R.id.lvProfAct);

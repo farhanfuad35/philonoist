@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".SignUp">
 
+    <include
+        android:id="@+id/toolbar_SignUp"
+        layout="@layout/toolbar" />
+
     <TextView
         android:id="@+id/tvSignup_Signup"
         android:text="SignUp"

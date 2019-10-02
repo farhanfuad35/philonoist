@@ -16,6 +16,10 @@ public class MyOffers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_offers);
 
+        setTitle("My Offers");
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_MyOffer);
+        setSupportActionBar(toolbar);
+
         String[] myOffers = new String[]{"Offer #1", "Offer #2", "Offer #3"};
 
         ListView listView = findViewById(R.id.lvOffers_MyOffers);
