@@ -166,10 +166,13 @@ public class TuitionList extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == PROFILEACTIVITIES){
+        if(requestCode == PROFILEACTIVITIES){
             if(resultCode == RESULT_OK){
+                Toast.makeText(TuitionList.this, "In tuition list", Toast.LENGTH_SHORT).show();
+
                 Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
                 tuitionArrayList.add(tuition);
+                listView.setAdapter(adapter);
             }
         }
     }

@@ -3,6 +3,7 @@ package com.example.philonoist;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ProfileActivities extends AppCompatActivity {
 
@@ -60,12 +62,16 @@ public class ProfileActivities extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //Toast.makeText(ProfileActivities.this, "yes", Toast.LENGTH_SHORT).show();
+
         if(requestCode == POSTOFFER){
             if(resultCode == RESULT_OK){
+                //Toast.makeText(ProfileActivities.this, "yes came here", Toast.LENGTH_SHORT).show();
                 Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
                 Intent intent = new Intent();
                 intent.putExtra("newTuition", tuition);
-                setResult(RESULT_OK, intent);
+                setResult(Activity.RESULT_OK, intent);
                 ProfileActivities.this.finish();
             }
         }
