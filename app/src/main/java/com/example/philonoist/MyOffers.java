@@ -1,7 +1,9 @@
 package com.example.philonoist;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,16 +11,28 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class MyOffers extends AppCompatActivity {
+
+    final int POSTOFFER = 10;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_offers);
 
+        FloatingActionButton fab = findViewById(R.id.fab_add);
+
+        setTitle("My Offers");
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_MyOffer);
+        setSupportActionBar(toolbar);
+
         String[] myOffers = new String[]{"Offer #1", "Offer #2", "Offer #3"};
 
-        ListView listView = findViewById(R.id.lvOffers_MyOffers);
+        final ListView listView = findViewById(R.id.lvOffers_MyOffers);
 
         ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myOffers);
 
@@ -30,5 +44,22 @@ public class MyOffers extends AppCompatActivity {
 
             }
         });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(listView.getContext(), com.example.philonoist.postOffer.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == POSTOFFER){
+
+        }
     }
 }

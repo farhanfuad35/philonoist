@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context=".TuitionList">
 
+    <include
+        android:id="@+id/toolbar_TuitionList"
+        layout="@layout/toolbar" />
+
     <ListView
         android:id="@+id/lvTuitionList_TuitionList"
         android:clickable="true"

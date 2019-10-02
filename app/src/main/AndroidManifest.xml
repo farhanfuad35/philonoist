@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileActivities"></activity>
+        <activity android:name=".MyOfferDetails"></activity>
+        <activity android:name=".ProfileActivities" />
         <activity android:name=".postOffer" />
         <activity android:name=".SignUp" />
         <activity android:name=".Login" />

@@ -1,13 +1,19 @@
 package com.example.philonoist;
 
-public class Tuition {
-    private String tuitionName;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Tuition implements Serializable {
     private String tuitionAdvertiser;
     private String remuneration;
-    private String _class;
+    private ArrayList<String> _class;
+    private String location;
 
-    public Tuition(String s) {
-        tuitionName = s;
+    public Tuition(String tuitionAdvertiser, String remuneration, ArrayList<String> _class, String location) {
+        this.tuitionAdvertiser = tuitionAdvertiser;
+        this.remuneration = remuneration;
+        this._class = _class;
+        this.location = location;
     }
 
     public String getTuitionAdvertiser() {
@@ -22,20 +28,20 @@ public class Tuition {
         this.remuneration = remuneration;
     }
 
-    public String get_class() {
+    public ArrayList<String> get_class() {
         return _class;
     }
 
-    public String getTuitionName() {
-        return tuitionName;
-    }
-
-    public void setTuitionName(String tuitionName) {
-        this.tuitionName = tuitionName;
-    }
-
-    public void set_class(String _class) {
+    public void set_class(ArrayList<String> _class) {
         this._class = _class;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public void setTuitionAdvertiser(String tuitionAdvertiser) {

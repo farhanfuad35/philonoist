@@ -16,6 +16,10 @@ public class TuitionDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tuition_details);
 
+        setTitle("Tuition Details");
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_TuitionDetails);
+        setSupportActionBar(toolbar);
+
         String[] subjects = new String[]{"Higher Math", "Physics", "Chemistry"};
 
         ListView listView = findViewById(R.id.lvDetails_Subject);
