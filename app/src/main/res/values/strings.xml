@@ -4,6 +4,7 @@
     <string name="remunerationText">Renumeration</string>
     <string name="remunerationNumber">8000/=</string>
     <string name="classNumber">8</string>
+    <string name="submit">Submit</string>
     <string name="search_hint">Search Tuition</string>
     <string name="salaryText">Salary</string>
 </resources>
