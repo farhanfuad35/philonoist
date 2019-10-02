@@ -1,5 +1,6 @@
 package com.example.philonoist;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,6 +14,10 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MyOffers extends AppCompatActivity {
+
+    final int POSTOFFER = 10;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,5 +52,14 @@ public class MyOffers extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == POSTOFFER){
+
+        }
     }
 }

@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/tvDetails_hostName"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -31,7 +31,7 @@
         <TextView
             android:id="@+id/tvDetails_remunerationText"
             android:layout_weight="2"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
@@ -43,7 +43,7 @@
         <TextView
             android:id="@+id/tvDetails_remunerationNumber"
             android:layout_weight="1"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
@@ -61,7 +61,7 @@
         <TextView
             android:id="@+id/tvDetails_classText"
             android:layout_weight="2"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
@@ -74,7 +74,7 @@
         <TextView
             android:id="@+id/tvDetails_classNumber"
             android:layout_weight="1"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
@@ -92,7 +92,7 @@
 
         <TextView
             android:id="@+id/tvDetails_Subject"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
@@ -117,7 +117,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

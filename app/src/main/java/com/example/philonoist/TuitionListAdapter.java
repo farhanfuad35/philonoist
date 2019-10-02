@@ -76,7 +76,7 @@ public class TuitionListAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(tuitionList.get(position).getTuitionAdvertiser().equals("Tuition 1")){
+                if(tuitionList.get(position).getTuitionAdvertiser().equals("Farhan Fuad")){
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.TuitionDetails.class);
                     view.getContext().startActivity(intent);
                 }

@@ -1,6 +1,7 @@
 package com.example.philonoist;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.SearchManager;
@@ -32,6 +33,8 @@ public class TuitionList extends AppCompatActivity {
     TuitionListAdapter adapter;
     ArrayList<Tuition> tuitionArrayList = new ArrayList<Tuition>();
     ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<ArrayList<String>>();
+
+    final int PROFILEACTIVITIES = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,8 +158,19 @@ public class TuitionList extends AppCompatActivity {
         }
         if(id == R.id.menuMain_profile){
             Intent intent = new Intent(this, com.example.philonoist.ProfileActivities.class);
-            startActivity(intent);
+            startActivityForResult(intent, PROFILEACTIVITIES);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == PROFILEACTIVITIES){
+            if(resultCode == RESULT_OK){
+                Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
+                tuitionArrayList.add(tuition);
+            }
+        }
     }
 }

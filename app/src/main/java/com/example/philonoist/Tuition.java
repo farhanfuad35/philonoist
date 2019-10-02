@@ -1,8 +1,9 @@
 package com.example.philonoist;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Tuition {
+public class Tuition implements Serializable {
     private String tuitionAdvertiser;
     private String remuneration;
     private ArrayList<String> _class;

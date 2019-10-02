@@ -23,12 +23,22 @@
         android:layout_height="40dp" />
 
     <EditText
+        android:id="@+id/etpostoffer_name"
+        android:hint="Name"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
         android:id="@+id/etpostoffer_class"
         android:hint="Class"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -38,20 +48,40 @@
         android:hint="Salary"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/etpostoffer_Subject"
-        android:hint="Subject"
+        android:id="@+id/etpostoffer_Subject1"
+        android:hint="Subject #1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"    />
+        android:layout_marginLeft="10dp"    />
+
+    <EditText
+        android:id="@+id/etpostoffer_Subject2"
+        android:hint="Subject #2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"    />
+
+    <EditText
+        android:id="@+id/etpostoffer_Subject3"
+        android:hint="Subject #3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"    />
 
 
 
@@ -60,10 +90,10 @@
         android:hint="Location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"    />
+        android:layout_marginLeft="10dp"    />
 
 
     <Button
@@ -74,10 +104,8 @@
         android:background="@color/colorPrimary"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
-
-
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
 
 </LinearLayout>

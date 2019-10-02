@@ -1,15 +1,21 @@
 package com.example.philonoist;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class ProfileActivities extends AppCompatActivity {
+
+    final int POSTOFFER = 20;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +47,7 @@ public class ProfileActivities extends AppCompatActivity {
                 }
                 if(position == 2){
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.postOffer.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, POSTOFFER);
                 }
                 if(position == 3){
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.CandidateList.class);
@@ -49,5 +55,19 @@ public class ProfileActivities extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == POSTOFFER){
+            if(resultCode == RESULT_OK){
+                Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
+                Intent intent = new Intent();
+                intent.putExtra("newTuition", tuition);
+                setResult(RESULT_OK, intent);
+                ProfileActivities.this.finish();
+            }
+        }
     }
 }
