@@ -36,6 +36,7 @@ public class TuitionListAdapter extends BaseAdapter {
 
     public class ViewHolder{
         TextView title;
+        TextView remuneration;
     }
 
     @Override
@@ -61,6 +62,7 @@ public class TuitionListAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.row, null);
 
             holder.title = view.findViewById(R.id.tvTuitionList_title);
+            holder.remuneration = view.findViewById(R.id.tvTuitionList_remuneration);
 
             view.setTag(holder);
         }
@@ -68,12 +70,13 @@ public class TuitionListAdapter extends BaseAdapter {
             holder = (ViewHolder)view.getTag();
         }
 
-        holder.title.setText(tuitionList.get(position).getTuitionName());
+        holder.title.setText(tuitionList.get(position).getTuitionAdvertiser());
+        holder.remuneration.setText(tuitionList.get(position).getRemuneration());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(tuitionList.get(position).getTuitionName().equals("Tuition 1")){
+                if(tuitionList.get(position).getTuitionAdvertiser().equals("Tuition 1")){
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.TuitionDetails.class);
                     view.getContext().startActivity(intent);
                 }
@@ -93,7 +96,10 @@ public class TuitionListAdapter extends BaseAdapter {
 
         else{
             for(Tuition tuition : arrayList){
-                if(tuition.getTuitionName().toLowerCase(Locale.getDefault()).contains(charText)){
+                if(tuition.getTuitionAdvertiser().toLowerCase(Locale.getDefault()).contains(charText)){
+                    tuitionList.add(tuition);
+                }
+                if(tuition.getRemuneration().toLowerCase(Locale.getDefault()).contains(charText)){
                     tuitionList.add(tuition);
                 }
             }

@@ -20,13 +20,18 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 public class TuitionList extends AppCompatActivity {
 
     ListView listView;
-    String[] tuitionTitles;
+    String[] tuitionAdvertisers;
+    String[] location;
+    String[] remuneration;
     TuitionListAdapter adapter;
     ArrayList<Tuition> tuitionArrayList = new ArrayList<Tuition>();
+    ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<ArrayList<String>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +43,59 @@ public class TuitionList extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_TuitionList);
         setSupportActionBar(toolbar);
 
-        tuitionTitles = new String[]{"Tuition 1",
-        "Tuition 2", "Tuition 3"};
+        tuitionAdvertisers = new String[]{"Farhan Fuad",
+        "Nafisa Naznin", "Sakib Al Mahmud"};
+        remuneration = new String[]{"2000/=", "4000/=", "8000/="};
+
+        //String[] subjectString = new String[]{"Bangla", "English", "Global Studies"};
+        List<String> subjectString = new ArrayList<String>();
+        subjectString.add("Bangla");
+        subjectString.add("English");
+        subjectString.add("Global Studies");
+        ListIterator<String> itr = subjectString.listIterator();
+        ArrayList<String> subjects = new ArrayList<String>();
+
+        while(itr.hasNext()){
+            subjects.add(itr.next());
+        }
+
+        listOfSubjects.add(subjects);
+
+        subjects.clear();
+        subjectString.clear();
+
+        subjectString.add("Chemistry");
+
+        while(itr.hasNext()){
+            subjects.add(itr.next());
+        }
+
+        listOfSubjects.add(subjects);
+
+        subjects.clear();
+        subjectString.clear();
+
+        subjectString.add("Math");
+        subjectString.add("Physics");
+
+        while(itr.hasNext()){
+            subjects.add(itr.next());
+        }
+
+        listOfSubjects.add(subjects);
+
+        subjects.clear();
+        subjectString.clear();
+
+        location = new String[]{"Dhanmondi", "Uttara", "Mohammadpur"};
+
 
         Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
 
         listView = findViewById(R.id.lvTuitionList_TuitionList);
 
-        for(int i=0; i< tuitionTitles.length; i++){
-            Tuition tuition = new Tuition(tuitionTitles[i]);
+        for(int i=0; i< tuitionAdvertisers.length; i++){
+            Tuition tuition = new Tuition(tuitionAdvertisers[i], remuneration[i], listOfSubjects.get(i), location[i]);
             tuitionArrayList.add(tuition);
         }
 
