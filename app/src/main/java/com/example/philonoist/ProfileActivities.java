@@ -14,8 +14,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class ProfileActivities extends AppCompatActivity {
-
-    final int POSTOFFER = 20;
+    
+    final int MYOFFER = 55;
 
 
 
@@ -28,7 +28,7 @@ public class ProfileActivities extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_ProfileActivities);
         setSupportActionBar(toolbar);
 
-        String[] options = new String[]{"My Offers", "Notifications", "Post Offer", "Candidate List"};
+        String[] options = new String[]{"My Offers", "Notifications", "Candidate List"};
 
         ListView listView = findViewById(R.id.lvProfAct);
 
@@ -41,17 +41,13 @@ public class ProfileActivities extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0){
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.MyOffers.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, MYOFFER);
                 }
                 if(position == 1){
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.Notifications.class);
                     startActivity(intent);
                 }
                 if(position == 2){
-                    Intent intent = new Intent(view.getContext(), com.example.philonoist.postOffer.class);
-                    startActivityForResult(intent, POSTOFFER);
-                }
-                if(position == 3){
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.CandidateList.class);
                     startActivity(intent);
                 }
@@ -65,7 +61,7 @@ public class ProfileActivities extends AppCompatActivity {
 
         //Toast.makeText(ProfileActivities.this, "yes", Toast.LENGTH_SHORT).show();
 
-        if(requestCode == POSTOFFER){
+        if(requestCode == MYOFFER){
             if(resultCode == RESULT_OK){
                 //Toast.makeText(ProfileActivities.this, "yes came here", Toast.LENGTH_SHORT).show();
                 Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");

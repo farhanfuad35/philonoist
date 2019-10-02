@@ -3,6 +3,7 @@ package com.example.philonoist;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -49,7 +50,7 @@ public class MyOffers extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(listView.getContext(), com.example.philonoist.postOffer.class);
-                startActivity(intent);
+                startActivityForResult(intent, POSTOFFER);
             }
         });
     }
@@ -58,8 +59,12 @@ public class MyOffers extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == POSTOFFER){
-
+        if(requestCode == POSTOFFER && resultCode == Activity.RESULT_OK){
+            Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
+            Intent intent = new Intent();
+            intent.putExtra("newTuition", tuition);
+            setResult(Activity.RESULT_OK, intent);
+            MyOffers.this.finish();
         }
     }
 }

@@ -172,6 +172,7 @@ public class TuitionList extends AppCompatActivity {
 
                 Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
                 tuitionArrayList.add(tuition);
+                adapter = new TuitionListAdapter(TuitionList.this, tuitionArrayList);
                 listView.setAdapter(adapter);
             }
         }
