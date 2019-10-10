@@ -31,8 +31,8 @@ public class TuitionList extends AppCompatActivity {
     String[] location;
     String[] remuneration;
     TuitionListAdapter adapter;
-    ArrayList<Tuition> tuitionArrayList = new ArrayList<Tuition>();
-    ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<ArrayList<String>>();
+    ArrayList<Tuition> tuitionArrayList = new ArrayList<>();
+    ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<>();
 
     final int PROFILEACTIVITIES = 10;
 
@@ -43,7 +43,7 @@ public class TuitionList extends AppCompatActivity {
 
         setTitle("Tuition List");
 
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_TuitionList);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_TuitionList);
         setSupportActionBar(toolbar);
 
         tuitionAdvertisers = new String[]{"Farhan Fuad",
@@ -51,12 +51,12 @@ public class TuitionList extends AppCompatActivity {
         remuneration = new String[]{"2000/=", "4000/=", "8000/="};
 
         //String[] subjectString = new String[]{"Bangla", "English", "Global Studies"};
-        List<String> subjectString = new ArrayList<String>();
+        List<String> subjectString = new ArrayList<>();
         subjectString.add("Bangla");
         subjectString.add("English");
         subjectString.add("Global Studies");
         ListIterator<String> itr = subjectString.listIterator();
-        ArrayList<String> subjects = new ArrayList<String>();
+        ArrayList<String> subjects = new ArrayList<>();
 
         while(itr.hasNext()){
             subjects.add(itr.next());
@@ -173,6 +173,7 @@ public class TuitionList extends AppCompatActivity {
                 Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
                 tuitionArrayList.add(tuition);
                 adapter = new TuitionListAdapter(TuitionList.this, tuitionArrayList);
+                //adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
             }
         }
