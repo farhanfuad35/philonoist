@@ -34,6 +34,7 @@ public class TuitionList extends AppCompatActivity {
     ArrayList<Tuition> tuitionArrayList = new ArrayList<>();
     ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<>();
 
+
     final int PROFILEACTIVITIES = 10;
 
     @Override
