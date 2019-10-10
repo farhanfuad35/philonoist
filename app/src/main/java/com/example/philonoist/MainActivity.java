@@ -12,15 +12,26 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.backendless.Backendless;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-                
+
+        Backendless.setUrl(backendless_credentials.SERVER_URL);
+        Backendless.initApp(getApplicationContext(), backendless_credentials.APPLICATION_ID, backendless_credentials.API_KEY);
+
+        if(Backendless.UserService.loggedInUser()== "") {
             Intent intent = new Intent(this, com.example.philonoist.Login.class);
             startActivity(intent);
+        }
+        else{
+            Intent intent = new Intent(this, com.example.philonoist.TuitionList.class);
+            startActivity(intent);
+        }
             
     }
 

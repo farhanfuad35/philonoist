@@ -20,6 +20,10 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -161,6 +165,23 @@ public class TuitionList extends AppCompatActivity {
             Intent intent = new Intent(this, com.example.philonoist.ProfileActivities.class);
             startActivityForResult(intent, PROFILEACTIVITIES);
         }
+        if(id == R.id.menuMain_Logout){
+            Backendless.UserService.logout(new AsyncCallback<Void>() {
+                @Override
+                public void handleResponse(Void response) {
+                    Toast.makeText(getApplicationContext(), "You are successfully logged out!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void handleFault(BackendlessFault fault) {
+                    Toast.makeText(getApplicationContext(), "Sorry couldn't logout right now. Please check your connection", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
         return super.onOptionsItemSelected(item);
     }
 
