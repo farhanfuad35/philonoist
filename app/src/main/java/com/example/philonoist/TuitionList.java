@@ -20,6 +20,11 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -29,10 +34,11 @@ public class TuitionList extends AppCompatActivity {
     ListView listView;
     String[] tuitionAdvertisers;
     String[] location;
-    String[] remuneration;
+    String[] salary;
     TuitionListAdapter adapter;
-    ArrayList<Tuition> tuitionArrayList = new ArrayList<Tuition>();
-    ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<ArrayList<String>>();
+    ArrayList<Tuition> tuitionArrayList = new ArrayList<>();
+    ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<>();
+    FloatingActionButton fabMaps;
 
     final int PROFILEACTIVITIES = 10;
 
@@ -43,20 +49,22 @@ public class TuitionList extends AppCompatActivity {
 
         setTitle("Tuition List");
 
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_TuitionList);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_TuitionList);
         setSupportActionBar(toolbar);
+
+        fabMaps = findViewById(R.id.fabTuitionList_Map);
 
         tuitionAdvertisers = new String[]{"Farhan Fuad",
         "Nafisa Naznin", "Sakib Al Mahmud"};
-        remuneration = new String[]{"2000/=", "4000/=", "8000/="};
+        salary = new String[]{"2000/=", "4000/=", "8000/="};
 
         //String[] subjectString = new String[]{"Bangla", "English", "Global Studies"};
-        List<String> subjectString = new ArrayList<String>();
+        List<String> subjectString = new ArrayList<>();
         subjectString.add("Bangla");
         subjectString.add("English");
         subjectString.add("Global Studies");
         ListIterator<String> itr = subjectString.listIterator();
-        ArrayList<String> subjects = new ArrayList<String>();
+        ArrayList<String> subjects = new ArrayList<>();
 
         while(itr.hasNext()){
             subjects.add(itr.next());
@@ -98,7 +106,7 @@ public class TuitionList extends AppCompatActivity {
         listView = findViewById(R.id.lvTuitionList_TuitionList);
 
         for(int i=0; i< tuitionAdvertisers.length; i++){
-            Tuition tuition = new Tuition(tuitionAdvertisers[i], remuneration[i], listOfSubjects.get(i), location[i]);
+            Tuition tuition = new Tuition(tuitionAdvertisers[i], salary[i], listOfSubjects.get(i), location[i]);
             tuitionArrayList.add(tuition);
         }
 
@@ -110,6 +118,14 @@ public class TuitionList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), "Item Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fabMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMap = new Intent(getApplicationContext(), Maps_Show_Tuitions.class);
+                startActivity(intentMap);
             }
         });
 
@@ -160,6 +176,23 @@ public class TuitionList extends AppCompatActivity {
             Intent intent = new Intent(this, com.example.philonoist.ProfileActivities.class);
             startActivityForResult(intent, PROFILEACTIVITIES);
         }
+        if(id == R.id.menuMain_Logout){
+            Backendless.UserService.logout(new AsyncCallback<Void>() {
+                @Override
+                public void handleResponse(Void response) {
+                    Toast.makeText(getApplicationContext(), "You are successfully logged out!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void handleFault(BackendlessFault fault) {
+                    Toast.makeText(getApplicationContext(), "Sorry couldn't logout right now. Please check your connection", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -173,6 +206,7 @@ public class TuitionList extends AppCompatActivity {
                 Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
                 tuitionArrayList.add(tuition);
                 adapter = new TuitionListAdapter(TuitionList.this, tuitionArrayList);
+                //adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
             }
         }

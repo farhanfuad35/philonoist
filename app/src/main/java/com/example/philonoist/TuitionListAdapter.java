@@ -36,7 +36,7 @@ public class TuitionListAdapter extends BaseAdapter {
 
     public class ViewHolder{
         TextView title;
-        TextView remuneration;
+        TextView salary;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class TuitionListAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.row, null);
 
             holder.title = view.findViewById(R.id.tvTuitionList_title);
-            holder.remuneration = view.findViewById(R.id.tvTuitionList_remuneration);
+            holder.salary = view.findViewById(R.id.tvTuitionList_salary);
 
             view.setTag(holder);
         }
@@ -70,13 +70,13 @@ public class TuitionListAdapter extends BaseAdapter {
             holder = (ViewHolder)view.getTag();
         }
 
-        holder.title.setText(tuitionList.get(position).getTuitionAdvertiser());
-        holder.remuneration.setText(tuitionList.get(position).getRemuneration());
+        holder.title.setText(tuitionList.get(position).getName());
+        holder.salary.setText(tuitionList.get(position).getSalary());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(tuitionList.get(position).getTuitionAdvertiser().equals("Farhan Fuad")){
+                if(tuitionList.get(position).getName().equals("Farhan Fuad")){
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.TuitionDetails.class);
                     view.getContext().startActivity(intent);
                 }
@@ -96,10 +96,10 @@ public class TuitionListAdapter extends BaseAdapter {
 
         else{
             for(Tuition tuition : arrayList){
-                if(tuition.getTuitionAdvertiser().toLowerCase(Locale.getDefault()).contains(charText)){
+                if(tuition.getName().toLowerCase(Locale.getDefault()).contains(charText)){
                     tuitionList.add(tuition);
                 }
-                if(tuition.getRemuneration().toLowerCase(Locale.getDefault()).contains(charText)){
+                if(tuition.getSalary().toLowerCase(Locale.getDefault()).contains(charText)){
                     tuitionList.add(tuition);
                 }
             }
