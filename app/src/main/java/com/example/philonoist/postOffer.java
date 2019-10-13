@@ -8,6 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,14 +75,46 @@ public class postOffer extends AppCompatActivity {
                     subject3 = etsubject3.getText().toString().trim();
                     subjectString.add(subject3);
                 }
+                saveNewOffer(_class,salary,subject1);
 
                 Tuition tuition = new Tuition(name, salary, subjectString, location);
 
                 intent.putExtra("newTuition", tuition);
                 setResult(Activity.RESULT_OK, intent);
+
                 postOffer.this.finish();
+
+
             }
         });
 
     }
+
+    public void saveNewOffer(String _class, String salary, String subject)
+    {
+        Offer newoffer = new Offer();
+        newoffer.set_class(_class);
+        newoffer.setSalary( salary );
+        newoffer.setSubject( subject );
+
+        Toast.makeText(getApplicationContext(),"ok",Toast.LENGTH_SHORT).show();
+        // save object synchronously
+        Offer savedContact = Backendless.Persistence.save( newoffer );
+
+        // save object asynchronously
+        Backendless.Persistence.save( newoffer, new AsyncCallback<Offer>() {
+            public void handleResponse( Offer response )
+            {
+                Toast.makeText(getApplicationContext(),"handle response",Toast.LENGTH_SHORT).show();
+                // new Contact instance has been saved
+            }
+
+            public void handleFault( BackendlessFault fault )
+            {
+                Toast.makeText(getApplicationContext(),"fault response",Toast.LENGTH_SHORT).show();
+                // an error has occurred, the error code can be retrieved with fault.getCode()
+            }
+        });
+    }
+
 }

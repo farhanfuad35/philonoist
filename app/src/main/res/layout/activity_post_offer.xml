@@ -1,111 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".postOffer">
-
-    <include
-        android:id="@+id/toolbar_PostOffer"
-        layout="@layout/toolbar" />
-
-    <TextView
-        android:layout_marginBottom="10dp"
-        android:background="@color/colorPrimary"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:text="Create New Offer"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="match_parent" >
+        <include
+            android:id="@+id/toolbar_PostOffer"
+            layout="@layout/toolbar" />
 
-    <EditText
-        android:id="@+id/etpostoffer_name"
-        android:hint="Name"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorPrimary"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="Create New Offer"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
 
-    <EditText
-        android:id="@+id/etpostoffer_class"
-        android:hint="Class"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/etpostoffer_name"
+            android:hint="Name"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-
-    <EditText
-        android:id="@+id/etpostoffer_salary"
-        android:hint="Salary"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/etpostoffer_Subject1"
-        android:hint="Subject #1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"    />
-
-    <EditText
-        android:id="@+id/etpostoffer_Subject2"
-        android:hint="Subject #2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"    />
-
-    <EditText
-        android:id="@+id/etpostoffer_Subject3"
-        android:hint="Subject #3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"    />
+        <EditText
+            android:id="@+id/etpostoffer_class"
+            android:hint="Class"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
 
+        <EditText
+            android:id="@+id/etpostoffer_salary"
+            android:hint="Salary"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/etpostoffer_location"
-        android:hint="Location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"    />
+        <EditText
+            android:id="@+id/etpostoffer_Subject1"
+            android:hint="Subject #1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"    />
+
+        <EditText
+            android:id="@+id/etpostoffer_Subject2"
+            android:hint="Subject #2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"    />
+
+        <EditText
+            android:id="@+id/etpostoffer_Subject3"
+            android:hint="Subject #3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"    />
 
 
-    <Button
-        android:id="@+id/btnpostoffer_Post"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Post"
-        android:background="@color/colorPrimary"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+
+        <EditText
+            android:id="@+id/etpostoffer_location"
+            android:hint="Location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"    />
 
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btnpostoffer_Post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Post"
+            android:background="@color/colorPrimary"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
+
+
+</ScrollView>
