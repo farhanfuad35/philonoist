@@ -32,8 +32,8 @@ public class postOffer extends AppCompatActivity {
     String _class;
     String salary;
     String subject1;
-    String subject2;
-    String subject3;
+    //String subject2;
+    //String subject3;
     String location;
 
     @Override
@@ -67,14 +67,14 @@ public class postOffer extends AppCompatActivity {
                 location = etlocation.getText().toString().trim();
                 name = etName.getText().toString().trim();
 
-                if(!etsubject2.getText().toString().isEmpty()){
-                    subject2 = etsubject2.getText().toString().trim();
-                    subjectString.add(subject2);
-                }
-                if(!etsubject3.getText().toString().isEmpty()) {
-                    subject3 = etsubject3.getText().toString().trim();
-                    subjectString.add(subject3);
-                }
+//                if(!etsubject2.getText().toString().isEmpty()){
+//                    subject2 = etsubject2.getText().toString().trim();
+//                    subjectString.add(subject2);
+//                }
+//                if(!etsubject3.getText().toString().isEmpty()) {
+//                    subject3 = etsubject3.getText().toString().trim();
+//                    subjectString.add(subject3);
+//                }
                 saveNewOffer(_class,salary,subject1);
 
                 Tuition tuition = new Tuition(name, salary, subjectString, location);
@@ -90,31 +90,25 @@ public class postOffer extends AppCompatActivity {
 
     }
 
-    public void saveNewOffer(String _class, String salary, String subject)
-    {
+    public void saveNewOffer(String _class, String salary, String subject) {
         Offer newoffer = new Offer();
         newoffer.set_class(_class);
-        newoffer.setSalary( salary );
-        newoffer.setSubject( subject );
+        newoffer.setSalary(salary);
+        newoffer.setSubject(subject);
 
-        Toast.makeText(getApplicationContext(),"ok",Toast.LENGTH_SHORT).show();
-        // save object synchronously
-        Offer savedContact = Backendless.Persistence.save( newoffer );
 
-        // save object asynchronously
-        Backendless.Persistence.save( newoffer, new AsyncCallback<Offer>() {
-            public void handleResponse( Offer response )
-            {
-                Toast.makeText(getApplicationContext(),"handle response",Toast.LENGTH_SHORT).show();
-                // new Contact instance has been saved
+        Backendless.Data.of(Offer.class).save(newoffer, new AsyncCallback<Offer>() {
+            @Override
+            public void handleResponse(Offer saveNewOffer) {
+                // Log.i(TAG, "Order has been saved");
             }
 
-            public void handleFault( BackendlessFault fault )
-            {
-                Toast.makeText(getApplicationContext(),"fault response",Toast.LENGTH_SHORT).show();
-                // an error has occurred, the error code can be retrieved with fault.getCode()
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                //Log.e(TAG, fault.getMessage());
             }
         });
     }
+
 
 }

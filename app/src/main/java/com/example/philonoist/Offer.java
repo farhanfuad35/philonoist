@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Offer implements Serializable {
+
     private String salary;
     private String _class;
     private String location;
@@ -46,13 +47,13 @@ public class Offer implements Serializable {
         this.location = location;
     }
 
-    public String getName(String name) { return name; }
+    public String getName() { return name; }
 
     public void setName( String name) { this.name = name; }
 
-    public String getSubject(String subject) { return subject; }
+    public String getSubject() { return subject; }
 
-    public void setSubject( String name) { this.subject = subject; }
+    public void setSubject( String subject) { this.subject = subject; }
 
 
 
