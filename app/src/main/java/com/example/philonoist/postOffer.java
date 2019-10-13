@@ -8,6 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +32,8 @@ public class postOffer extends AppCompatActivity {
     String _class;
     String salary;
     String subject1;
-    String subject2;
-    String subject3;
+    //String subject2;
+    //String subject3;
     String location;
 
     @Override
@@ -62,22 +67,48 @@ public class postOffer extends AppCompatActivity {
                 location = etlocation.getText().toString().trim();
                 name = etName.getText().toString().trim();
 
-                if(!etsubject2.getText().toString().isEmpty()){
-                    subject2 = etsubject2.getText().toString().trim();
-                    subjectString.add(subject2);
-                }
-                if(!etsubject3.getText().toString().isEmpty()) {
-                    subject3 = etsubject3.getText().toString().trim();
-                    subjectString.add(subject3);
-                }
+//                if(!etsubject2.getText().toString().isEmpty()){
+//                    subject2 = etsubject2.getText().toString().trim();
+//                    subjectString.add(subject2);
+//                }
+//                if(!etsubject3.getText().toString().isEmpty()) {
+//                    subject3 = etsubject3.getText().toString().trim();
+//                    subjectString.add(subject3);
+//                }
+                saveNewOffer(_class,salary,subject1);
 
                 Tuition tuition = new Tuition(name, salary, subjectString, location);
 
                 intent.putExtra("newTuition", tuition);
                 setResult(Activity.RESULT_OK, intent);
+
                 postOffer.this.finish();
+
+
             }
         });
 
     }
+
+    public void saveNewOffer(String _class, String salary, String subject) {
+        Offer newoffer = new Offer();
+        newoffer.set_class(_class);
+        newoffer.setSalary(salary);
+        newoffer.setSubject(subject);
+
+
+        Backendless.Data.of(Offer.class).save(newoffer, new AsyncCallback<Offer>() {
+            @Override
+            public void handleResponse(Offer saveNewOffer) {
+                // Log.i(TAG, "Order has been saved");
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                //Log.e(TAG, fault.getMessage());
+            }
+        });
+    }
+
+
 }
