@@ -24,13 +24,18 @@ public class MainActivity extends AppCompatActivity {
         Backendless.setUrl(backendless_credentials.SERVER_URL);
         Backendless.initApp(getApplicationContext(), backendless_credentials.APPLICATION_ID, backendless_credentials.API_KEY);
 
+    //        Intent intent = new Intent(this, TuitionList.class);
+    //        startActivity(intent);
+
         if(Backendless.UserService.loggedInUser()== "") {
             Intent intent = new Intent(this, com.example.philonoist.Login.class);
             startActivity(intent);
+            finish();
         }
         else{
             Intent intent = new Intent(this, com.example.philonoist.TuitionList.class);
             startActivity(intent);
+            finish();
         }
             
     }

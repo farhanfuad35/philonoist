@@ -4,28 +4,29 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Tuition implements Serializable {
-    private String tuitionAdvertiser;
-    private String remuneration;
+    private String name;
+    private String email;
+    private String salary;
     private ArrayList<String> _class;
     private String location;
 
-    public Tuition(String tuitionAdvertiser, String remuneration, ArrayList<String> _class, String location) {
-        this.tuitionAdvertiser = tuitionAdvertiser;
-        this.remuneration = remuneration;
+    public Tuition(String name, String salary, ArrayList<String> _class, String location) {
+        this.name = name;
+        this.salary = salary;
         this._class = _class;
         this.location = location;
     }
 
-    public String getTuitionAdvertiser() {
-        return tuitionAdvertiser;
+    public String getName() {
+        return name;
     }
 
-    public String getRemuneration() {
-        return remuneration;
+    public String getSalary() {
+        return salary;
     }
 
-    public void setRemuneration(String remuneration) {
-        this.remuneration = remuneration;
+    public void setSalary(String salary) {
+        this.salary = salary;
     }
 
     public ArrayList<String> get_class() {
@@ -44,7 +45,7 @@ public class Tuition implements Serializable {
         this.location = location;
     }
 
-    public void setTuitionAdvertiser(String tuitionAdvertiser) {
-        this.tuitionAdvertiser = tuitionAdvertiser;
+    public void setName(String name) {
+        this.name = name;
     }
 }

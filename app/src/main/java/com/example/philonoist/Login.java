@@ -57,7 +57,8 @@ public class Login extends AppCompatActivity {
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = etEmail.getText().toString();
+                btLogin.setText("Logging in...");
+                final String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
 
                 Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
@@ -65,11 +66,13 @@ public class Login extends AppCompatActivity {
                     public void handleResponse(BackendlessUser response) {
                         Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
                         startActivity(intent);
+                        finish();
                     }
 
                     @Override
                     public void handleFault(BackendlessFault fault) {
                         Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_SHORT).show();
+                        btLogin.setText("Login");
                     }
                 }, true);
 

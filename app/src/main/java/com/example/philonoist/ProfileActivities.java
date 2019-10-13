@@ -22,6 +22,7 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 
+import java.util.List;
 import java.util.zip.Inflater;
 
 public class ProfileActivities extends AppCompatActivity {
@@ -64,6 +65,8 @@ public class ProfileActivities extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     @Override

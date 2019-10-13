@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +34,11 @@ public class TuitionList extends AppCompatActivity {
     ListView listView;
     String[] tuitionAdvertisers;
     String[] location;
-    String[] remuneration;
+    String[] salary;
     TuitionListAdapter adapter;
     ArrayList<Tuition> tuitionArrayList = new ArrayList<>();
     ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<>();
-
+    FloatingActionButton fabMaps;
 
     final int PROFILEACTIVITIES = 10;
 
@@ -51,9 +52,11 @@ public class TuitionList extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_TuitionList);
         setSupportActionBar(toolbar);
 
+        fabMaps = findViewById(R.id.fabTuitionList_Map);
+
         tuitionAdvertisers = new String[]{"Farhan Fuad",
         "Nafisa Naznin", "Sakib Al Mahmud"};
-        remuneration = new String[]{"2000/=", "4000/=", "8000/="};
+        salary = new String[]{"2000/=", "4000/=", "8000/="};
 
         //String[] subjectString = new String[]{"Bangla", "English", "Global Studies"};
         List<String> subjectString = new ArrayList<>();
@@ -103,7 +106,7 @@ public class TuitionList extends AppCompatActivity {
         listView = findViewById(R.id.lvTuitionList_TuitionList);
 
         for(int i=0; i< tuitionAdvertisers.length; i++){
-            Tuition tuition = new Tuition(tuitionAdvertisers[i], remuneration[i], listOfSubjects.get(i), location[i]);
+            Tuition tuition = new Tuition(tuitionAdvertisers[i], salary[i], listOfSubjects.get(i), location[i]);
             tuitionArrayList.add(tuition);
         }
 
@@ -115,6 +118,14 @@ public class TuitionList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), "Item Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fabMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMap = new Intent(getApplicationContext(), Maps_Show_Tuitions.class);
+                startActivity(intentMap);
             }
         });
 

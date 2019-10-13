@@ -19,7 +19,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/tvTuitionList_remuneration"
+        android:id="@+id/tvTuitionList_salary"
         android:text="Title"
         android:clickable="true"
         android:textSize="15dp"
