@@ -65,18 +65,18 @@ public class Maps_Show_Tuitions extends FragmentActivity implements OnMapReadyCa
     {
         mMap = googleMap;
 
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.752219, 90.351246, "tuition_locations");
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.793516, 90.381235, "tuition_locations");
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.748526, 90.395976, "tuition_locations");
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.791532, 90.403645, "tuition_locations");
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.728864, 90.419908, "tuition_locations");
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.741643, 90.438777, "tuition_locations");
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.706655, 90.447356, "tuition_locations");
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.777345, 90.478654, "tuition_locations");
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.735970, 90.496212, "tuition_locations");
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.723285, 90.447733, "tuition_locations");
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.787455, 90.469967, "tuition_locations");
-        Location_Methods.saveGeoPoints(getApplicationContext(), 23.703783, 90.3416737, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.752219, 90.351246, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.793516, 90.381235, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.748526, 90.395976, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.791532, 90.403645, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.728864, 90.419908, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.741643, 90.438777, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.706655, 90.447356, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.777345, 90.478654, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.735970, 90.496212, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.723285, 90.447733, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.787455, 90.469967, "tuition_locations");
+//         Location_Methods.saveGeoPoints(getApplicationContext(), 23.703783, 90.3416737, "tuition_locations");
 
 
 
