@@ -1,22 +1,26 @@
 package com.example.philonoist;
 
+import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Offer implements Serializable {
     private String salary;
-    private ArrayList<String> _class;
+    private String _class;
     private String location;
-    private String email;
+    private String  name;
+    private String subject;
 
 
 
-    public Offer(String salary, ArrayList<String> _class, String location) {
-        this.salary = salary;
-        this._class = _class;
-        this.location = location;
-        this.email = email;
-    }
+//    public Offer(String salary, ArrayList<String> _class, String location) {
+//        this.salary = salary;
+//        this._class = _class;
+//        this.location = location;
+//        this.email = email;
+//    }
 
     public String getSalary() {
         return salary;
@@ -26,11 +30,11 @@ public class Offer implements Serializable {
         this.salary = salary;
     }
 
-    public ArrayList<String> get_class() {
+    public String  get_class() {
         return _class;
     }
 
-    public void set_class(ArrayList<String> _class) {
+    public void set_class(String _class) {
         this._class = _class;
     }
 
@@ -42,12 +46,17 @@ public class Offer implements Serializable {
         this.location = location;
     }
 
-    public String getEmail(String email) { return email; }
+    public String getName(String name) { return name; }
 
-    public void setEmail( String email) { this.email = email; }
+    public void setName( String name) { this.name = name; }
 
+    public String getSubject(String subject) { return subject; }
 
+    public void setSubject( String name) { this.subject = subject; }
 
 
 
 }
+
+
+
