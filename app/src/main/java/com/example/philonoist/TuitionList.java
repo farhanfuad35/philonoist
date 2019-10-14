@@ -101,7 +101,7 @@ public class TuitionList extends AppCompatActivity {
         location = new String[]{"Dhanmondi", "Uttara", "Mohammadpur"};
 
 
-        Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
 
         listView = findViewById(R.id.lvTuitionList_TuitionList);
 

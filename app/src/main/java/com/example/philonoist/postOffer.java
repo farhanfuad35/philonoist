@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,8 +68,41 @@ public class postOffer extends AppCompatActivity {
             }
         });
 
+        btnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                syncOfferWithDatabase();
+            }
+        });
 
 
+
+    }
+
+    protected void syncOfferWithDatabase()
+    {
+        ArrayList<String> subjectString = new ArrayList<String>();
+
+
+        _class = etClass.getText().toString().trim();
+        salary = etsalary.getText().toString().trim();
+        subject1 = etsubject1.getText().toString().trim();
+        name = etName.getText().toString().trim();
+
+//                if(!etsubject2.getText().toString().isEmpty()){
+//                    subject2 = etsubject2.getText().toString().trim();
+//                    subjectString.add(subject2);
+//                }
+//                if(!etsubject3.getText().toString().isEmpty()) {
+//                    subject3 = etsubject3.getText().toString().trim();
+//                    subjectString.add(subject3);
+//                }
+        saveNewOffer(_class, salary, subject1);
+
+
+
+
+        postOffer.this.finish();
     }
 
     @Override
@@ -79,36 +113,8 @@ public class postOffer extends AppCompatActivity {
             btnPost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent();
-                    ArrayList<String> subjectString = new ArrayList<String>();
 
-
-                    _class = etClass.getText().toString().trim();
-                    salary = etsalary.getText().toString().trim();
-                    subject1 = etsubject1.getText().toString().trim();
-                    name = etName.getText().toString().trim();
-
-//                if(!etsubject2.getText().toString().isEmpty()){
-//                    subject2 = etsubject2.getText().toString().trim();
-//                    subjectString.add(subject2);
-//                }
-//                if(!etsubject3.getText().toString().isEmpty()) {
-//                    subject3 = etsubject3.getText().toString().trim();
-//                    subjectString.add(subject3);
-//                }
-                saveNewOffer(_class, salary, subject1);
-
-
-                    Tuition tuition = new Tuition(name, salary, subjectString, location);
-
-
-                    // THIS PART TO BE REMOVED
-
-                    intent.putExtra("newTuition", tuition);
-                    setResult(Activity.RESULT_OK, intent);
-
-                    postOffer.this.finish();
-
+                syncOfferWithDatabase();
 
                 }
             });
@@ -130,7 +136,7 @@ public class postOffer extends AppCompatActivity {
 
             @Override
             public void handleResponse(Offer NewOffer) {
-                Toast.makeText(getApplicationContext(), "STRING MESSAGE", 5000).show();
+                Toast.makeText(getApplicationContext(), "STRING MESSAGE", Toast.LENGTH_LONG).show();
                 // Log.i(TAG, "Order has been saved");
                  setRelation(NewOffer, userlist);
             }
@@ -147,12 +153,12 @@ public class postOffer extends AppCompatActivity {
         Backendless.Data.of(Offer.class).addRelation(Newoffer, "email", userList, new AsyncCallback<Integer>(){
             @Override
             public void handleResponse(Integer response) {
-                //Log.i(TAG, "Relation has been set");
+                Log.i("setRelation", "Relation has been set");
             }
 
             @Override
             public void handleFault(BackendlessFault fault) {
-                // Log.e(TAG, fault.getMessage());
+                Log.i("SetRelation", "Relation wasn't set");
             }
         });
 

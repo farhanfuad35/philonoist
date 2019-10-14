@@ -54,21 +54,9 @@ public class MyOffers extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(listView.getContext(), com.example.philonoist.postOffer.class);
-                startActivityForResult(intent, POSTOFFER);
+                startActivity(intent);
             }
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == POSTOFFER && resultCode == Activity.RESULT_OK){
-            Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
-            Intent intent = new Intent();
-            intent.putExtra("newTuition", tuition);
-            setResult(Activity.RESULT_OK, intent);
-            MyOffers.this.finish();
-        }
-    }
 }

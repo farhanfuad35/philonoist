@@ -2,22 +2,37 @@ package com.example.philonoist;
 
 import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
+import com.backendless.geo.GeoPoint;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Offer implements Serializable {
+public class Offer implements Serializable{
 
+    private String objectId;
     private String salary;
     private String _class;
-    private String location;
+    private GeoPoint location;
     private String  name;
     private String subject;
+    private String email;
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    private int ID;
 
 
 
 //    public Offer(String salary, ArrayList<String> _class, String location) {
 //        this.salary = salary;
+
+    //}
 //        this._class = _class;
 //        this.location = location;
 //        this.email = email;
@@ -39,11 +54,11 @@ public class Offer implements Serializable {
         this._class = _class;
     }
 
-    public String getLocation() {
+    public GeoPoint getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(GeoPoint location) {
         this.location = location;
     }
 
@@ -55,6 +70,22 @@ public class Offer implements Serializable {
 
     public void setSubject( String subject) { this.subject = subject; }
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 
 }
