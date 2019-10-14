@@ -79,6 +79,8 @@ public class SignUp extends AppCompatActivity {
                     user.setProperty("last_name", lastName);
                     user.setProperty("registration_no", registrationNo);
 
+                    BackendlessUser user2 = Backendless.UserService.CurrentUser();
+
                     Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
                         @Override
                         public void handleResponse(BackendlessUser response) {

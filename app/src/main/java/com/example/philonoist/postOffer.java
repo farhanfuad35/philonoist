@@ -1,5 +1,6 @@
 package com.example.philonoist;
 
+import androidx.annotation.IntegerRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -11,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
+import com.backendless.UserService;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 
@@ -75,7 +78,8 @@ public class postOffer extends AppCompatActivity {
 //                    subject3 = etsubject3.getText().toString().trim();
 //                    subjectString.add(subject3);
 //                }
-                saveNewOffer(_class,salary,subject1);
+                saveNewOffer(_class, salary, subject1);
+
 
                 Tuition tuition = new Tuition(name, salary, subjectString, location);
 
@@ -90,17 +94,24 @@ public class postOffer extends AppCompatActivity {
 
     }
 
+
     public void saveNewOffer(String _class, String salary, String subject) {
         Offer newoffer = new Offer();
         newoffer.set_class(_class);
         newoffer.setSalary(salary);
         newoffer.setSubject(subject);
+        final ArrayList<BackendlessUser> userlist = new ArrayList<>();
+        BackendlessUser user = Backendless.UserService.CurrentUser();
+        userlist.add(user);
 
 
         Backendless.Data.of(Offer.class).save(newoffer, new AsyncCallback<Offer>() {
+
             @Override
-            public void handleResponse(Offer saveNewOffer) {
+            public void handleResponse(Offer NewOffer) {
+                Toast.makeText(getApplicationContext(), "STRING MESSAGE", 5000).show();
                 // Log.i(TAG, "Order has been saved");
+                 setRelation(NewOffer, userlist);
             }
 
             @Override
@@ -110,5 +121,20 @@ public class postOffer extends AppCompatActivity {
         });
     }
 
+    private  void setRelation(Offer Newoffer, ArrayList<BackendlessUser>userList) {
 
+        Backendless.Data.of(Offer.class).addRelation(Newoffer, "email", userList, new AsyncCallback<Integer>(){
+            @Override
+            public void handleResponse(Integer response) {
+                //Log.i(TAG, "Relation has been set");
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                // Log.e(TAG, fault.getMessage());
+            }
+        });
+
+
+    }
 }
