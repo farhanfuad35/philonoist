@@ -88,15 +88,16 @@
 
 
 
-        <EditText
-            android:id="@+id/etpostoffer_location"
-            android:hint="Location"
+        <Button
+            android:id="@+id/btnPostoffer_location"
+            android:hint="Set Location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="40dp"
+            android:background="@color/colorPrimary"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"    />
+            android:layout_marginLeft="40dp"    />
 
 
         <Button
@@ -104,7 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Post"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDark"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"

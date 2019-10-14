@@ -1,5 +1,6 @@
 package com.example.philonoist;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -25,7 +26,7 @@ public class postOffer extends AppCompatActivity {
     EditText etsubject1;
     EditText etsubject2;
     EditText etsubject3;
-    EditText etlocation;
+    Button btnlocation;
     Button btnPost;
 
     String name;
@@ -35,6 +36,8 @@ public class postOffer extends AppCompatActivity {
     //String subject2;
     //String subject3;
     String location;
+
+    final int SELECT_LOCATION_INTENT_ID = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +54,37 @@ public class postOffer extends AppCompatActivity {
         etsubject1 = findViewById(R.id.etpostoffer_Subject1);
         etsubject2 = findViewById(R.id.etpostoffer_Subject2);
         etsubject3 = findViewById(R.id.etpostoffer_Subject3);
-        etlocation = findViewById(R.id.etpostoffer_location);
+        btnlocation = findViewById(R.id.btnPostoffer_location);
         btnPost = findViewById(R.id.btnpostoffer_Post);
 
-        btnPost.setOnClickListener(new View.OnClickListener() {
+        btnlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                ArrayList<String> subjectString = new ArrayList<String>();
+                Intent intent = new Intent(getApplicationContext(), Select_Tuition_Location.class);
+                startActivityForResult(intent, SELECT_LOCATION_INTENT_ID);
+            }
+        });
 
 
-                _class = etClass.getText().toString().trim();
-                salary = etsalary.getText().toString().trim();
-                subject1 = etsubject1.getText().toString().trim();
-                location = etlocation.getText().toString().trim();
-                name = etName.getText().toString().trim();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK && requestCode == SELECT_LOCATION_INTENT_ID){
+            btnPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    ArrayList<String> subjectString = new ArrayList<String>();
+
+
+                    _class = etClass.getText().toString().trim();
+                    salary = etsalary.getText().toString().trim();
+                    subject1 = etsubject1.getText().toString().trim();
+                    name = etName.getText().toString().trim();
 
 //                if(!etsubject2.getText().toString().isEmpty()){
 //                    subject2 = etsubject2.getText().toString().trim();
@@ -75,19 +94,22 @@ public class postOffer extends AppCompatActivity {
 //                    subject3 = etsubject3.getText().toString().trim();
 //                    subjectString.add(subject3);
 //                }
-                saveNewOffer(_class,salary,subject1);
+                    saveNewOffer(_class,salary,subject1);
 
-                Tuition tuition = new Tuition(name, salary, subjectString, location);
-
-                intent.putExtra("newTuition", tuition);
-                setResult(Activity.RESULT_OK, intent);
-
-                postOffer.this.finish();
+                    Tuition tuition = new Tuition(name, salary, subjectString, location);
 
 
-            }
-        });
+                    // THIS PART TO BE REMOVED
 
+                    intent.putExtra("newTuition", tuition);
+                    setResult(Activity.RESULT_OK, intent);
+
+                    postOffer.this.finish();
+
+
+                }
+            });
+        }
     }
 
     public void saveNewOffer(String _class, String salary, String subject) {

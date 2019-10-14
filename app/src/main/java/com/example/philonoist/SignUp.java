@@ -13,6 +13,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessDataQuery;
 
 public class SignUp extends AppCompatActivity {
 
@@ -78,6 +79,7 @@ public class SignUp extends AppCompatActivity {
                     user.setProperty("first_name", firstName);
                     user.setProperty("last_name", lastName);
                     user.setProperty("registration_no", registrationNo);
+
 
                     Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
                         @Override
