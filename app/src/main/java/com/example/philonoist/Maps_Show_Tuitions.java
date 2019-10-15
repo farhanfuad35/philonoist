@@ -220,6 +220,7 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
                 queryBuilder.addProperty("subject");
                 queryBuilder.addProperty("salary");
                 queryBuilder.addProperty("_class");
+                queryBuilder.addRelated("email");
 
 
                 Log.i("marker", where);
@@ -230,6 +231,7 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
                         Log.i("offer" , offers.get(0).getSalary());
                         Log.i("offer" , offers.get(0).getSubject());
                         Log.i("offer" , offers.get(0).get_class());
+                        Log.i("offer" , offers.get(0).getEmail());
                         Intent intent = new Intent(getApplicationContext(), TuitionDetails.class);
                         intent.putExtra("offer", offers.get(0));
                         startActivity(intent);
