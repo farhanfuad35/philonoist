@@ -7,4 +7,5 @@
     <string name="search_hint">Search Tuition</string>
     <string name="salaryText">Salary</string>
     <string name="title_activity_maps__show__tuitions">Map_Tuitions</string>
+    <string name="title_activity_select__tuition__location">Map</string>
 </resources>

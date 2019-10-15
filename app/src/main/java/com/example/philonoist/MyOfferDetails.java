@@ -14,5 +14,8 @@ public class MyOfferDetails extends AppCompatActivity {
         setTitle("My Offer Details");
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_MyOfferDetails);
         setSupportActionBar(toolbar);
+
+        Offer offer = (Offer) getIntent().getSerializableExtra("offer");
+
     }
 }
