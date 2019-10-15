@@ -54,6 +54,7 @@ public class TuitionList extends AppCompatActivity {
 
         fabMaps = findViewById(R.id.fabTuitionList_Map);
 
+        /*
         tuitionAdvertisers = new String[]{"Farhan Fuad",
         "Nafisa Naznin", "Sakib Al Mahmud"};
         salary = new String[]{"2000/=", "4000/=", "8000/="};
@@ -100,16 +101,21 @@ public class TuitionList extends AppCompatActivity {
 
         location = new String[]{"Dhanmondi", "Uttara", "Mohammadpur"};
 
+        */
+
 
         Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
 
+
         listView = findViewById(R.id.lvTuitionList_TuitionList);
 
+        /*
         for(int i=0; i< tuitionAdvertisers.length; i++){
             Tuition tuition = new Tuition(tuitionAdvertisers[i], salary[i], listOfSubjects.get(i), location[i]);
             tuitionArrayList.add(tuition);
         }
 
+         */
         adapter = new TuitionListAdapter(this, tuitionArrayList);
 
         listView.setAdapter(adapter);
