@@ -73,6 +73,7 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
     {
         mMap = googleMap;
 
+
 //        Location_Methods.saveGeoPoints(getApplicationContext(), 23.752219, 90.351246, "tuition_locations");
 //        Location_Methods.saveGeoPoints(getApplicationContext(), 23.793516, 90.381235, "tuition_locations");
 //        Location_Methods.saveGeoPoints(getApplicationContext(), 23.748526, 90.395976, "tuition_locations");
