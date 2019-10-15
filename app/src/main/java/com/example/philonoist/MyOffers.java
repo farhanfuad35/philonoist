@@ -23,6 +23,8 @@ import java.util.List;
 
 public class MyOffers extends AppCompatActivity {
 
+    // BLA BALA BLA BLA
+
     final int POSTOFFER = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
