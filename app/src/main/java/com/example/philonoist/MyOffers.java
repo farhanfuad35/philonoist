@@ -15,15 +15,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.DataQueryBuilder;
+import com.backendless.persistence.LoadRelationsQueryBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyOffers extends AppCompatActivity {
-
-    // BLA BALA BLA BLA
 
     final int POSTOFFER = 10;
     @Override
@@ -37,13 +40,40 @@ public class MyOffers extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_MyOffer);
         setSupportActionBar(toolbar);
 
-        String[] myOffers = new String[]{"Offer #1", "Offer #2", "Offer #3"};
+
+        final List<String> myOffers = new ArrayList<>();
+
+        BackendlessUser user = Backendless.UserService.CurrentUser();
+        String useremail = user.getEmail();
+        System.out.println(useremail);
+        DataQueryBuilder dataQuery = DataQueryBuilder.create();
+        dataQuery.addRelated("email");
+        String whereClause = "email.email = '" + useremail+ "'";
+        System.out.println(whereClause);
+        dataQuery.setWhereClause(whereClause);
 
         final ListView listView = findViewById(R.id.lvOffers_MyOffers);
+        final ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, myOffers);
 
-        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myOffers);
+        Backendless.Data.of(Offer.class).find(dataQuery, new AsyncCallback<List<Offer>>() {
+            @Override
+            public void handleResponse(List<Offer> offerList) {
+                for (Offer offer : offerList) {
+                    myOffers.add(offer.getSubject());
+                    Log.i("subject", "in loop " + Integer.toString(myOffers.size()));
+                    listView.setAdapter(listViewAdapter);
 
-        listView.setAdapter(listViewAdapter);
+
+                }
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+            }
+        });
+
+        Log.i("subject", Integer.toString(myOffers.size()));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -51,6 +81,7 @@ public class MyOffers extends AppCompatActivity {
 
             }
         });
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,4 +104,11 @@ public class MyOffers extends AppCompatActivity {
             MyOffers.this.finish();
         }
     }
+
+
+
+
+
+
+
 }
