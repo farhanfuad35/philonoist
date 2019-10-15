@@ -6,12 +6,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
@@ -21,24 +24,29 @@ import com.backendless.exceptions.BackendlessFault;
 import com.backendless.geo.BackendlessGeoQuery;
 import com.backendless.geo.GeoPoint;
 import com.backendless.persistence.BackendlessDataQuery;
+import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.QueryOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.model.Place;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class Maps_Show_Tuitions extends FragmentActivity implements OnMapReadyCallback {
+public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     int FINE_LOCATION_CODE = 10;
     int COARSE_LOCATION_CODE = 20;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +72,7 @@ public class Maps_Show_Tuitions extends FragmentActivity implements OnMapReadyCa
 
     {
         mMap = googleMap;
+
 
 //        Location_Methods.saveGeoPoints(getApplicationContext(), 23.752219, 90.351246, "tuition_locations");
 //        Location_Methods.saveGeoPoints(getApplicationContext(), 23.793516, 90.381235, "tuition_locations");
@@ -128,6 +137,12 @@ public class Maps_Show_Tuitions extends FragmentActivity implements OnMapReadyCa
             LatLng myPosition = new LatLng(latitude, longitude);
 
             googleMap.addMarker(new MarkerOptions().position(myPosition).title("My Location"));
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(myPosition)      // Sets the center of the map to Mountain View
+                    .zoom(17)                   // Sets the zoom
+                    .bearing(90)                // Sets the orientation of the camera to east
+                    .build();                   // Creates a CameraPosition from the builder
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
 
 
@@ -138,7 +153,7 @@ public class Maps_Show_Tuitions extends FragmentActivity implements OnMapReadyCa
 
 
 
-       // Getting the list of geopoints
+        // Getting the list of geopoints
 
         final BackendlessGeoQuery geoQuery = new BackendlessGeoQuery();
         geoQuery.addCategory("tuition_locations");
@@ -148,9 +163,30 @@ public class Maps_Show_Tuitions extends FragmentActivity implements OnMapReadyCa
         Backendless.Geo.getPoints(geoQuery, new AsyncCallback<List<GeoPoint>>() {
             @Override
             public void handleResponse(List<GeoPoint> response) {
+                double lat_min = CONSTANTS.getLatMin();
+                double lat_max = CONSTANTS.getLatMax();
+                double lng_min = CONSTANTS.getLngMin();
+                double lng_max = CONSTANTS.getLngMax();
+
+
                 for(GeoPoint geoPoint : response){
+                    if(geoPoint.getLatitude() > lat_max)
+                        CONSTANTS.setLatMax(geoPoint.getLatitude() + 0.00001);
+                    else if(geoPoint.getLatitude() < lat_min)
+                        CONSTANTS.setLatMin(geoPoint.getLatitude() - 0.00001);
+                    if(geoPoint.getLongitude() > lng_max)
+                        CONSTANTS.setLngMax(geoPoint.getLongitude() + 0.00001);
+                    else if(geoPoint.getLongitude() < lng_min)
+                        CONSTANTS.setLngMin(geoPoint.getLongitude() - 0.00001);
+
+
                     LatLng temp = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(temp).title("Title"));
+
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(temp).title("Title"));
+                    marker.setTag(geoPoint.getObjectId());
+
+
+                    Log.i("Lat Lang", geoPoint.getLatitude().toString());
                 }
             }
 
@@ -163,16 +199,58 @@ public class Maps_Show_Tuitions extends FragmentActivity implements OnMapReadyCa
 
 
 
-        // Save A Location
-
-
-
-
 
 
         // Move the camera
 
-        LatLngBounds DHAKA = new LatLngBounds(new LatLng(23.702183,90.318661), new LatLng(23.888486, 90.493098));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DHAKA.getCenter(), 10));
+        LatLngBounds cameraView = new LatLngBounds(new LatLng(CONSTANTS.getLatMin(),CONSTANTS.getLngMin()), new LatLng(CONSTANTS.getLatMax(), CONSTANTS.getLngMax()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraView.getCenter(), 10));
+
+
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                LatLng latLng = marker.getPosition();
+                GeoPoint geoPoint = new GeoPoint(latLng.latitude, latLng.longitude);
+
+                String where = "location = '" +(String) marker.getTag() + "'";
+                DataQueryBuilder queryBuilder =  DataQueryBuilder.create();
+                queryBuilder.setWhereClause(where);
+                queryBuilder.addProperty("subject");
+                queryBuilder.addProperty("salary");
+                queryBuilder.addProperty("_class");
+                queryBuilder.addProperty("objectId");
+                queryBuilder.addRelated("email");
+
+
+                Log.i("marker", where);
+
+                Backendless.Data.of(Offer.class).find(queryBuilder, new AsyncCallback<List<Offer>>() {
+                    @Override
+                    public void handleResponse(List<Offer> offers) {
+                        Log.i("offer" , offers.get(0).getSalary());
+                        Log.i("offer" , offers.get(0).getSubject());
+                        Log.i("offer" , offers.get(0).get_class());
+                        //Log.i("offer" , offers.get(0).getEmail());
+                        //Log.i("offer" , offers.get(0).getObjectId());
+                        Intent intent = new Intent(getApplicationContext(), TuitionDetails.class);
+                        intent.putExtra("offer", offers.get(0));
+                        startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+                        Log.i("offer retrieve", "Not Retrieved");
+                    }
+                });
+
+
+
+                return false;
+            }
+        });
     }
 }
