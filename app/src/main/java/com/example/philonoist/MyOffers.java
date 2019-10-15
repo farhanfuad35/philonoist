@@ -107,7 +107,4 @@ public class MyOffers extends AppCompatActivity {
         }
     }
 
-
-
-
 }
