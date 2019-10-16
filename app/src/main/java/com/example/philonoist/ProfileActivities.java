@@ -40,7 +40,7 @@ public class ProfileActivities extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_ProfileActivities);
         setSupportActionBar(toolbar);
 
-        String[] options = new String[]{"My Offers", "Notifications", "Candidate List"};
+        String[] options = new String[]{"My Offers", "Notifications", "Candidate List", "User Info"};
 
         ListView listView = findViewById(R.id.lvProfAct);
 
@@ -63,6 +63,13 @@ public class ProfileActivities extends AppCompatActivity {
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.CandidateList.class);
                     startActivity(intent);
                 }
+
+                if(position == 3){
+                    Intent intent = new Intent(view.getContext(), com.example.philonoist.UserInfo.class);
+                    startActivity(intent);
+                }
+
+
             }
         });
 
@@ -104,7 +111,7 @@ public class ProfileActivities extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //Toast.makeText(ProfileActivities.this, "yes", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ProfileActivities.this, "yes", Toast.LENGTH_SHORT).show();
 
         if(requestCode == MYOFFER){
             if(resultCode == RESULT_OK){
