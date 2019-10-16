@@ -8,4 +8,5 @@
     <string name="salaryText">Salary</string>
     <string name="title_activity_maps__show__tuitions">Map_Tuitions</string>
     <string name="title_activity_select__tuition__location">Map</string>
+    <string name="_10">10</string>
 </resources>

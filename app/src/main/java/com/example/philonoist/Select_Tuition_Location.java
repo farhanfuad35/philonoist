@@ -3,15 +3,22 @@ package com.example.philonoist;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Toast;
 
+import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+import com.backendless.geo.GeoPoint;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,25 +26,32 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Select_Tuition_Location extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     AutocompleteSupportFragment autocompleteSupportFragment;
+    FloatingActionButton fabSelect;
+    private Boolean markerSelected = false;
+    private LatLng currentLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select__tuition__location);
 
+        fabSelect = findViewById(R.id.fabSelectTuition_select);
 
 
 
@@ -99,14 +113,93 @@ public class Select_Tuition_Location extends FragmentActivity implements OnMapRe
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-
+        Location_Methods.showMyLocation(this, mMap);
         searchPlaces(mMap);
 
 
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Title").draggable(true));
+                markerSelected = true;
+                currentLatLng = latLng;
+            }
+        });
+
+        fabSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(markerSelected){
+
+                    // Save this location on GeoTable
+                    //Location_Methods.saveGeoPoints(v.getContext(), currentLatLng, "tuition_locations");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    GeoPoint geoPoint = new GeoPoint(currentLatLng.latitude, currentLatLng.longitude);
+                    geoPoint.addCategory("tuition_locations");
+
+                    Backendless.Geo.savePoint(geoPoint, new AsyncCallback<GeoPoint>() {
+                        @Override
+                        public void handleResponse(GeoPoint response) {
+                            Log.i(CONSTANTS.getTAG_MAPS_SHOW_TUITIONS(), "Saved Succesfully");
+
+                            Intent intent = new Intent();
+                            intent.putExtra("geoPoint" , response);
+
+                            Log.i("post with map", "returning from select location on map");
+
+                            setResult(RESULT_OK, intent);
+                            Select_Tuition_Location.this.finish();
+
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Log.i(CONSTANTS.getTAG_MAPS_SHOW_TUITIONS(), "Saving Unsuccessfull");
+                        }
+                    });
+
+
+
+
+
+
+
+
+
+
+
+                    //ArrayList<GeoPoint> location = new ArrayList<GeoPoint>();
+//                    GeoPoint markerPoint = new GeoPoint();
+//                    markerPoint.setLatitude(currentLatLng.latitude);
+//                    markerPoint.setLongitude(currentLatLng.longitude);
+//                    markerPoint.addCategory("tuition_locations");
+                    //location.add(markerPoint);
+
+
+                }
+                else{
+                    Toast.makeText(v.getContext(), "Please search or tap to select a location", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
+
+
 
 }

@@ -1,13 +1,23 @@
 package com.example.philonoist;
 
+import com.backendless.BackendlessUser;
+
 public class CONSTANTS {
     final private static String TAG_MAPS_SHOW_TUITIONS = "#Maps_Show_Tuitions";
     private static String TAG_MAPS_GETGEOPOINTS = "Get GeoPoints";
     private static double LAT_MIN = 23.680563;
     private static double LAT_MAX = 23.892885;
-    private static double LNG_MIN = 90.332329;
+    private static double LNG_MIN = 90.332829;
     private static double LNG_MAX = 90.451891;
+    final private static BackendlessUser currentUser = new BackendlessUser();
 
+    public static String getCurrentUserEmail() {
+        return currentUser.getEmail();
+    }
+
+    public static void setCurrentUserEmail(String email) {
+        currentUser.setEmail(email);
+    }
 
     public static String getTagMapsGetgeopoints() {
         return TAG_MAPS_GETGEOPOINTS;

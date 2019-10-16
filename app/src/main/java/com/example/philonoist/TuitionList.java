@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,8 +22,10 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.DataQueryBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -31,7 +34,8 @@ import java.util.ListIterator;
 
 public class TuitionList extends AppCompatActivity {
 
-    ListView listView;
+    ViewTuitionAdapter viewTuitionAdapter;
+    //ListView listView;
     String[] tuitionAdvertisers;
     String[] location;
     String[] salary;
@@ -54,72 +58,70 @@ public class TuitionList extends AppCompatActivity {
 
         fabMaps = findViewById(R.id.fabTuitionList_Map);
 
-        tuitionAdvertisers = new String[]{"Farhan Fuad",
-        "Nafisa Naznin", "Sakib Al Mahmud"};
-        salary = new String[]{"2000/=", "4000/=", "8000/="};
 
-        //String[] subjectString = new String[]{"Bangla", "English", "Global Studies"};
-        List<String> subjectString = new ArrayList<>();
-        subjectString.add("Bangla");
-        subjectString.add("English");
-        subjectString.add("Global Studies");
-        ListIterator<String> itr = subjectString.listIterator();
-        ArrayList<String> subjects = new ArrayList<>();
+        final List<String> tuitionList = new ArrayList<>();
+        final ListView lvTuitionList = findViewById(R.id.lvTuitionList_TuitionList);
+        final ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tuitionList);
 
-        while(itr.hasNext()){
-            subjects.add(itr.next());
-        }
+        fabMaps = findViewById(R.id.fabTuitionList_Map);
 
-        listOfSubjects.add(subjects);
-
-        subjects.clear();
-        subjectString.clear();
-
-        subjectString.add("Chemistry");
-
-        while(itr.hasNext()){
-            subjects.add(itr.next());
-        }
-
-        listOfSubjects.add(subjects);
-
-        subjects.clear();
-        subjectString.clear();
-
-        subjectString.add("Math");
-        subjectString.add("Physics");
-
-        while(itr.hasNext()){
-            subjects.add(itr.next());
-        }
-
-        listOfSubjects.add(subjects);
-
-        subjects.clear();
-        subjectString.clear();
-
-        location = new String[]{"Dhanmondi", "Uttara", "Mohammadpur"};
+        Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
 
 
-        //Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
+        /*BackendlessUser user = Backendless.UserService.CurrentUser();
+        String userEmail = ((BackendlessUser) user).getEmail();
+        System.out.println(userEmail);
+        */
 
-        listView = findViewById(R.id.lvTuitionList_TuitionList);
+        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+        //dataQueryBuilder.addRelated("_class");
+        String whereClause = "_class is not null";
+        System.out.println(whereClause);
+        dataQueryBuilder.setWhereClause(whereClause);
+        //dataQueryBuilder.setGroupBy("_class");
+        dataQueryBuilder.setSortBy("_class");
 
-        for(int i=0; i< tuitionAdvertisers.length; i++){
-            Tuition tuition = new Tuition(tuitionAdvertisers[i], salary[i], listOfSubjects.get(i), location[i]);
-            tuitionArrayList.add(tuition);
-        }
 
-        adapter = new TuitionListAdapter(this, tuitionArrayList);
+        /*
+        dataQueryBuilder.addRelated("email");
+        String whereClause = "email.email = '" + userEmail+ "'";
+        System.out.println(whereClause);
+        dataQueryBuilder.setWhereClause(whereClause);
+        */
 
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Item Clicked", Toast.LENGTH_SHORT).show();
+            public void handleResponse(List<Offer> response) {
+                viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, response);
+                lvTuitionList.setAdapter(viewTuitionAdapter);
+
+
+                /*
+                for(Offer offer : response){
+                    tuitionList.add(offer.getSubject());
+                    Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
+                    listView.setAdapter(listViewAdapter);
+                }
+
+                */
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                Toast.makeText(TuitionList.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
+
+        lvTuitionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+
 
         fabMaps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,30 +140,6 @@ public class TuitionList extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
 
-
-        MenuItem actionMenuItem = menu.findItem(R.id.menuMain_Search);
-
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.menuMain_Search).getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                if(TextUtils.isEmpty(s)){
-                    adapter.filter("");
-                    listView.clearTextFilter();
-                }
-                else{
-                    adapter.filter(s);
-                }
-                return false;
-            }
-        });
-
         return true;
     }
 
@@ -174,7 +152,7 @@ public class TuitionList extends AppCompatActivity {
         }
         if(id == R.id.menuMain_profile){
             Intent intent = new Intent(this, com.example.philonoist.ProfileActivities.class);
-            startActivityForResult(intent, PROFILEACTIVITIES);
+            startActivity(intent);
         }
         if(id == R.id.menuMain_Logout){
             Backendless.UserService.logout(new AsyncCallback<Void>() {
@@ -196,19 +174,4 @@ public class TuitionList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PROFILEACTIVITIES){
-            if(resultCode == RESULT_OK){
-                Toast.makeText(TuitionList.this, "In tuition list", Toast.LENGTH_SHORT).show();
-
-                Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
-                tuitionArrayList.add(tuition);
-                adapter = new TuitionListAdapter(TuitionList.this, tuitionArrayList);
-                //adapter.notifyDataSetChanged();
-                listView.setAdapter(adapter);
-            }
-        }
-    }
 }
