@@ -64,6 +64,8 @@ public class Login extends AppCompatActivity {
                 Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                     @Override
                     public void handleResponse(BackendlessUser response) {
+                        CONSTANTS.setCurrentUserEmail(email);
+
                         Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
                         startActivity(intent);
                         finish();

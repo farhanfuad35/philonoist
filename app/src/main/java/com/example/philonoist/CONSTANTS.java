@@ -1,6 +1,5 @@
 package com.example.philonoist;
 
-import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 
 public class CONSTANTS {
@@ -10,14 +9,14 @@ public class CONSTANTS {
     private static double LAT_MAX = 23.892885;
     private static double LNG_MIN = 90.332829;
     private static double LNG_MAX = 90.451891;
-    private BackendlessUser currentUser;
+    final private static BackendlessUser currentUser = new BackendlessUser();
 
-    public BackendlessUser getCurrentUser() {
-        return currentUser;
+    public static String getCurrentUserEmail() {
+        return currentUser.getEmail();
     }
 
-    public void setCurrentUser(BackendlessUser currentUser) {
-        this.currentUser = currentUser;
+    public static void setCurrentUserEmail(String email) {
+        currentUser.setEmail(email);
     }
 
     public static String getTagMapsGetgeopoints() {

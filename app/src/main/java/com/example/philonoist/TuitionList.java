@@ -54,73 +54,6 @@ public class TuitionList extends AppCompatActivity {
 
         fabMaps = findViewById(R.id.fabTuitionList_Map);
 
-        tuitionAdvertisers = new String[]{"Farhan Fuad",
-        "Nafisa Naznin", "Sakib Al Mahmud"};
-        salary = new String[]{"2000/=", "4000/=", "8000/="};
-
-        //String[] subjectString = new String[]{"Bangla", "English", "Global Studies"};
-        List<String> subjectString = new ArrayList<>();
-        subjectString.add("Bangla");
-        subjectString.add("English");
-        subjectString.add("Global Studies");
-        ListIterator<String> itr = subjectString.listIterator();
-        ArrayList<String> subjects = new ArrayList<>();
-
-        while(itr.hasNext()){
-            subjects.add(itr.next());
-        }
-
-        listOfSubjects.add(subjects);
-
-        subjects.clear();
-        subjectString.clear();
-
-        subjectString.add("Chemistry");
-
-        while(itr.hasNext()){
-            subjects.add(itr.next());
-        }
-
-        listOfSubjects.add(subjects);
-
-        subjects.clear();
-        subjectString.clear();
-
-        subjectString.add("Math");
-        subjectString.add("Physics");
-
-        while(itr.hasNext()){
-            subjects.add(itr.next());
-        }
-
-        listOfSubjects.add(subjects);
-
-        subjects.clear();
-        subjectString.clear();
-
-        location = new String[]{"Dhanmondi", "Uttara", "Mohammadpur"};
-
-
-        //Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
-
-        listView = findViewById(R.id.lvTuitionList_TuitionList);
-
-        for(int i=0; i< tuitionAdvertisers.length; i++){
-            Tuition tuition = new Tuition(tuitionAdvertisers[i], salary[i], listOfSubjects.get(i), location[i]);
-            tuitionArrayList.add(tuition);
-        }
-
-        adapter = new TuitionListAdapter(this, tuitionArrayList);
-
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Item Clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         fabMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,30 +71,6 @@ public class TuitionList extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
 
-
-        MenuItem actionMenuItem = menu.findItem(R.id.menuMain_Search);
-
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.menuMain_Search).getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                if(TextUtils.isEmpty(s)){
-                    adapter.filter("");
-                    listView.clearTextFilter();
-                }
-                else{
-                    adapter.filter(s);
-                }
-                return false;
-            }
-        });
-
         return true;
     }
 
@@ -174,7 +83,7 @@ public class TuitionList extends AppCompatActivity {
         }
         if(id == R.id.menuMain_profile){
             Intent intent = new Intent(this, com.example.philonoist.ProfileActivities.class);
-            startActivityForResult(intent, PROFILEACTIVITIES);
+            startActivity(intent);
         }
         if(id == R.id.menuMain_Logout){
             Backendless.UserService.logout(new AsyncCallback<Void>() {
@@ -196,19 +105,4 @@ public class TuitionList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PROFILEACTIVITIES){
-            if(resultCode == RESULT_OK){
-                Toast.makeText(TuitionList.this, "In tuition list", Toast.LENGTH_SHORT).show();
-
-                Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
-                tuitionArrayList.add(tuition);
-                adapter = new TuitionListAdapter(TuitionList.this, tuitionArrayList);
-                //adapter.notifyDataSetChanged();
-                listView.setAdapter(adapter);
-            }
-        }
-    }
 }

@@ -17,6 +17,7 @@ import com.backendless.BackendlessUser;
 import com.backendless.UserService;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.geo.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,8 @@ public class postOffer extends AppCompatActivity {
     //String subject2;
     //String subject3;
     String location;
+
+
 
     final int SELECT_LOCATION_INTENT_ID = 99;
 
@@ -68,21 +71,46 @@ public class postOffer extends AppCompatActivity {
             }
         });
 
-        btnPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                syncOfferWithDatabase();
-            }
-        });
+//        btnPost.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                syncOfferWithDatabase();
+//            }
+//        });
 
 
 
     }
 
-    protected void syncOfferWithDatabase()
-    {
-        ArrayList<String> subjectString = new ArrayList<String>();
 
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        btnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(resultCode == RESULT_OK && requestCode == SELECT_LOCATION_INTENT_ID) {
+                    Log.i("post with map", "returned with intent data");
+
+                    GeoPoint geoPoint = (GeoPoint) data.getSerializableExtra("geoPoint");
+
+                    syncOfferWithDatabase(geoPoint);
+                }
+
+                else{
+                    Log.i("post with map", "clicked btnPost but result or request code not ok");
+                }
+
+            }
+        });
+    }
+
+    protected void syncOfferWithDatabase(GeoPoint geoPoint)
+    {
+
+
+        Log.i("post with map", "in Sync Offer with Database");
 
         _class = etClass.getText().toString().trim();
         salary = etsalary.getText().toString().trim();
@@ -97,7 +125,7 @@ public class postOffer extends AppCompatActivity {
 //                    subject3 = etsubject3.getText().toString().trim();
 //                    subjectString.add(subject3);
 //                }
-        saveNewOffer(_class, salary, subject1);
+        saveNewOffer(_class, salary, subject1, geoPoint);
 
 
 
@@ -105,24 +133,10 @@ public class postOffer extends AppCompatActivity {
         postOffer.this.finish();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == RESULT_OK && requestCode == SELECT_LOCATION_INTENT_ID){
-            btnPost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                syncOfferWithDatabase();
-
-                }
-            });
-        }
-    }
 
 
-    public void saveNewOffer(String _class, String salary, String subject) {
+
+    public void saveNewOffer(String _class, String salary, String subject, final GeoPoint geoPoint) {
         Offer newoffer = new Offer();
         newoffer.set_class(_class);
         newoffer.setSalary(salary);
@@ -132,13 +146,18 @@ public class postOffer extends AppCompatActivity {
         userlist.add(user);
 
 
+        Log.i("post with map", "in save new offer");
+
+
         Backendless.Data.of(Offer.class).save(newoffer, new AsyncCallback<Offer>() {
 
             @Override
             public void handleResponse(Offer NewOffer) {
                 Toast.makeText(getApplicationContext(), "STRING MESSAGE", Toast.LENGTH_LONG).show();
                 // Log.i(TAG, "Order has been saved");
-                 setRelation(NewOffer, userlist);
+                 setRelation(NewOffer, userlist, geoPoint);
+
+                Log.i("post with map", "saved offer successfully");
             }
 
             @Override
@@ -146,19 +165,40 @@ public class postOffer extends AppCompatActivity {
                 //Log.e(TAG, fault.getMessage());
             }
         });
+
+
+
+
+
+        Log.i("post with map", "set relation successfully");
     }
 
-    private  void setRelation(Offer Newoffer, ArrayList<BackendlessUser>userList) {
+    private  void setRelation(final Offer Newoffer, ArrayList<BackendlessUser>userList, final GeoPoint geoPoint) {
 
         Backendless.Data.of(Offer.class).addRelation(Newoffer, "email", userList, new AsyncCallback<Integer>(){
             @Override
             public void handleResponse(Integer response) {
-                Log.i("setRelation", "Relation has been set");
+                Log.i("addRelation", "Relation has been set");
+
+                final ArrayList<GeoPoint> geoPointList = new ArrayList<>();
+                geoPointList.add(geoPoint);
+
+                Backendless.Data.of(Offer.class).addRelation(Newoffer, "location:GeoPoint:1", geoPointList, new AsyncCallback<Integer>() {
+                    @Override
+                    public void handleResponse(Integer response) {
+                        Log.i("addRelation", "GeoRelation created successfully");
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+                        Log.i("addRelation", "Georelation unsuccessfull " + fault.getMessage() + "\tArraylist size = " + Integer.toString(geoPointList.size()));
+                    }
+                });
             }
 
             @Override
             public void handleFault(BackendlessFault fault) {
-                Log.i("SetRelation", "Relation wasn't set");
+                Log.i("SetRelation", "Relation wasn't set" + fault.getMessage());
             }
         });
 

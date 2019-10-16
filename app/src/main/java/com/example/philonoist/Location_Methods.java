@@ -31,15 +31,16 @@ class Location_Methods {
 
     // This method saves a geoPoint to given category
 
-    public static void saveGeoPoints(final Context context, double latitude, double longitude, String category)
+    public static void saveGeoPoints(final Context context, LatLng latLng, String category)
     {
-        GeoPoint geoPoint = new GeoPoint(latitude, longitude);
+        GeoPoint geoPoint = new GeoPoint(latLng.latitude, latLng.longitude);
         geoPoint.addCategory(category);
 
         Backendless.Geo.savePoint(geoPoint, new AsyncCallback<GeoPoint>() {
             @Override
             public void handleResponse(GeoPoint response) {
                 Log.i(CONSTANTS.getTAG_MAPS_SHOW_TUITIONS(), "Saved Succesfully");
+
             }
 
             @Override
@@ -110,21 +111,23 @@ class Location_Methods {
 
     // Method to save geoPoints on server
 
-    public static void saveGeoPointsOnDatabase(Context context)
+    public static void saveGeoPointsOnDatabase(Context context, LatLng latLng)
     {
 
-        Location_Methods.saveGeoPoints(context, 23.752219, 90.351246, "tuition_locations");
-        Location_Methods.saveGeoPoints(context, 23.793516, 90.381235, "tuition_locations");
-        Location_Methods.saveGeoPoints(context, 23.748526, 90.395976, "tuition_locations");
-        Location_Methods.saveGeoPoints(context, 23.791532, 90.403645, "tuition_locations");
-        Location_Methods.saveGeoPoints(context, 23.728864, 90.419908, "tuition_locations");
-        Location_Methods.saveGeoPoints(context, 23.741643, 90.438777, "tuition_locations");
-        Location_Methods.saveGeoPoints(context, 23.706655, 90.447356, "tuition_locations");
-        Location_Methods.saveGeoPoints(context, 23.777345, 90.478654, "tuition_locations");
-        Location_Methods.saveGeoPoints(context, 23.735970, 90.496212, "tuition_locations");
-        Location_Methods.saveGeoPoints(context, 23.723285, 90.447733, "tuition_locations");
-        Location_Methods.saveGeoPoints(context, 23.787455, 90.469967, "tuition_locations");
-        Location_Methods.saveGeoPoints(context, 23.703783, 90.3416737, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.752219, 90.351246, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.793516, 90.381235, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.748526, 90.395976, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.791532, 90.403645, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.728864, 90.419908, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.741643, 90.438777, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.706655, 90.447356, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.777345, 90.478654, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.735970, 90.496212, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.723285, 90.447733, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.787455, 90.469967, "tuition_locations");
+//        Location_Methods.saveGeoPoints(context, 23.703783, 90.3416737, "tuition_locations");
+
+
 
     }
 
