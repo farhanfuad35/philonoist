@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,8 +22,10 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.DataQueryBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -31,7 +34,8 @@ import java.util.ListIterator;
 
 public class TuitionList extends AppCompatActivity {
 
-    ListView listView;
+    ViewTuitionAdapter viewTuitionAdapter;
+    //ListView listView;
     String[] tuitionAdvertisers;
     String[] location;
     String[] salary;
@@ -53,6 +57,71 @@ public class TuitionList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         fabMaps = findViewById(R.id.fabTuitionList_Map);
+
+
+        final List<String> tuitionList = new ArrayList<>();
+        final ListView lvTuitionList = findViewById(R.id.lvTuitionList_TuitionList);
+        final ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tuitionList);
+
+        fabMaps = findViewById(R.id.fabTuitionList_Map);
+
+        Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
+
+
+        /*BackendlessUser user = Backendless.UserService.CurrentUser();
+        String userEmail = ((BackendlessUser) user).getEmail();
+        System.out.println(userEmail);
+        */
+
+        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+        //dataQueryBuilder.addRelated("_class");
+        String whereClause = "_class is not null";
+        System.out.println(whereClause);
+        dataQueryBuilder.setWhereClause(whereClause);
+        //dataQueryBuilder.setGroupBy("_class");
+        dataQueryBuilder.setSortBy("_class");
+
+
+        /*
+        dataQueryBuilder.addRelated("email");
+        String whereClause = "email.email = '" + userEmail+ "'";
+        System.out.println(whereClause);
+        dataQueryBuilder.setWhereClause(whereClause);
+        */
+
+        Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
+            @Override
+            public void handleResponse(List<Offer> response) {
+                viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, response);
+                lvTuitionList.setAdapter(viewTuitionAdapter);
+
+
+                /*
+                for(Offer offer : response){
+                    tuitionList.add(offer.getSubject());
+                    Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
+                    listView.setAdapter(listViewAdapter);
+                }
+
+                */
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                Toast.makeText(TuitionList.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
+
+        lvTuitionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+
 
         fabMaps.setOnClickListener(new View.OnClickListener() {
             @Override

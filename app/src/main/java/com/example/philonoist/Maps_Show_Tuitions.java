@@ -75,6 +75,7 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
 
         // Show My Location on the map
 
+
         Location_Methods.showMyLocation(this, mMap);
 
 
@@ -83,6 +84,7 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
         Location_Methods.getPointsFromDatabase(this, mMap);
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
 
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -106,8 +108,6 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
 
 
     }
-
-
 
 
     // GeoPoint to Offer details query
