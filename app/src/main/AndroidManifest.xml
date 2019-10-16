@@ -3,7 +3,7 @@
     package="com.example.philonoist">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyOfferDetails"></activity>
+        <activity android:name=".UserInfo"></activity>
+        <activity android:name=".MyOfferDetails" />
         <activity android:name=".ProfileActivities" />
         <activity android:name=".postOffer" />
         <activity android:name=".SignUp" />
@@ -27,7 +28,6 @@
         </activity>
         <activity android:name=".MyOffers" />
         <activity android:name=".TuitionDetails" />
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
