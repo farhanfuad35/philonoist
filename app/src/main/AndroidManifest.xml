@@ -35,6 +35,8 @@
         <activity
             android:name=".Maps_Show_Tuitions"
             android:label="@string/title_activity_maps__show__tuitions"></activity>
+
+        <activity android:name=".UserInfo"></activity>
         <activity android:name=".MyOfferDetails" />
         <activity android:name=".ProfileActivities" />
         <activity android:name=".postOffer" />
@@ -50,7 +52,6 @@
         </activity>
         <activity android:name=".MyOffers" />
         <activity android:name=".TuitionDetails" />
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
