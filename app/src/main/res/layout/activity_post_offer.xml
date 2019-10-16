@@ -66,26 +66,6 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"    />
 
-        <EditText
-            android:id="@+id/etpostoffer_Subject2"
-            android:hint="Subject #2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"    />
-
-        <EditText
-            android:id="@+id/etpostoffer_Subject3"
-            android:hint="Subject #3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"    />
-
 
 
         <Button

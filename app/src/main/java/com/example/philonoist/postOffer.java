@@ -28,8 +28,6 @@ public class postOffer extends AppCompatActivity {
     EditText etClass;
     EditText etsalary;
     EditText etsubject1;
-    EditText etsubject2;
-    EditText etsubject3;
     Button btnlocation;
     Button btnPost;
 
@@ -58,8 +56,6 @@ public class postOffer extends AppCompatActivity {
         etClass = findViewById(R.id.etpostoffer_class);
         etsalary = findViewById(R.id.etpostoffer_salary);
         etsubject1 = findViewById(R.id.etpostoffer_Subject1);
-        etsubject2 = findViewById(R.id.etpostoffer_Subject2);
-        etsubject3 = findViewById(R.id.etpostoffer_Subject3);
         btnlocation = findViewById(R.id.btnPostoffer_location);
         btnPost = findViewById(R.id.btnpostoffer_Post);
 
