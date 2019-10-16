@@ -38,7 +38,6 @@
         <activity
             android:name=".Maps_Show_Tuitions"
             android:label="@string/title_activity_maps__show__tuitions" />
-            android:label="@string/title_activity_maps__show__tuitions"></activity>
 
         <activity android:name=".UserInfo"></activity>
         <activity android:name=".MyOfferDetails" />
