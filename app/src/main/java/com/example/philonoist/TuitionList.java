@@ -72,12 +72,12 @@ public class TuitionList extends AppCompatActivity {
         */
 
         DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
-        //dataQueryBuilder.setGroupBy("_class");
-        //dataQueryBuilder.setSortBy("_class");
         //dataQueryBuilder.addRelated("_class");
         String whereClause = "_class is not null";
         System.out.println(whereClause);
         dataQueryBuilder.setWhereClause(whereClause);
+        //dataQueryBuilder.setGroupBy("_class");
+        dataQueryBuilder.setSortBy("_class");
 
 
         /*
