@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Backendless.setUrl(backendless_credentials.SERVER_URL);
         Backendless.initApp(getApplicationContext(), backendless_credentials.APPLICATION_ID, backendless_credentials.API_KEY);
 
@@ -36,20 +37,8 @@ public class MainActivity extends AppCompatActivity {
     //        startActivity(intent);
 
 
-
-        if(Backendless.UserService.loggedInUser()== "") {
-
-            Intent intent = new Intent(this, com.example.philonoist.Login.class);
-            startActivity(intent);
-            finish();
-        }
-        else{
-
-
-            Intent intent = new Intent(this, com.example.philonoist.TuitionList.class);
-            startActivity(intent);
-            finish();
-        }
+        Intent intent = new Intent(this, Splash_Screen.class);
+        startActivity(intent);
             
     }
 

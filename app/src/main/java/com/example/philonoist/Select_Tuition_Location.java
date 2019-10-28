@@ -137,18 +137,6 @@ public class Select_Tuition_Location extends FragmentActivity implements OnMapRe
                     //Location_Methods.saveGeoPoints(v.getContext(), currentLatLng, "tuition_locations");
 
 
-
-
-
-
-
-
-
-
-
-
-
-
                     GeoPoint geoPoint = new GeoPoint(currentLatLng.latitude, currentLatLng.longitude);
                     geoPoint.addCategory("tuition_locations");
 
@@ -173,22 +161,6 @@ public class Select_Tuition_Location extends FragmentActivity implements OnMapRe
                         }
                     });
 
-
-
-
-
-
-
-
-
-
-
-                    //ArrayList<GeoPoint> location = new ArrayList<GeoPoint>();
-//                    GeoPoint markerPoint = new GeoPoint();
-//                    markerPoint.setLatitude(currentLatLng.latitude);
-//                    markerPoint.setLongitude(currentLatLng.longitude);
-//                    markerPoint.addCategory("tuition_locations");
-                    //location.add(markerPoint);
 
 
                 }

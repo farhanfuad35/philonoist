@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.philonoist">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -19,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".Splash_Screen"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -34,12 +33,11 @@
 
         <activity
             android:name=".Select_Tuition_Location"
-            android:label="@string/title_activity_select__tuition__location"></activity>
+            android:label="@string/title_activity_select__tuition__location" />
         <activity
             android:name=".Maps_Show_Tuitions"
             android:label="@string/title_activity_maps__show__tuitions" />
-
-        <activity android:name=".UserInfo"></activity>
+        <activity android:name=".UserInfo" />
         <activity android:name=".MyOfferDetails" />
         <activity android:name=".ProfileActivities" />
         <activity android:name=".postOffer" />

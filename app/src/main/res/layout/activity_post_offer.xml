@@ -25,40 +25,57 @@
             android:layout_width="match_parent"
             android:layout_height="40dp" />
 
-        <EditText
-            android:id="@+id/etpostoffer_name"
-            android:hint="Name"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Name">
 
-        <EditText
-            android:id="@+id/etpostoffer_class"
-            android:hint="Class"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etpostoffer_name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Class">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etpostoffer_class"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-        <EditText
-            android:id="@+id/etpostoffer_salary"
-            android:hint="Salary"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Salary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etpostoffer_salary"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <EditText
             android:id="@+id/etpostoffer_Subject1"
-            android:hint="Subject #1"
+            android:hint="Subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -67,29 +84,39 @@
             android:layout_marginLeft="10dp"    />
 
 
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPostoffer_location"
-            android:hint="Set Location"
             android:layout_width="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="40dp"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="40dp"    />
+            app:rippleColor="#909090"
+            app:strokeColor="#505050"
+            app:strokeWidth="4dp"
+            app:backgroundTint="@android:color/transparent"
+            android:text="Set Location"/>
 
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnpostoffer_Post"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Post"
             android:background="@color/colorPrimaryDark"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_height="wrap_content"
+            app:rippleColor="@color/colorPrimaryDark"
+            app:cornerRadius="90dp"
+            app:strokeColor="@color/colorPrimaryDark"
+            app:strokeWidth="4dp"
+            app:backgroundTint="@color/colorPrimary"
+            android:text="Post"/>
+
     </LinearLayout>
 
 

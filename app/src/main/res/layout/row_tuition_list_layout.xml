@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@color/colorPrimary"
+        android:background="@android:color/transparent"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="class"
-                android:textColor="#F2000000"
+                android:textColor="#909090"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="@string/_10"
-                android:textColor="#F2000000"
+                android:textColor="@color/white"
                 android:textSize="40sp"
                 android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:text="Subject"
-                android:textColor="#F2000000"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:text="Salary"
-                android:textColor="#F2000000"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
         </LinearLayout>
 
