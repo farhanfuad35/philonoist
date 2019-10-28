@@ -83,7 +83,26 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"    />
 
+        <EditText
+            android:id="@+id/etpostoffer_Contact"
+            android:hint="Contact Number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"    />
 
+        <EditText
+            android:id="@+id/etpostoffer_Remarks"
+            android:hint="Remarks"
+            android:inputType="textLongMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"    />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPostoffer_location"
             android:layout_width="match_parent"

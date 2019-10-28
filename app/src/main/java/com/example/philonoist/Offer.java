@@ -12,6 +12,8 @@ public class Offer implements Serializable{
     private String objectId;
     private String salary;
     private String _class;
+    private String contact;
+    private String remarks;
     private GeoPoint location;
     private String  name;
     private String subject;
@@ -26,17 +28,6 @@ public class Offer implements Serializable{
     }
 
     private int ID;
-
-
-
-//    public Offer(String salary, ArrayList<String> _class, String location) {
-//        this.salary = salary;
-
-    //}
-//        this._class = _class;
-//        this.location = location;
-//        this.email = email;
-//    }
 
     public String getSalary() {
         return salary;
@@ -86,6 +77,14 @@ public class Offer implements Serializable{
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getContact() { return contact; }
+
+    public void setContact(String contact) {this.contact = contact;}
+
+    public String getRemarks() {return remarks; }
+
+    public void setRemarks(String remarks) { this.remarks = remarks; }
 
 
 }
