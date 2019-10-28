@@ -2,6 +2,8 @@ package com.example.philonoist;
 
 import com.backendless.BackendlessUser;
 
+import java.util.List;
+
 public class CONSTANTS {
     final private static String TAG_MAPS_SHOW_TUITIONS = "#Maps_Show_Tuitions";
     private static String TAG_MAPS_GETGEOPOINTS = "Get GeoPoints";
@@ -60,5 +62,6 @@ public class CONSTANTS {
         return LNG_MAX;
     }
 
+    public  static List<Offer> offers;
 
 }

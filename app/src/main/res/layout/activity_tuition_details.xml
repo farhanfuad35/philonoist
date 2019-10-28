@@ -111,4 +111,25 @@
 
     </LinearLayout>
 
+
+    <Button
+            android:id="@+id/btnInterested"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:text="Interested"
+            android:textStyle="bold" />
+
+    <Button
+            android:id="@+id/btnCandidates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:text="Candidates"
+            android:textStyle="bold" />
+
 </LinearLayout>
