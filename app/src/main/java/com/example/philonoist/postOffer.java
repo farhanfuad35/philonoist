@@ -28,6 +28,8 @@ public class postOffer extends AppCompatActivity {
     EditText etClass;
     EditText etsalary;
     EditText etsubject1;
+    EditText etContact;
+    EditText etRemarks;
     Button btnlocation;
     Button btnPost;
 
@@ -35,9 +37,8 @@ public class postOffer extends AppCompatActivity {
     String _class;
     String salary;
     String subject1;
-    //String subject2;
-    //String subject3;
-    String location;
+    String contact;
+    String remarks;
 
 
 
@@ -56,6 +57,8 @@ public class postOffer extends AppCompatActivity {
         etClass = findViewById(R.id.etpostoffer_class);
         etsalary = findViewById(R.id.etpostoffer_salary);
         etsubject1 = findViewById(R.id.etpostoffer_Subject1);
+        etContact = findViewById(R.id.etpostoffer_Contact);
+        etRemarks = findViewById(R.id.etpostoffer_Remarks);
         btnlocation = findViewById(R.id.btnPostoffer_location);
         btnPost = findViewById(R.id.btnpostoffer_Post);
 
@@ -66,15 +69,6 @@ public class postOffer extends AppCompatActivity {
                 startActivityForResult(intent, SELECT_LOCATION_INTENT_ID);
             }
         });
-
-//        btnPost.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                syncOfferWithDatabase();
-//            }
-//        });
-
-
 
     }
 
@@ -112,31 +106,23 @@ public class postOffer extends AppCompatActivity {
         salary = etsalary.getText().toString().trim();
         subject1 = etsubject1.getText().toString().trim();
         name = etName.getText().toString().trim();
+        contact = etContact.getText().toString().trim();
+        remarks = etRemarks.getText().toString();
 
-//                if(!etsubject2.getText().toString().isEmpty()){
-//                    subject2 = etsubject2.getText().toString().trim();
-//                    subjectString.add(subject2);
-//                }
-//                if(!etsubject3.getText().toString().isEmpty()) {
-//                    subject3 = etsubject3.getText().toString().trim();
-//                    subjectString.add(subject3);
-//                }
-        saveNewOffer(_class, salary, subject1, geoPoint);
-
-
-
-
+        saveNewOffer(_class, salary, subject1,contact, remarks, geoPoint);
         postOffer.this.finish();
     }
 
 
 
 
-    public void saveNewOffer(String _class, String salary, String subject, final GeoPoint geoPoint) {
+    public void saveNewOffer(String _class, String salary, String subject,String contact,String remarks, final GeoPoint geoPoint) {
         Offer newoffer = new Offer();
         newoffer.set_class(_class);
         newoffer.setSalary(salary);
         newoffer.setSubject(subject);
+        newoffer.setContact(contact);
+        newoffer.setRemarks(remarks);
         final ArrayList<BackendlessUser> userlist = new ArrayList<>();
         BackendlessUser user = Backendless.UserService.CurrentUser();
         userlist.add(user);
@@ -151,7 +137,7 @@ public class postOffer extends AppCompatActivity {
             public void handleResponse(Offer NewOffer) {
                 Toast.makeText(getApplicationContext(), "STRING MESSAGE", Toast.LENGTH_LONG).show();
                 // Log.i(TAG, "Order has been saved");
-                 setRelation(NewOffer, userlist, geoPoint);
+                setRelation(NewOffer, userlist, geoPoint);
 
                 Log.i("post with map", "saved offer successfully");
             }
