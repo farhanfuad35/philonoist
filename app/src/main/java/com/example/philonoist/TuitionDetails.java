@@ -59,39 +59,17 @@ public class TuitionDetails extends AppCompatActivity {
         //the offer that came is basically CONSTANTS.offer.get(index)
         //but what about the offer that came from the maps??!!!!!!!!!!!!!
 
-        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelaionQuery("email");
-        Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
-            @Override
-            public void handleResponse(List<BackendlessUser> users) {
-                String text = users.get(0).getProperty("first_name") + " " + users.get(0).getProperty("last_name");
-                hostName.setText(text);
-            }
 
-            @Override
-            public void handleFault(BackendlessFault fault) {
-                Log.i("relation query", "relation query error " + fault.getMessage());
-            }
-        });
+        getNameFromUsersTable();
+        getEmailFromUsersTable();
+
+
 
 //
 //        final BackendlessUser user = Backendless.UserService.CurrentUser();
 //        String useremail = CONSTANTS.getCurrentUserEmail();
 //        System.out.println(useremail);
-        String useremail = load();
-        System.out.println("loaded email "+useremail);
-        System.out.println("offer posted by "+offer.getEmail());
 
-        if(useremail.equals(offer.getEmail())) {
-            //so the user who posted this offer is logged in
-            //therefore he/she sees the candidates button
-
-            btnCandidates.setVisibility(View.VISIBLE);
-        }else{
-            //any other user will see the interested button
-            btnInterested.setVisibility(View.VISIBLE);
-
-
-        }
 
         setFieldValues();
 
@@ -181,5 +159,57 @@ public class TuitionDetails extends AppCompatActivity {
         }
         System.out.println(email);
         return email;
+    }
+
+
+
+    private void getNameFromUsersTable(){
+        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelaionQuery("email");
+        Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
+            @Override
+            public void handleResponse(List<BackendlessUser> users) {
+                String text = users.get(0).getProperty("first_name") + " " + users.get(0).getProperty("last_name");
+                hostName.setText(text);
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Log.i("relation query", "relation query error " + fault.getMessage());
+            }
+        });
+    }
+
+
+    private void getEmailFromUsersTable(){
+        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelaionQuery("email");
+        Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
+            @Override
+            public void handleResponse(List<BackendlessUser> users) {
+                String email = (String) users.get(0).getEmail();
+
+                String useremail = load();
+                System.out.println("loaded email "+useremail);
+                System.out.println("offer posted by "+email);
+
+                if(useremail.equals(email)) {
+                    //so the user who posted this offer is logged in
+                    //therefore he/she sees the candidates button
+
+                    btnCandidates.setVisibility(View.VISIBLE);
+                }else{
+                    //any other user will see the interested button
+                    btnInterested.setVisibility(View.VISIBLE);
+
+
+                }
+
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Log.i("relation query", "relation query error " + fault.getMessage());
+            }
+        });
     }
 }
