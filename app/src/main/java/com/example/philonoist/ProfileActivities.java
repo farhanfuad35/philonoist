@@ -116,7 +116,7 @@ public class ProfileActivities extends AppCompatActivity {
         if(requestCode == MYOFFER){
             if(resultCode == RESULT_OK){
                 //Toast.makeText(ProfileActivities.this, "yes came here", Toast.LENGTH_SHORT).show();
-                Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
+                Offer tuition = (Offer) data.getSerializableExtra("newTuition");
                 Intent intent = new Intent();
                 intent.putExtra("newTuition", tuition);
                 setResult(Activity.RESULT_OK, intent);
