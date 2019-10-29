@@ -45,6 +45,7 @@ public class TuitionList extends AppCompatActivity {
     FloatingActionButton fabMaps;
 
     final int PROFILEACTIVITIES = 10;
+    final  int resultCodeForTuitionDetails = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,7 @@ public class TuitionList extends AppCompatActivity {
         System.out.println(whereClause);
         dataQueryBuilder.setWhereClause(whereClause);
         //dataQueryBuilder.setGroupBy("_class");
-        dataQueryBuilder.setSortBy("_class");
+        //dataQueryBuilder.setSortBy("_class");
 
 
         /*
@@ -92,7 +93,8 @@ public class TuitionList extends AppCompatActivity {
         Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
             @Override
             public void handleResponse(List<Offer> response) {
-                viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, response);
+                CONSTANTS.offers = response;
+                viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
                 lvTuitionList.setAdapter(viewTuitionAdapter);
 
 
@@ -118,7 +120,11 @@ public class TuitionList extends AppCompatActivity {
         lvTuitionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Intent intent = new Intent(TuitionList.this, TuitionDetails.class);
+                //intent.putExtra("index", i);
+                //startActivityForResult(intent, resultCodeForTuitionDetails);
+                intent.putExtra("offer", CONSTANTS.offers.get(i));
+                startActivity(intent);
             }
         });
 
@@ -133,7 +139,14 @@ public class TuitionList extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if(resultCode==resultCodeForTuitionDetails){
+            viewTuitionAdapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

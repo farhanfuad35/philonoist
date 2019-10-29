@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,6 +28,8 @@ public class TuitionDetails extends AppCompatActivity {
     private TextView hostName;
     private TextView salary;
     private Offer offer;
+    private Button btnInterested;
+    private Button btnCandidates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +39,16 @@ public class TuitionDetails extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_TuitionDetails);
         setSupportActionBar(toolbar);
 
+        initializeFields();
+
+        btnInterested.setVisibility(View.GONE);
+        btnCandidates.setVisibility(View.GONE);
+
 
         offer = (Offer) getIntent().getSerializableExtra("offer");
         Log.i("objectId", offer.getObjectId());
 
-        initializeFields();
+
         LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelaionQuery("email");
         Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
             @Override
@@ -54,6 +62,20 @@ public class TuitionDetails extends AppCompatActivity {
                 Log.i("relation query", "relation query error " + fault.getMessage());
             }
         });
+
+        BackendlessUser user = Backendless.UserService.CurrentUser();
+        String useremail = CONSTANTS.getCurrentUserEmail();
+        System.out.println(useremail);
+
+        if(useremail == offer.getEmail()) {
+            //so the user who posted this offer is logged in
+            //therefore he/she sees the candidates button
+
+            btnCandidates.setVisibility(View.VISIBLE);
+        }else{
+            //any other user will see the interested button
+            btnInterested.setVisibility(View.VISIBLE);
+        }
 
         setFieldValues();
 
@@ -70,6 +92,8 @@ public class TuitionDetails extends AppCompatActivity {
         listView = findViewById(R.id.lvDetails_Subject);
         hostName = findViewById(R.id.tvDetails_hostName);
         salary = findViewById(R.id.tvDetails_salaryNumber);
+        btnInterested = findViewById(R.id.btnInterested);
+        btnCandidates = findViewById(R.id.btnCandidates);
     }
 
     private LoadRelationsQueryBuilder prepareLoadRelaionQuery(String relationFieldName)
