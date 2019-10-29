@@ -124,6 +124,7 @@ public class TuitionList extends AppCompatActivity {
                 //intent.putExtra("index", i);
                 //startActivityForResult(intent, resultCodeForTuitionDetails);
                 intent.putExtra("offer", CONSTANTS.offers.get(i));
+                intent.putExtra("index", i);
                 startActivity(intent);
             }
         });
