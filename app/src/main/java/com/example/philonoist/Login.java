@@ -54,7 +54,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        tvSignup.setOnClickListener(new View.OnClickListener() {
+        tvForgetpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tvSignup.setTextColor(Color.BLUE);
