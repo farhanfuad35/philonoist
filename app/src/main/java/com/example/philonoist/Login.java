@@ -25,6 +25,7 @@ public class Login extends AppCompatActivity {
     EditText etEmail;
     Button btLogin;
     TextView tvSignup;
+    TextView tvForgetpassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class Login extends AppCompatActivity {
         etEmail = findViewById(R.id.etLogin_email);
         etPassword = findViewById(R.id.etLogin_password);
         btLogin = findViewById(R.id.btnLogin_Login);
+        tvForgetpassword = findViewById(R.id.tvLogin_ForgetPassword);
 
         tvSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +51,28 @@ public class Login extends AppCompatActivity {
                 tvSignup.setTextColor(Color.BLUE);
                 Intent intent = new Intent(view.getContext(),com.example.philonoist.SignUp.class);
                 startActivity(intent);
+            }
+        });
+
+        tvSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvSignup.setTextColor(Color.BLUE);
+                BackendlessUser user = Backendless.UserService.CurrentUser();
+                String useremail = user.getEmail();
+                Backendless.UserService.restorePassword( useremail, new AsyncCallback<Void>()
+                {
+                    public void handleResponse( Void response )
+                    {
+                        // Backendless has completed the operation - an email has been sent to the user
+                    }
+
+                    public void handleFault( BackendlessFault fault )
+                    {
+                        // password revovery failed, to get the error code call fault.getCode()
+                    }
+                });
+
             }
         });
 
