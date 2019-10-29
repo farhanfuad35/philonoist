@@ -97,10 +97,11 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
                 queryBuilder.addProperty("objectId");
                 queryBuilder.addRelated("email");
 
+                LatLng latLng = marker.getPosition();
 
                 Log.i("marker", where);
 
-                geoQueryOfferDetails(queryBuilder);
+                geoQueryOfferDetails(queryBuilder, latLng);
 
                 return false;
             }
@@ -112,7 +113,7 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
 
     // GeoPoint to Offer details query
 
-    private void geoQueryOfferDetails(DataQueryBuilder queryBuilder){
+    private void geoQueryOfferDetails(DataQueryBuilder queryBuilder, final LatLng latLng){
         Backendless.Data.of(Offer.class).find(queryBuilder, new AsyncCallback<List<Offer>>() {
             @Override
             public void handleResponse(List<Offer> offers) {
@@ -123,6 +124,8 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
                 Log.i("offer" , offers.get(0).getObjectId());
                 Intent intent = new Intent(getApplicationContext(), TuitionDetails.class);
                 intent.putExtra("offer", offers.get(0));
+                intent.putExtra("lat", Double.toString(latLng.latitude) );
+                intent.putExtra("lng", Double.toString(latLng.longitude) );
                 startActivity(intent);
             }
 
