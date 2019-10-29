@@ -2,6 +2,8 @@ package com.example.philonoist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
@@ -17,6 +20,11 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.LoadRelationsQueryBuilder;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class TuitionDetails extends AppCompatActivity {
@@ -47,7 +55,9 @@ public class TuitionDetails extends AppCompatActivity {
 
         offer = (Offer) getIntent().getSerializableExtra("offer");
         Log.i("objectId", offer.getObjectId());
-
+        final int index = getIntent().getIntExtra("index", 0);
+        //the offer that came is basically CONSTANTS.offer.get(index)
+        //but what about the offer that came from the maps??!!!!!!!!!!!!!
 
         LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelaionQuery("email");
         Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
@@ -63,11 +73,15 @@ public class TuitionDetails extends AppCompatActivity {
             }
         });
 
-        BackendlessUser user = Backendless.UserService.CurrentUser();
-        String useremail = CONSTANTS.getCurrentUserEmail();
-        System.out.println(useremail);
+//
+//        final BackendlessUser user = Backendless.UserService.CurrentUser();
+//        String useremail = CONSTANTS.getCurrentUserEmail();
+//        System.out.println(useremail);
+        String useremail = load();
+        System.out.println("loaded email "+useremail);
+        System.out.println("offer posted by "+offer.getEmail());
 
-        if(useremail == offer.getEmail()) {
+        if(useremail.equals(offer.getEmail())) {
             //so the user who posted this offer is logged in
             //therefore he/she sees the candidates button
 
@@ -75,10 +89,43 @@ public class TuitionDetails extends AppCompatActivity {
         }else{
             //any other user will see the interested button
             btnInterested.setVisibility(View.VISIBLE);
+
+
         }
 
         setFieldValues();
 
+        btnInterested.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // offer.setID(user.getUserId());//here is an user id issue one is string another is integer
+
+
+                //and also how to update this offer in the backendless daatabase? --> working on it
+
+                Backendless.Data.of(Offer.class).save(offer, new AsyncCallback<Offer>() {
+                    @Override
+                    public void handleResponse(Offer response) {
+                        Toast.makeText(TuitionDetails.this, "Your Application Submitted!", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+                        Toast.makeText(TuitionDetails.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        btnCandidates.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TuitionDetails.this, CandidateList.class);
+                intent.putExtra("index", index);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setFieldValues(){
@@ -103,5 +150,36 @@ public class TuitionDetails extends AppCompatActivity {
         loadRelationsQueryBuilder.setRelationName( relationFieldName );
 
         return loadRelationsQueryBuilder;
+    }
+
+    public String load(){
+        FileInputStream fileInputStream = null;
+        String email ="";
+
+        try {
+            fileInputStream = openFileInput(CONSTANTS.getUserData());
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            while ((email = bufferedReader.readLine()) != null){
+                stringBuilder.append(email);
+            }
+            email = stringBuilder.toString();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(fileInputStream != null){
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println(email);
+        return email;
     }
 }

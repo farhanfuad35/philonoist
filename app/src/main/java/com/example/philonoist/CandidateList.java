@@ -15,6 +15,11 @@ public class CandidateList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_list);
 
+        final int index = getIntent().getIntExtra("index", 0);
+        //eita hoitese CONSTANTS.offer er index jar candidates list dekhte chawa hoise
+        //ekhon ei offer tay joto uiser id connected tader ekta listView dekhaite hobe
+        //listView theke abar aager moto (tuitionList e jmn dekhaisilam) user details e jaite hobe --> user details banaite hobe
+
         //Teacher[]
         String[] candidates = new String[]{"Candidate1", "Candidate2", "Candidate3"};
 
