@@ -18,6 +18,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.LoadRelationsQueryBuilder;
 
 import java.io.BufferedReader;
@@ -38,6 +39,7 @@ public class TuitionDetails extends AppCompatActivity {
     private Offer offer;
     private Button btnInterested;
     private Button btnCandidates;
+    public  int interestedUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,28 @@ public class TuitionDetails extends AppCompatActivity {
 
 
                 //and also how to update this offer in the backendless daatabase? --> working on it
+
+
+//                String userEmail = load();
+//                System.out.println("in interested: "+userEmail);
+//                DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+//                String whereClause = "email = '" + userEmail +"'";
+//                System.out.println("where: "+whereClause);
+//                dataQueryBuilder.setWhereClause(whereClause);
+//
+//                Backendless.Data.of(Users.class).find(dataQueryBuilder, new AsyncCallback<Users>(){
+//                    @Override
+//                    public void handleResponse(Users response) {
+//                        Toast.makeText(TuitionDetails.this, "Your Application Submitted!", Toast.LENGTH_SHORT).show();
+//                        interestedUserID = response.ID;
+//                        saveInCandidatesList(interestedUserID);
+//                    }
+//
+//                    @Override
+//                    public void handleFault(BackendlessFault fault) {
+//                        Toast.makeText(TuitionDetails.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                })
 
                 Backendless.Data.of(Offer.class).save(offer, new AsyncCallback<Offer>() {
                     @Override
@@ -212,4 +236,8 @@ public class TuitionDetails extends AppCompatActivity {
             }
         });
     }
+
+//    boolean saveInCandidatesList(int interestedUserID){
+//
+//    }
 }

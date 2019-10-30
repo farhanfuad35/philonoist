@@ -69,10 +69,6 @@ public class TuitionList extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
 
 
-        /*BackendlessUser user = Backendless.UserService.CurrentUser();
-        String userEmail = ((BackendlessUser) user).getEmail();
-        System.out.println(userEmail);
-        */
 
         DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
         //dataQueryBuilder.addRelated("_class");
