@@ -225,8 +225,10 @@ public class TuitionDetails extends AppCompatActivity {
 
     public void saveNewApplicant(String email, String offerID) {
         Applicants applicants = new Applicants();
+        String ID = email+offerID;
         applicants.setOfferID(offerID);
         applicants.setEmail(email);
+        applicants.setID(ID);
 
 
         final ArrayList<BackendlessUser> userlist = new ArrayList<>();
