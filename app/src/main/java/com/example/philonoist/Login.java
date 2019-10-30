@@ -81,7 +81,7 @@ public class Login extends AppCompatActivity {
                     public void handleResponse(BackendlessUser response) {
                         CONSTANTS.setCurrentUserEmail(email);
 
-                        writes(email);
+                        FileMethods.writes(getApplicationContext(), email);
                         System.out.println("logged in "+email);
 
                         Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
@@ -101,25 +101,5 @@ public class Login extends AppCompatActivity {
         });
 
     }
-    public void writes(String email){
-        FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = openFileOutput(CONSTANTS.getUserData(), MODE_PRIVATE);
-            fileOutputStream.write(email.getBytes());
 
-            //Toast.makeText(this,    "saved "+email +" to " + getFilesDir() +"/" +fileName, Toast.LENGTH_SHORT).show();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            if(fileOutputStream != null){
-                try {
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }

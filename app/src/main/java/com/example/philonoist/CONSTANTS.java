@@ -2,6 +2,11 @@ package com.example.philonoist;
 
 import com.backendless.BackendlessUser;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class CONSTANTS {
@@ -12,7 +17,7 @@ public class CONSTANTS {
     private static double LNG_MIN = 90.332829;
     private static double LNG_MAX = 90.451891;
     final private static BackendlessUser currentUser = new BackendlessUser();
-    private static final String userData = "userInfo.txt";
+
 
     public static String getCurrentUserEmail() {
         return currentUser.getEmail();
@@ -63,10 +68,9 @@ public class CONSTANTS {
         return LNG_MAX;
     }
 
-    public static String getUserData(){
-        return userData;
-    }
+
 
     public  static List<Offer> offers;
+
 
 }
