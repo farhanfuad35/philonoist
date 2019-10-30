@@ -97,6 +97,7 @@ public class TuitionDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TuitionDetails.this, CandidateList.class);
+                intent.putExtra("offerID", offer.getObjectId());
                 intent.putExtra("index", index);
                 startActivity(intent);
             }
