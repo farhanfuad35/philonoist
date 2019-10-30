@@ -1,6 +1,7 @@
 package com.example.philonoist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -60,7 +61,6 @@ class Location_Methods {
 
         final BackendlessGeoQuery geoQuery = new BackendlessGeoQuery();
         geoQuery.addCategory("tuition_locations");
-        geoQuery.setIncludeMeta(true);
 
 
         Backendless.Geo.getPoints(geoQuery, new AsyncCallback<List<GeoPoint>>() {
@@ -70,6 +70,8 @@ class Location_Methods {
                 double lat_max = CONSTANTS.getLatMax();
                 double lng_min = CONSTANTS.getLngMin();
                 double lng_max = CONSTANTS.getLngMax();
+
+                int test = 0;
 
 
                 for (GeoPoint geoPoint : response) {
@@ -89,8 +91,11 @@ class Location_Methods {
                     marker.setTag(geoPoint.getObjectId());
 
 
-                    Log.i("Lat Lang", geoPoint.getLatitude().toString());
+                    Log.i("lat lang", geoPoint.getLatitude().toString());
+                    test++;
                 }
+
+                Log.i("lat lang", "test = " + Integer.toString(test));
 
                 LatLngBounds cameraView = new LatLngBounds(new LatLng(CONSTANTS.getLatMin(),CONSTANTS.getLngMin()), new LatLng(CONSTANTS.getLatMax(), CONSTANTS.getLngMax()));
                 //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraView.getCenter(), 10));

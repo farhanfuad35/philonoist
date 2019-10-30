@@ -75,6 +75,12 @@ public class TuitionList extends AppCompatActivity {
         String whereClause = "_class is not null";
         System.out.println(whereClause);
         dataQueryBuilder.setWhereClause(whereClause);
+        dataQueryBuilder.addProperty("subject");
+        dataQueryBuilder.addProperty("salary");
+        dataQueryBuilder.addProperty("_class");
+        dataQueryBuilder.addProperty("objectId");
+        dataQueryBuilder.addProperty("remarks");
+        dataQueryBuilder.addProperty("contact");
         //dataQueryBuilder.setGroupBy("_class");
         //dataQueryBuilder.setSortBy("_class");
 
@@ -119,9 +125,13 @@ public class TuitionList extends AppCompatActivity {
                 Intent intent = new Intent(TuitionList.this, TuitionDetails.class);
                 //intent.putExtra("index", i);
                 //startActivityForResult(intent, resultCodeForTuitionDetails);
+                Log.d("details", "details activity going to be created");
                 intent.putExtra("offer", CONSTANTS.offers.get(i));
                 intent.putExtra("index", i);
                 startActivity(intent);
+
+
+                Log.d("details", "details activity created");
             }
         });
 
