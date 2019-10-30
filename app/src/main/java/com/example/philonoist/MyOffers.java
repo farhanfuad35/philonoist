@@ -48,7 +48,8 @@ public class MyOffers extends AppCompatActivity {
         final List<String> myOffers = new ArrayList<>();
 
         BackendlessUser user = Backendless.UserService.CurrentUser();
-        String useremail = user.getEmail();
+        //String useremail = user.getEmail();
+        String useremail = FileMethods.load(getApplicationContext());
         System.out.println(useremail);
         DataQueryBuilder dataQuery = DataQueryBuilder.create();
         dataQuery.addRelated("email");

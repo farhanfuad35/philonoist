@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TuitionDetails extends AppCompatActivity {
@@ -65,45 +66,18 @@ public class TuitionDetails extends AppCompatActivity {
         getNameFromUsersTable();
         getEmailFromUsersTable();
 
-
-
-//
-//        final BackendlessUser user = Backendless.UserService.CurrentUser();
-//        String useremail = CONSTANTS.getCurrentUserEmail();
-//        System.out.println(useremail);
-
-
         setFieldValues();
 
         btnInterested.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // offer.setID(user.getUserId());//here is an user id issue one is string another is integer
 
-
-                //and also how to update this offer in the backendless daatabase? --> working on it
-
-
-//                String userEmail = load();
-//                System.out.println("in interested: "+userEmail);
-//                DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
-//                String whereClause = "email = '" + userEmail +"'";
-//                System.out.println("where: "+whereClause);
-//                dataQueryBuilder.setWhereClause(whereClause);
-//
-//                Backendless.Data.of(Users.class).find(dataQueryBuilder, new AsyncCallback<Users>(){
-//                    @Override
-//                    public void handleResponse(Users response) {
-//                        Toast.makeText(TuitionDetails.this, "Your Application Submitted!", Toast.LENGTH_SHORT).show();
-//                        interestedUserID = response.ID;
-//                        saveInCandidatesList(interestedUserID);
-//                    }
-//
-//                    @Override
-//                    public void handleFault(BackendlessFault fault) {
-//                        Toast.makeText(TuitionDetails.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                })
+                String userEmail = FileMethods.load(getApplicationContext());
+                System.out.println("in interested: "+userEmail);
+                String offerID = offer.getObjectId();
+                System.out.println("Offer ID: "+ offerID);
+                //String userEmail = Backendless.UserService.CurrentUser().getEmail();
+                saveNewApplicant(userEmail, offerID);
 
                 Backendless.Data.of(Offer.class).save(offer, new AsyncCallback<Offer>() {
                     @Override
@@ -111,7 +85,6 @@ public class TuitionDetails extends AppCompatActivity {
                         Toast.makeText(TuitionDetails.this, "Your Application Submitted!", Toast.LENGTH_SHORT).show();
 
                     }
-
                     @Override
                     public void handleFault(BackendlessFault fault) {
                         Toast.makeText(TuitionDetails.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
@@ -154,37 +127,6 @@ public class TuitionDetails extends AppCompatActivity {
         return loadRelationsQueryBuilder;
     }
 
-    public String load(){
-        FileInputStream fileInputStream = null;
-        String email ="";
-
-        try {
-            fileInputStream = openFileInput(CONSTANTS.getUserData());
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            StringBuilder stringBuilder = new StringBuilder();
-
-            while ((email = bufferedReader.readLine()) != null){
-                stringBuilder.append(email);
-            }
-            email = stringBuilder.toString();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            if(fileInputStream != null){
-                try {
-                    fileInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        System.out.println(email);
-        return email;
-    }
-
 
 
     private void getNameFromUsersTable(){
@@ -211,25 +153,16 @@ public class TuitionDetails extends AppCompatActivity {
             public void handleResponse(List<BackendlessUser> users) {
                 String email = (String) users.get(0).getEmail();
 
-                String useremail = load();
+                String useremail = FileMethods.load(getApplicationContext());
                 System.out.println("loaded email "+useremail);
                 System.out.println("offer posted by "+email);
 
                 if(useremail.equals(email)) {
-                    //so the user who posted this offer is logged in
-                    //therefore he/she sees the candidates button
-
                     btnCandidates.setVisibility(View.VISIBLE);
                 }else{
-                    //any other user will see the interested button
                     btnInterested.setVisibility(View.VISIBLE);
-
-
                 }
-
-
             }
-
             @Override
             public void handleFault(BackendlessFault fault) {
                 Log.i("relation query", "relation query error " + fault.getMessage());
@@ -237,7 +170,43 @@ public class TuitionDetails extends AppCompatActivity {
         });
     }
 
-//    boolean saveInCandidatesList(int interestedUserID){
-//
-//    }
+    public void saveNewApplicant(String email, String offerID) {
+        Applicants applicants = new Applicants();
+        applicants.setOfferID(offerID);
+        applicants.setEmail(email);
+
+
+        final ArrayList<BackendlessUser> userlist = new ArrayList<>();
+        BackendlessUser user = Backendless.UserService.CurrentUser();
+        userlist.add(user);
+        Backendless.Data.of(Applicants.class).save(applicants, new AsyncCallback<Applicants>() {
+
+            @Override
+            public void handleResponse(Applicants applicants1) {
+                Toast.makeText(getApplicationContext(), "STRING MESSAGE", Toast.LENGTH_LONG).show();
+                setRelation(applicants1, userlist);
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Toast.makeText(TuitionDetails.this, "You have already applied for this tuition!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private  void setRelation(final Applicants applicants, ArrayList<BackendlessUser>userList) {
+
+        Backendless.Data.of(Applicants.class).addRelation(applicants, "email", userList, new AsyncCallback<Integer>(){
+            @Override
+            public void handleResponse(Integer response) {
+                Log.i("addRelation", "Relation has been set");
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+            }
+        });
+
+
+    }
 }
