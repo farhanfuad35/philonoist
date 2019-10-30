@@ -2,6 +2,8 @@ package com.example.philonoist;
 
 import com.backendless.BackendlessUser;
 
+import java.util.List;
+
 public class CONSTANTS {
     final private static String TAG_MAPS_SHOW_TUITIONS = "#Maps_Show_Tuitions";
     private static String TAG_MAPS_GETGEOPOINTS = "Get GeoPoints";
@@ -10,6 +12,7 @@ public class CONSTANTS {
     private static double LNG_MIN = 90.332829;
     private static double LNG_MAX = 90.451891;
     final private static BackendlessUser currentUser = new BackendlessUser();
+    private static final String userData = "userInfo.txt";
 
     public static String getCurrentUserEmail() {
         return currentUser.getEmail();
@@ -60,5 +63,10 @@ public class CONSTANTS {
         return LNG_MAX;
     }
 
+    public static String getUserData(){
+        return userData;
+    }
+
+    public  static List<Offer> offers;
 
 }

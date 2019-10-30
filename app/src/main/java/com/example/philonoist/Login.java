@@ -22,12 +22,18 @@ import com.backendless.exceptions.BackendlessFault;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class Login extends AppCompatActivity {
 
     EditText etPassword;
     EditText etEmail;
     Button btLogin;
     TextView tvSignup;
+    //private  final String fileName = "userInfo.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,9 @@ public class Login extends AppCompatActivity {
                     public void handleResponse(BackendlessUser response) {
                         CONSTANTS.setCurrentUserEmail(email);
 
+                        writes(email);
+                        System.out.println("logged in "+email);
+
                         Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
                         startActivity(intent);
                         finish();
@@ -91,5 +100,26 @@ public class Login extends AppCompatActivity {
             }
         });
 
+    }
+    public void writes(String email){
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = openFileOutput(CONSTANTS.getUserData(), MODE_PRIVATE);
+            fileOutputStream.write(email.getBytes());
+
+            //Toast.makeText(this,    "saved "+email +" to " + getFilesDir() +"/" +fileName, Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(fileOutputStream != null){
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

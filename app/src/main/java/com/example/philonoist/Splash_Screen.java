@@ -26,6 +26,10 @@ public class Splash_Screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash__screen);
 
+
+        setStatusbarColor();
+
+
         if (Build.VERSION.SDK_INT < 16) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -42,26 +46,40 @@ public class Splash_Screen extends AppCompatActivity {
         Animation anim = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
         splashImage.startAnimation(anim);
 
-
         runWaitingThread();
 
 
     }
 
 
-    void runWaitingThread(){
+    private void setStatusbarColor()
+    {
+        Window window = this.getWindow();
+
+// clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+// finally change the color
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+    }
+
+
+    private void runWaitingThread()
+    {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 sleep(3000);
 
-                if(Backendless.UserService.loggedInUser()== "") {
+                if (Backendless.UserService.loggedInUser() == "") {
 
                     Intent intent = new Intent(getApplicationContext(), com.example.philonoist.Login.class);
                     startActivity(intent);
                     Splash_Screen.this.finish();
-                }
-                else{
+                } else {
 
 
                     Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
@@ -73,4 +91,5 @@ public class Splash_Screen extends AppCompatActivity {
 
         thread.start();
     }
+
 }
