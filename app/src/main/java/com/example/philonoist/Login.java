@@ -1,11 +1,14 @@
 package com.example.philonoist;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,6 +22,11 @@ import com.backendless.exceptions.BackendlessFault;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class Login extends AppCompatActivity {
 
     EditText etPassword;
@@ -27,6 +35,7 @@ public class Login extends AppCompatActivity {
     TextView tvSignup;
     TextView tvForgetpassword;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +43,15 @@ public class Login extends AppCompatActivity {
 
         BackendlessUser user = new BackendlessUser();
 
-        setTitle("Login");
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        setTitle("Login");
+//        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+
+
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.black));
 
 
         tvSignup = findViewById(R.id.tvLogin_createaccount);
@@ -90,6 +105,9 @@ public class Login extends AppCompatActivity {
                     public void handleResponse(BackendlessUser response) {
                         CONSTANTS.setCurrentUserEmail(email);
 
+                        FileMethods.writes(getApplicationContext(), email);
+                        System.out.println("logged in "+email);
+
                         Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
                         startActivity(intent);
                         finish();
@@ -107,4 +125,5 @@ public class Login extends AppCompatActivity {
         });
 
     }
+
 }

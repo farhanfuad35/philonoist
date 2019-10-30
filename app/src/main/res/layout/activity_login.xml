@@ -8,9 +8,6 @@
     android:orientation="vertical"
     tools:context=".Login">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
 
 
     <!--    <TextView-->
@@ -23,9 +20,15 @@
     <!--        android:layout_height="wrap_content" />-->
 
     <ImageView
+<<<<<<< HEAD
         android:layout_width="400dp"
         android:layout_height="70dp"
         android:layout_gravity="center"
+=======
+        android:src="@drawable/philonoist_logo"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="60dp"
+>>>>>>> fcb622fb68c1ff2472ab3a0053661e5c20630ac6
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"

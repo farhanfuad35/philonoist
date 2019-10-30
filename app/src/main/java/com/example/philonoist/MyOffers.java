@@ -30,7 +30,8 @@ import java.util.List;
 public class MyOffers extends AppCompatActivity {
 
     public boolean flag = true;
-
+    ViewTuitionAdapter viewTuitionAdapter;
+    List<Offer> myPostedOffers;
     final int POSTOFFER = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,8 @@ public class MyOffers extends AppCompatActivity {
         final List<String> myOffers = new ArrayList<>();
 
         BackendlessUser user = Backendless.UserService.CurrentUser();
-        String useremail = user.getEmail();
+        //String useremail = user.getEmail();
+        String useremail = FileMethods.load(getApplicationContext());
         System.out.println(useremail);
         DataQueryBuilder dataQuery = DataQueryBuilder.create();
         dataQuery.addRelated("email");
@@ -61,12 +63,16 @@ public class MyOffers extends AppCompatActivity {
         Backendless.Data.of(Offer.class).find(dataQuery, new AsyncCallback<List<Offer>>() {
             @Override
             public void handleResponse(List<Offer> offerList) {
-                for (Offer offer : offerList) {
-                    myOffers.add(offer.getSubject());
-                    Log.i("subject", "in loop " + Integer.toString(myOffers.size()));
-                    listView.setAdapter(listViewAdapter);
+                myPostedOffers = offerList;
+                viewTuitionAdapter = new ViewTuitionAdapter(MyOffers.this, offerList);
+                listView.setAdapter(viewTuitionAdapter);
 
-                }
+//                for (Offer offer : offerList) {
+//                    myOffers.add(offer.getSubject());
+//                    Log.i("subject", "in loop " + Integer.toString(myOffers.size()));
+//                    listView.setAdapter(listViewAdapter);
+//
+//                }
             }
 
             @Override
@@ -80,7 +86,12 @@ public class MyOffers extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Intent intent = new Intent(MyOffers.this, TuitionDetails.class);
+                //intent.putExtra("index", i);
+                //startActivityForResult(intent, resultCodeForTuitionDetails);
+                intent.putExtra("offer", myPostedOffers.get(i));
+                intent.putExtra("index", i);
+                startActivity(intent);
             }
         });
 
