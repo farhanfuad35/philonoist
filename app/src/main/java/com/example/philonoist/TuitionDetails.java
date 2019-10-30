@@ -43,6 +43,8 @@ public class TuitionDetails extends AppCompatActivity {
     private String lng;
     private Button btnInterested;
     private Button btnCandidates;
+    private Button btnCall;
+    private TextView tvRemarksContent;
     public  int interestedUserID;
 
     @Override
@@ -57,9 +59,10 @@ public class TuitionDetails extends AppCompatActivity {
 
         btnInterested.setVisibility(View.GONE);
         btnCandidates.setVisibility(View.GONE);
+        tvRemarksContent.setVisibility(View.INVISIBLE);
 
 
-        btnMap = findViewById(R.id.btnTuitionDetails_map);
+
 
         offer = (Offer) getIntent().getSerializableExtra("offer");
         lat = getIntent().getStringExtra("lat");
@@ -68,6 +71,7 @@ public class TuitionDetails extends AppCompatActivity {
 
 
         Log.i("objectId", offer.getObjectId());
+        Log.i("contact", offer.getContact());
         final int index = getIntent().getIntExtra("index", 0);
         //the offer that came is basically CONSTANTS.offer.get(index)
         //but what about the offer that came from the maps??!!!!!!!!!!!!!
@@ -162,6 +166,16 @@ public class TuitionDetails extends AppCompatActivity {
             }
         });
 
+
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + offer.getContact()));
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     private void setFieldValues(){
@@ -169,6 +183,8 @@ public class TuitionDetails extends AppCompatActivity {
         subjects = new String[]{offer.getSubject()};            // Cannot be Null
         listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, subjects);
         listView.setAdapter(listViewAdapter);
+        tvRemarksContent.setText(offer.getRemarks());
+        tvRemarksContent.setVisibility(View.VISIBLE);
     }
 
     private void initializeFields(){
@@ -177,6 +193,9 @@ public class TuitionDetails extends AppCompatActivity {
         salary = findViewById(R.id.tvDetails_salaryNumber);
         btnInterested = findViewById(R.id.btnInterested);
         btnCandidates = findViewById(R.id.btnCandidates);
+        btnMap = findViewById(R.id.btnTuitionDetails_map);
+        btnCall = findViewById(R.id.btnTuitionDetails_call);
+        tvRemarksContent = findViewById(R.id.tvDetails_remarksContent);
     }
 
     private LoadRelationsQueryBuilder prepareLoadRelaionQuery(String relationFieldName)

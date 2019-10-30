@@ -94,7 +94,7 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_SHORT).show();
                         btLogin.setText("Login");
                     }
-                }, false);
+                }, true);
 
 
             }

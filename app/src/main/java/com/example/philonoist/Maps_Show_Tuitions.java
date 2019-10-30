@@ -96,6 +96,8 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
                 queryBuilder.addProperty("salary");
                 queryBuilder.addProperty("_class");
                 queryBuilder.addProperty("objectId");
+                queryBuilder.addProperty("remarks");
+                queryBuilder.addProperty("contact");
                 queryBuilder.addRelated("email");
 
                 LatLng latLng = marker.getPosition();
