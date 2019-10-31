@@ -17,11 +17,12 @@ import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.LoadRelationsQueryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.lang.String;
 
 public class CandidateList extends AppCompatActivity {
-
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +32,13 @@ public class CandidateList extends AppCompatActivity {
         final String offerID = getIntent().getStringExtra("offerID");
         final int index = getIntent().getIntExtra("index", 0);
 
-        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+        final List<String> names = new ArrayList<>();
+        //final List<String> last_names = new ArrayList<>();
+        listView = findViewById(R.id.lvCandidateList);
+        final ArrayAdapter<String> listViewNamesAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, names);
+        //final ArrayAdapter<String> listViewLastNamesAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, last_names);
+
+        final DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
         String whereClause = "offerID = '" + offerID + "'";
         System.out.println("whereclause in candidatesList: "+whereClause);
         dataQueryBuilder.setWhereClause(whereClause);
@@ -50,6 +57,29 @@ public class CandidateList extends AppCompatActivity {
                             length -= offerID.length();
                             String userEmail = applicants.get(i).getID().substring(0, length);
                             System.out.println("Check: "+userEmail);
+
+                            DataQueryBuilder dataQueryBuilder1 = DataQueryBuilder.create();
+                            String whereClauseForUser = "email = '" + userEmail +"'";
+                            dataQueryBuilder1.setWhereClause(whereClauseForUser);
+//                            dataQueryBuilder1.addProperty("first_name");
+//                            dataQueryBuilder1.addProperty("last_name");
+
+                            Backendless.Data.of(BackendlessUser.class).find(dataQueryBuilder1, new AsyncCallback<List<BackendlessUser>>() {
+                                @Override
+                                public void handleResponse(List<BackendlessUser> users) {
+                                    for(int i=0; i<users.size(); i++){
+                                        String name = users.get(i).getProperty("first_name") + " " + users.get(i).getProperty("last_name");
+                                        names.add(name);
+                                        listView.setAdapter(listViewNamesAdapter);
+                                    }
+
+                                }
+
+                                @Override
+                                public void handleFault(BackendlessFault fault) {
+                                    Toast.makeText(getApplicationContext(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                 }
             }
@@ -73,7 +103,6 @@ public class CandidateList extends AppCompatActivity {
 
             }
         });
-        System.out.println("BYE BYE");
     }
 
 //    private LoadRelationsQueryBuilder prepareLoadRelaionQuery(String relationFieldName)
