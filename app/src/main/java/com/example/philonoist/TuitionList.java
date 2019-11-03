@@ -97,29 +97,12 @@ public class TuitionList extends AppCompatActivity {
         //dataQueryBuilder.setSortBy("_class");
 
 
-        /*
-        dataQueryBuilder.addRelated("email");
-        String whereClause = "email.email = '" + userEmail+ "'";
-        System.out.println(whereClause);
-        dataQueryBuilder.setWhereClause(whereClause);
-        */
-
         Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
             @Override
             public void handleResponse(List<Offer> response) {
                 CONSTANTS.offers = response;
                 viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
                 lvTuitionList.setAdapter(viewTuitionAdapter);
-
-
-                /*
-                for(Offer offer : response){
-                    tuitionList.add(offer.getSubject());
-                    Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
-                    listView.setAdapter(listViewAdapter);
-                }
-
-                */
             }
 
             @Override

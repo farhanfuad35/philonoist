@@ -61,6 +61,8 @@ public class TuitionDetails extends AppCompatActivity {
         btnInterested.setVisibility(View.GONE);
         btnCandidates.setVisibility(View.GONE);
         tvRemarksContent.setVisibility(View.INVISIBLE);
+        btnCall.setVisibility(View.INVISIBLE);
+        btnMap.setVisibility(View.INVISIBLE);
 
 
 
@@ -112,6 +114,7 @@ public class TuitionDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TuitionDetails.this, CandidateList.class);
+                intent.putExtra("offerID", offer.getObjectId());
                 intent.putExtra("index", index);
                 startActivity(intent);
             }
@@ -204,15 +207,23 @@ public class TuitionDetails extends AppCompatActivity {
         Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
             @Override
             public void handleResponse(List<BackendlessUser> users) {
-                String email = (String) users.get(0).getEmail();
+                String email = (String) users.get(0).getEmail().trim();
 
-                String useremail = FileMethods.load(getApplicationContext());
-                System.out.println("loaded email "+useremail);
-                System.out.println("offer posted by "+email);
+                String useremail = FileMethods.load(getApplicationContext()).trim();
+                //System.out.println("loaded email "+useremail);
+                //System.out.println("offer posted by "+email);
 
                 if(useremail.equals(email)) {
+                    System.out.println("loaded email "+useremail);
+                    System.out.println("offer posted by "+email);
+                    btnCall.setVisibility(View.GONE);
+                    btnMap.setVisibility(View.GONE);
                     btnCandidates.setVisibility(View.VISIBLE);
                 }else{
+                    System.out.println("else loaded email "+useremail);
+                    System.out.println("else ffer posted by "+email);
+                    btnCall.setVisibility(View.VISIBLE);
+                    btnMap.setVisibility(View.VISIBLE);
                     btnInterested.setVisibility(View.VISIBLE);
                 }
             }
