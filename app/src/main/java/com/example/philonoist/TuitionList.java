@@ -54,6 +54,8 @@ public class TuitionList extends AppCompatActivity {
 
         setTitle("Tuition List");
 
+
+
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_TuitionList);
         setSupportActionBar(toolbar);
 

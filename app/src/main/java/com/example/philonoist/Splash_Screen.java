@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.backendless.Backendless;
+import com.backendless.persistence.local.UserTokenStorageFactory;
 
 import static android.os.SystemClock.sleep;
 
@@ -74,15 +75,28 @@ public class Splash_Screen extends AppCompatActivity {
             public void run() {
                 sleep(3000);
 
-                if (Backendless.UserService.loggedInUser() == "") {
+//                if (Backendless.UserService.loggedInUser() == "") {
+//
+//                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.Login.class);
+//                    startActivity(intent);
+//                    Splash_Screen.this.finish();
+//                } else {
+//
+//
+//                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
+//                    startActivity(intent);
+//                    Splash_Screen.this.finish();
+//                }
 
-                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.Login.class);
+                String userToken = UserTokenStorageFactory.instance().getStorage().get();
+
+                if( userToken != null && !userToken.equals( "" ) )
+                {   Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
                     startActivity(intent);
                     Splash_Screen.this.finish();
-                } else {
-
-
-                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
+                }
+                else{
+                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.Login.class);
                     startActivity(intent);
                     Splash_Screen.this.finish();
                 }

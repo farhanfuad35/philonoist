@@ -157,7 +157,7 @@ public class Select_Tuition_Location extends FragmentActivity implements OnMapRe
 
                         @Override
                         public void handleFault(BackendlessFault fault) {
-                            Log.i(CONSTANTS.getTAG_MAPS_SHOW_TUITIONS(), "Saving Unsuccessfull");
+                            Log.i(CONSTANTS.getTAG_MAPS_SHOW_TUITIONS(), "Saving Unsuccessfull" + "\t " + fault.getMessage());
                         }
                     });
 

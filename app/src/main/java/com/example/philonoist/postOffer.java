@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
@@ -24,19 +27,56 @@ import java.util.List;
 
 public class postOffer extends AppCompatActivity {
 
+    int lastENabledEditText = 1;            // all other fields exccept the last one are added to the string when the add icon is clicked. But add icon
+                                        // is not clicked for the last field. hence the input needs to be taken manually
+
     EditText etName;
     EditText etClass;
     EditText etsalary;
+
     EditText etsubject1;
+    EditText etsubject2;
+    EditText etsubject3;
+    EditText etsubject4;
+    EditText etsubject5;
+    EditText etsubject6;
+    EditText etsubject7;
+    EditText etsubject8;
+    EditText etsubject9;
+    EditText etsubject10;
+
+
     EditText etContact;
     EditText etRemarks;
     Button btnlocation;
     Button btnPost;
 
+    LinearLayout llSubject1;
+    LinearLayout llSubject2;
+    LinearLayout llSubject3;
+    LinearLayout llSubject4;
+    LinearLayout llSubject5;
+    LinearLayout llSubject6;
+    LinearLayout llSubject7;
+    LinearLayout llSubject8;
+    LinearLayout llSubject9;
+    LinearLayout llSubject10;
+
+    ImageView ivAdd1;
+    ImageView ivAdd2;
+    ImageView ivAdd3;
+    ImageView ivAdd4;
+    ImageView ivAdd5;
+    ImageView ivAdd6;
+    ImageView ivAdd7;
+    ImageView ivAdd8;
+    ImageView ivAdd9;
+
     String name;
     String _class;
     String salary;
     String subject1;
+    String subject;
     String contact;
     String remarks;
 
@@ -53,20 +93,143 @@ public class postOffer extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_PostOffer);
         setSupportActionBar(toolbar);
 
-        etName = findViewById(R.id.etpostoffer_name);
-        etClass = findViewById(R.id.etpostoffer_class);
-        etsalary = findViewById(R.id.etpostoffer_salary);
-        etsubject1 = findViewById(R.id.etpostoffer_Subject1);
-        etContact = findViewById(R.id.etpostoffer_Contact);
-        etRemarks = findViewById(R.id.etpostoffer_Remarks);
-        btnlocation = findViewById(R.id.btnPostoffer_location);
-        btnPost = findViewById(R.id.btnpostoffer_Post);
+        InitializeFields();
+
+
 
         btnlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Select_Tuition_Location.class);
                 startActivityForResult(intent, SELECT_LOCATION_INTENT_ID);
+            }
+        });
+
+        ivAdd1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etsubject1.getText().toString().isEmpty()){
+                    etsubject1.setError("Please enter a subject");
+                }
+                else {
+
+                    Log.i("post", "came here");
+
+                    llSubject2.setVisibility(View.VISIBLE);
+                    ivAdd1.setVisibility(View.INVISIBLE);
+                    etsubject1.setEnabled(false);
+                }
+
+            }
+        });
+
+        ivAdd2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etsubject2.getText().toString().isEmpty()){
+                    etsubject2.setError("Please enter a subject");
+                }
+                else {
+                    llSubject3.setVisibility(View.VISIBLE);
+                    ivAdd2.setVisibility(View.INVISIBLE);
+                    etsubject2.setEnabled(false);
+                }
+            }
+        });
+
+        ivAdd3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etsubject3.getText().toString().isEmpty()){
+                    etsubject3.setError("Please enter a subject");
+                }
+                else {
+                    llSubject4.setVisibility(View.VISIBLE);
+                    ivAdd3.setVisibility(View.INVISIBLE);
+                    etsubject3.setEnabled(false);
+                }
+            }
+        });
+
+        ivAdd4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etsubject4.getText().toString().isEmpty()){
+                    etsubject4.setError("Please enter a subject");
+                }
+                else {
+                    llSubject5.setVisibility(View.VISIBLE);
+                    ivAdd4.setVisibility(View.INVISIBLE);
+                    etsubject4.setEnabled(false);
+                }
+            }
+        });
+
+        ivAdd5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etsubject5.getText().toString().isEmpty()){
+                    etsubject5.setError("Please enter a subject");
+                }
+                else {
+                    llSubject6.setVisibility(View.VISIBLE);
+                    ivAdd5.setVisibility(View.INVISIBLE);
+                    etsubject5.setEnabled(false);
+                }
+            }
+        });
+
+        ivAdd6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etsubject6.getText().toString().isEmpty()){
+                    etsubject6.setError("Please enter a subject");
+                }
+                else {
+                    llSubject7.setVisibility(View.VISIBLE);
+                    ivAdd6.setVisibility(View.INVISIBLE);
+                    etsubject6.setEnabled(false);
+                }
+            }
+        });
+
+        ivAdd7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etsubject7.getText().toString().isEmpty()){
+                    etsubject7.setError("Please enter a subject");
+                }
+                else {
+                    llSubject8.setVisibility(View.VISIBLE);
+                    ivAdd7.setVisibility(View.INVISIBLE);
+                    etsubject7.setEnabled(false);
+                }
+            }
+        });
+
+        ivAdd8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (etsubject8.getText().toString().isEmpty()) {
+                    etsubject8.setError("Please enter a subject");
+                } else {
+                    llSubject9.setVisibility(View.VISIBLE);
+                    ivAdd8.setVisibility(View.INVISIBLE);
+                    etsubject8.setEnabled(false);
+                }
+            }
+        });
+
+        ivAdd9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (etsubject9.getText().toString().isEmpty()) {
+                    etsubject9.setError("Please enter a subject");
+                } else {
+                    llSubject10.setVisibility(View.VISIBLE);
+                    ivAdd9.setVisibility(View.INVISIBLE);
+                    etsubject9.setEnabled(false);
+                }
             }
         });
 
@@ -85,7 +248,12 @@ public class postOffer extends AppCompatActivity {
 
                     GeoPoint geoPoint = (GeoPoint) data.getSerializableExtra("geoPoint");
 
-                    syncOfferWithDatabase(geoPoint);
+                    if(etsubject1.getText().toString().isEmpty()){
+                        etsubject1.setText("Please enter a subject");
+                    }
+                    else{
+                            syncOfferWithDatabase(geoPoint);
+                    }
                 }
 
                 else{
@@ -104,19 +272,23 @@ public class postOffer extends AppCompatActivity {
 
         _class = etClass.getText().toString().trim();
         salary = etsalary.getText().toString().trim();
-        subject1 = etsubject1.getText().toString().trim();
         name = etName.getText().toString().trim();
         contact = etContact.getText().toString().trim();
         remarks = etRemarks.getText().toString();
 
-        saveNewOffer(_class, salary, subject1,contact, remarks, geoPoint);
+        subject = etsubject1.getText().toString() + "|" + etsubject2.getText().toString() + "|" + etsubject3.getText().toString() + "|" +
+                etsubject4.getText().toString() + "|" + etsubject5.getText().toString() + "|" + etsubject6.getText().toString() + "|" +
+                etsubject7.getText().toString() + "|" + etsubject8.getText().toString() + "|" + etsubject9.getText().toString() + "|" +
+                etsubject10.getText().toString();
+
+        saveNewOffer(geoPoint);
         postOffer.this.finish();
     }
 
 
 
 
-    public void saveNewOffer(String _class, String salary, String subject,String contact,String remarks, final GeoPoint geoPoint) {
+    public void saveNewOffer(final GeoPoint geoPoint) {
         Offer newoffer = new Offer();
         newoffer.set_class(_class);
         newoffer.setSalary(salary);
@@ -147,8 +319,6 @@ public class postOffer extends AppCompatActivity {
                 //Log.e(TAG, fault.getMessage());
             }
         });
-
-
 
 
 
@@ -185,5 +355,48 @@ public class postOffer extends AppCompatActivity {
         });
 
 
+    }
+
+
+    private void InitializeFields(){
+        etName = findViewById(R.id.etpostoffer_name);
+        etClass = findViewById(R.id.etpostoffer_class);
+        etsalary = findViewById(R.id.etpostoffer_salary);
+        etContact = findViewById(R.id.etpostoffer_Contact);
+        etRemarks = findViewById(R.id.etpostoffer_Remarks);
+        btnlocation = findViewById(R.id.btnPostoffer_location);
+        btnPost = findViewById(R.id.btnpostoffer_Post);
+
+        llSubject1 = findViewById(R.id.llPostOffer_Subject1);
+        llSubject2 = findViewById(R.id.llPostOffer_Subject2);
+        llSubject3 = findViewById(R.id.llPostOffer_Subject3);
+        llSubject4 = findViewById(R.id.llPostOffer_Subject4);
+        llSubject5 = findViewById(R.id.llPostOffer_Subject5);
+        llSubject6 = findViewById(R.id.llPostOffer_Subject6);
+        llSubject7 = findViewById(R.id.llPostOffer_Subject7);
+        llSubject8 = findViewById(R.id.llPostOffer_Subject8);
+        llSubject9 = findViewById(R.id.llPostOffer_Subject9);
+        llSubject10 = findViewById(R.id.llPostOffer_Subject10);
+
+        ivAdd1 = findViewById(R.id.ivPostOffer_Subject1);
+        ivAdd2 = findViewById(R.id.ivPostOffer_Subject2);
+        ivAdd3 = findViewById(R.id.ivPostOffer_Subject3);
+        ivAdd4 = findViewById(R.id.ivPostOffer_Subject4);
+        ivAdd5 = findViewById(R.id.ivPostOffer_Subject5);
+        ivAdd6 = findViewById(R.id.ivPostOffer_Subject6);
+        ivAdd7 = findViewById(R.id.ivPostOffer_Subject7);
+        ivAdd8 = findViewById(R.id.ivPostOffer_Subject8);
+        ivAdd9 = findViewById(R.id.ivPostOffer_Subject9);
+
+        etsubject1 = findViewById(R.id.etpostoffer_Subject1);
+        etsubject2 = findViewById(R.id.etpostoffer_Subject2);
+        etsubject3 = findViewById(R.id.etpostoffer_Subject3);
+        etsubject4 = findViewById(R.id.etpostoffer_Subject4);
+        etsubject5 = findViewById(R.id.etpostoffer_Subject5);
+        etsubject6 = findViewById(R.id.etpostoffer_Subject6);
+        etsubject7 = findViewById(R.id.etpostoffer_Subject7);
+        etsubject8 = findViewById(R.id.etpostoffer_Subject8);
+        etsubject9 = findViewById(R.id.etpostoffer_Subject9);
+        etsubject10 = findViewById(R.id.etpostoffer_Subject10);
     }
 }
