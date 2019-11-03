@@ -2,11 +2,19 @@ package com.example.philonoist;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -43,6 +51,8 @@ public class TuitionList extends AppCompatActivity {
     ArrayList<Tuition> tuitionArrayList = new ArrayList<>();
     ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<>();
     FloatingActionButton fabMaps;
+
+    final int FINE_LOCATION_PERMISSION_CODE = 44;
 
     final int PROFILEACTIVITIES = 10;
     final  int resultCodeForTuitionDetails = 100;
@@ -139,10 +149,32 @@ public class TuitionList extends AppCompatActivity {
 
 
         fabMaps.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                Intent intentMap = new Intent(getApplicationContext(), Maps_Show_Tuitions.class);
-                startActivity(intentMap);
+
+                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    Activity#requestPermissions
+
+                    Log.i("location", "calling permission request window");
+
+
+                    ActivityCompat.requestPermissions(TuitionList.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_PERMISSION_CODE);
+
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for Activity#requestPermissions for more details.
+                    return;
+                }
+
+                else {
+
+                    Intent intentMap = new Intent(getApplicationContext(), Maps_Show_Tuitions.class);
+                    startActivity(intentMap);
+                }
             }
         });
 
