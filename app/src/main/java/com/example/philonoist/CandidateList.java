@@ -22,19 +22,19 @@ import java.util.List;
 import java.lang.String;
 
 public class CandidateList extends AppCompatActivity {
-    ListView listView;
+    ListView lvCandidatesList;
+    CandidatesListAdapter candidatesListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_list);
 
-        System.out.println("IN CANDIDATES LIST!!!!!!!!!!!!!!!!!!!!!!");
         final String offerID = getIntent().getStringExtra("offerID");
         final int index = getIntent().getIntExtra("index", 0);
 
         final List<String> names = new ArrayList<>();
         //final List<String> last_names = new ArrayList<>();
-        listView = findViewById(R.id.lvCandidateList);
+        lvCandidatesList = findViewById(R.id.lvCandidateList);
         final ArrayAdapter<String> listViewNamesAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, names);
         //final ArrayAdapter<String> listViewLastNamesAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, last_names);
 
@@ -70,9 +70,10 @@ public class CandidateList extends AppCompatActivity {
                                     for(int i=0; i<users.size(); i++){
                                         String name = users.get(i).getProperty("first_name") + " " + users.get(i).getProperty("last_name");
                                         names.add(name);
-                                        listView.setAdapter(listViewNamesAdapter);
+                                        lvCandidatesList.setAdapter(listViewNamesAdapter);
                                     }
-
+//                                        candidatesListAdapter = new CandidatesListAdapter(getApplicationContext(), users);
+//                                        lvCandidatesList.setAdapter(candidatesListAdapter);
                                 }
 
                                 @Override
