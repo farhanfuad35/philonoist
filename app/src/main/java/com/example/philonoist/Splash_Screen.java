@@ -12,8 +12,15 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.DataQueryBuilder;
+
+import java.util.Collection;
+import java.util.List;
 
 import static android.os.SystemClock.sleep;
 
@@ -46,8 +53,10 @@ public class Splash_Screen extends AppCompatActivity {
         Animation anim = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
         splashImage.startAnimation(anim);
 
+
         runWaitingThread();
 
+        //callTuitionListFromBackendless();
 
     }
 
@@ -90,6 +99,39 @@ public class Splash_Screen extends AppCompatActivity {
         });
 
         thread.start();
+    }
+
+    private void callTuitionListFromBackendless(){
+        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+        //dataQueryBuilder.addRelated("_class");
+        String whereClause = "_class is not null";
+        System.out.println(whereClause);
+        dataQueryBuilder.setWhereClause(whereClause);
+        dataQueryBuilder.addProperty("subject");
+        dataQueryBuilder.addProperty("salary");
+        dataQueryBuilder.addProperty("_class");
+        dataQueryBuilder.addProperty("objectId");
+        dataQueryBuilder.addProperty("remarks");
+        dataQueryBuilder.addProperty("contact");
+        //dataQueryBuilder.setGroupBy("_class");
+        //dataQueryBuilder.setSortBy("_class");
+
+
+        Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
+            @Override
+            public void handleResponse(List<Offer> response) {
+                CONSTANTS.offers = response;
+                Log.i("Subject", "response size: "+Integer.toString(response.size()));
+                Log.i("Subject", "CONSTANTS' offers' size: "+Integer.toString(CONSTANTS.offers.size()));
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                //Toast.makeText(getApplicationContext(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }

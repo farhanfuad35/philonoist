@@ -99,6 +99,9 @@ public class TuitionList extends AppCompatActivity {
                 Toast.makeText(TuitionList.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+//
+//        viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
+//        lvTuitionList.setAdapter(viewTuitionAdapter);
 
         Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
 
@@ -108,7 +111,7 @@ public class TuitionList extends AppCompatActivity {
                 Intent intent = new Intent(TuitionList.this, TuitionDetails.class);
                 //intent.putExtra("index", i);
                 //startActivityForResult(intent, resultCodeForTuitionDetails);
-                Log.d("details", "details activity going to be created");
+                Log.i("details", "details activity going to be created");
                 intent.putExtra("offer", CONSTANTS.offers.get(i));
                 intent.putExtra("index", i);
                 startActivity(intent);

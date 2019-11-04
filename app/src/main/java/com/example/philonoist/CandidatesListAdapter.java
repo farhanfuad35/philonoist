@@ -1,6 +1,7 @@
 package com.example.philonoist;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,9 @@ public class CandidatesListAdapter extends ArrayAdapter<BackendlessUser> {
         super(context, R.layout.row_candidate_list_layout, candidates);
         this.context = context;
         this.candidates = candidates;
+
+
+        Log.i("list", Integer.toString(candidates.size()));
     }
 
     @NonNull

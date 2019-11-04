@@ -17,6 +17,7 @@ import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.LoadRelationsQueryBuilder;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.String;
@@ -33,10 +34,8 @@ public class CandidateList extends AppCompatActivity {
         final int index = getIntent().getIntExtra("index", 0);
 
         final List<String> names = new ArrayList<>();
-        //final List<String> last_names = new ArrayList<>();
         lvCandidatesList = findViewById(R.id.lvCandidateList);
         final ArrayAdapter<String> listViewNamesAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, names);
-        //final ArrayAdapter<String> listViewLastNamesAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, last_names);
 
         final DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
         String whereClause = "offerID = '" + offerID + "'";
@@ -61,19 +60,38 @@ public class CandidateList extends AppCompatActivity {
                             DataQueryBuilder dataQueryBuilder1 = DataQueryBuilder.create();
                             String whereClauseForUser = "email = '" + userEmail +"'";
                             dataQueryBuilder1.setWhereClause(whereClauseForUser);
-//                            dataQueryBuilder1.addProperty("first_name");
-//                            dataQueryBuilder1.addProperty("last_name");
+                            dataQueryBuilder1.addProperty("first_name");
+                            dataQueryBuilder1.addProperty("last_name");
 
                             Backendless.Data.of(BackendlessUser.class).find(dataQueryBuilder1, new AsyncCallback<List<BackendlessUser>>() {
                                 @Override
                                 public void handleResponse(List<BackendlessUser> users) {
-                                    for(int i=0; i<users.size(); i++){
+                                    List<BackendlessUser> tempUsers = new ArrayList<>();
+                                    int i;
+                                    for( i=0; i<users.size(); i++){
+                                        BackendlessUser user = new BackendlessUser();
+                                        user.setProperty("first_name", users.get(i).getProperty("first_name"));
+                                        user.setProperty("last_name", users.get(i).getProperty("last_name"));
+                                        user.setEmail(users.get(i).getEmail());
+                                        tempUsers.add(user);
                                         String name = users.get(i).getProperty("first_name") + " " + users.get(i).getProperty("last_name");
                                         names.add(name);
                                         lvCandidatesList.setAdapter(listViewNamesAdapter);
                                     }
-//                                        candidatesListAdapter = new CandidatesListAdapter(getApplicationContext(), users);
+                                    Log.i("nameSize", Integer.toString(names.size()));
+                                    Log.i("cList", Integer.toString(users.size()));
+                                    Log.i("cListSize", Integer.toString(i));
+//                                    BackendlessUser use = new BackendlessUser();
+//                                    use.setEmail("asdfjsdfkn@gmail.com");
+//                                    use.setProperty("first_name", "Kabir");
+//                                    use.setProperty("last_name", "Ahmed");
+//                                    tempUsers.add(use);
+//
+//                                        candidatesListAdapter = new CandidatesListAdapter(getApplicationContext(), tempUsers);
 //                                        lvCandidatesList.setAdapter(candidatesListAdapter);
+
+                                    Log.i("cList2", Integer.toString(users.size()));
+                                    Log.i("cListSize2", Integer.toString(i));
                                 }
 
                                 @Override
@@ -90,15 +108,11 @@ public class CandidateList extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No applicants yet!", Toast.LENGTH_SHORT).show();
             }
         });
-        //eita hoitese CONSTANTS.offer er index jar candidates list dekhte chawa hoise
-        //ekhon ei offer tay joto uiser id connected tader ekta listView dekhaite hobe
-        //listView theke abar aager moto (tuitionList e jmn dekhaisilam) user details e jaite hobe --> user details banaite hobe
 
-        ListView listView = findViewById(R.id.lvCandidateList);
         //ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>();
         //listView.setAdapter(listViewAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvCandidatesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
