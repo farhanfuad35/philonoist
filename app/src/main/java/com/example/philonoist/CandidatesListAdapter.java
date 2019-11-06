@@ -27,7 +27,7 @@ public class CandidatesListAdapter extends ArrayAdapter<BackendlessUser> {
         this.candidates = candidates;
 
 
-        Log.i("list", Integer.toString(candidates.size()));
+        Log.i("cListinAdptr", Integer.toString(candidates.size()));
     }
 
     @NonNull

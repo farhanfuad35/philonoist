@@ -76,6 +76,7 @@ public class TuitionDetails extends AppCompatActivity {
         Log.i("objectId", offer.getObjectId());
         Log.i("contact", offer.getContact());
         final int index = getIntent().getIntExtra("index", 0);
+        Log.i("index", CONSTANTS.offers.get(index).getObjectId());
         //the offer that came is basically CONSTANTS.offer.get(index)
         //but what about the offer that came from the maps??!!!!!!!!!!!!!
 
