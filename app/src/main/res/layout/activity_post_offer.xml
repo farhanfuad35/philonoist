@@ -103,10 +103,8 @@
                 android:id="@+id/ivPostOffer_Subject1"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="8"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_black_24dp"
+                android:layout_weight="7"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -145,7 +143,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="8"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_black_24dp"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -184,7 +182,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="8"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_black_24dp"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -223,7 +221,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="8"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_black_24dp"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -262,7 +260,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="8"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_black_24dp"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -301,7 +299,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="8"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_black_24dp"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -340,7 +338,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="8"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_black_24dp"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -379,7 +377,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="8"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_black_24dp"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -418,7 +416,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="8"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_black_24dp"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

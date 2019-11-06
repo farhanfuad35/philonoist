@@ -157,6 +157,10 @@ public class TuitionDetails extends AppCompatActivity {
     private void setFieldValues(){
         salary.setText(offer.getSalary());
         subjects = new String[]{offer.getSubject()};            // Cannot be Null
+
+        // TODO
+
+        //subjects = processSubjectString(offer.getSubject());                      // Returns a string of subjects processed from the single line fetched from the database
         listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, subjects);
         listView.setAdapter(listViewAdapter);
         tvRemarksContent.setText(offer.getRemarks());
@@ -274,5 +278,18 @@ public class TuitionDetails extends AppCompatActivity {
         });
 
 
+    }
+
+
+    private String[] processSubjectString(String subjectString)
+    {
+//        String[] subjects = new String[11]{};
+//        subjects.
+
+        for(int i=0; i<subjects.length; i++){
+
+        }
+
+        return subjects;
     }
 }
