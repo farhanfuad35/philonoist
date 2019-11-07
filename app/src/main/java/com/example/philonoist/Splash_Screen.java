@@ -1,8 +1,10 @@
 package com.example.philonoist;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,7 +58,7 @@ public class Splash_Screen extends AppCompatActivity {
 
         runWaitingThread();
 
-        //callTuitionListFromBackendless();
+
 
     }
 
@@ -81,20 +83,9 @@ public class Splash_Screen extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                sleep(3000);
 
-                if (Backendless.UserService.loggedInUser() == "") {
+                callTuitionListFromBackendless();
 
-                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.Login.class);
-                    startActivity(intent);
-                    Splash_Screen.this.finish();
-                } else {
-
-
-                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
-                    startActivity(intent);
-                    Splash_Screen.this.finish();
-                }
             }
         });
 
@@ -120,13 +111,54 @@ public class Splash_Screen extends AppCompatActivity {
         Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
             @Override
             public void handleResponse(List<Offer> response) {
+
                 CONSTANTS.offers = response;
+
+
+                if (Backendless.UserService.loggedInUser() == "") {
+
+                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.Login.class);
+                    startActivity(intent);
+                    Splash_Screen.this.finish();
+                } else {
+
+
+                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
+                    startActivity(intent);
+                    Splash_Screen.this.finish();
+                }
+
+
+
+
                 Log.i("Subject", "response size: "+Integer.toString(response.size()));
                 Log.i("Subject", "CONSTANTS' offers' size: "+Integer.toString(CONSTANTS.offers.size()));
             }
 
             @Override
             public void handleFault(BackendlessFault fault) {
+
+                new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("Connection Failed!")
+                        .setMessage("Please connect to the internet")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Continue with delete operation
+
+                                Intent intent = getIntent();
+                                finish();
+                                startActivity(intent);
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
 
                 //Toast.makeText(getApplicationContext(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
