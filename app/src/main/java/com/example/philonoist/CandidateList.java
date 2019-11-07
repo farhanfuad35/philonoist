@@ -2,6 +2,7 @@ package com.example.philonoist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.lang.String;
 public class CandidateList extends AppCompatActivity {
     ListView lvCandidatesList;
     CandidatesListAdapter candidatesListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,7 @@ public class CandidateList extends AppCompatActivity {
         final List<String> names = new ArrayList<>();
         final List<String> emails = new ArrayList<>();
         final ArrayAdapter<String> listViewNamesAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, names);
-
+        final List<BackendlessUser> users = new ArrayList<>();
 
         final DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
         String whereClause = "offerID = '" + offerID + "'";
@@ -48,7 +50,6 @@ public class CandidateList extends AppCompatActivity {
         dataQueryBuilder.addProperty("objectId");
         dataQueryBuilder.addProperty("offerID");
 
-        final List<BackendlessUser> users = new ArrayList<>();
 
         Backendless.Data.of(Applicants.class).find(dataQueryBuilder, new AsyncCallback<List<Applicants>>() {
             @Override
@@ -65,14 +66,16 @@ public class CandidateList extends AppCompatActivity {
                             dataQueryBuilder1.setWhereClause(whereClauseForUser);
                             dataQueryBuilder1.addProperty("first_name");
                             dataQueryBuilder1.addProperty("last_name");
+                            dataQueryBuilder1.addProperty("email");
+                            dataQueryBuilder1.addProperty("registration_no");
 
                             Backendless.Data.of(BackendlessUser.class).find(dataQueryBuilder1, new AsyncCallback<List<BackendlessUser>>() {
                                 @Override
                                 public void handleResponse(List<BackendlessUser> response) {
                                     Log.i("responseSize", Integer.toString(response.size()));
-                                    for(int i=0; i<response.size(); i++){
-                                        response.get(i).setEmail(userEmail);
-                                    }
+//                                    for(int i=0; i<response.size(); i++){
+//                                        response.get(i).setEmail(userEmail);
+//                                    }
                                     users.addAll(response);
                                     Log.i("userSize", Integer.toString(users.size()));
 
@@ -100,6 +103,9 @@ public class CandidateList extends AppCompatActivity {
         lvCandidatesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), UserInfo.class);
+                intent.putExtra("candidate", users.get(i));
+                startActivity(intent);
 
             }
         });

@@ -24,6 +24,14 @@ public class UserInfo extends AppCompatActivity {
         Button btnAccept = findViewById(R.id.btn_accept);
         Button btnCancel = findViewById(R.id.btn_cancel);
 
+        BackendlessUser user = (BackendlessUser) getIntent().getSerializableExtra("candidate");
+
+        String firstName = (String) user.getProperty("first_name");
+        String lastName = (String) user.getProperty("last_name");
+        tvName.setText(firstName + " " + lastName);
+        tvEmail.setText(user.getEmail());
+        tvRegistrationNumber.setText((String)user.getProperty("registration_no"));
+
 
 
 //        BackendlessUser user = Backendless.UserService.CurrentUser();
