@@ -132,7 +132,7 @@ public class Splash_Screen extends AppCompatActivity {
             @Override
             public void handleFault(BackendlessFault fault) {
 
-                if( fault.getMessage() == getString(R.string.connectionErrorMessageBackendless))
+                if( fault.getMessage().equals(getString(R.string.connectionErrorMessageBackendless) ))
                     showConnectionFailedDialog();
 
                 else{
