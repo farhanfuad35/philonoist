@@ -2,11 +2,19 @@ package com.example.philonoist;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,6 +52,8 @@ public class TuitionList extends AppCompatActivity {
     ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<>();
     FloatingActionButton fabMaps;
 
+    final int FINE_LOCATION_PERMISSION_CODE = 44;
+
     final int PROFILEACTIVITIES = 10;
     final  int resultCodeForTuitionDetails = 100;
 
@@ -53,6 +63,8 @@ public class TuitionList extends AppCompatActivity {
         setContentView(R.layout.activity_tuition_list);
 
         setTitle("Tuition List");
+
+
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_TuitionList);
         setSupportActionBar(toolbar);
@@ -68,40 +80,9 @@ public class TuitionList extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
 
+        viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
+        lvTuitionList.setAdapter(viewTuitionAdapter);
 
-
-        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
-        //dataQueryBuilder.addRelated("_class");
-        String whereClause = "_class is not null";
-        System.out.println(whereClause);
-        dataQueryBuilder.setWhereClause(whereClause);
-        dataQueryBuilder.addProperty("subject");
-        dataQueryBuilder.addProperty("salary");
-        dataQueryBuilder.addProperty("_class");
-        dataQueryBuilder.addProperty("objectId");
-        dataQueryBuilder.addProperty("remarks");
-        dataQueryBuilder.addProperty("contact");
-        //dataQueryBuilder.setGroupBy("_class");
-        //dataQueryBuilder.setSortBy("_class");
-
-
-        Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
-            @Override
-            public void handleResponse(List<Offer> response) {
-                CONSTANTS.offers = response;
-                viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
-                lvTuitionList.setAdapter(viewTuitionAdapter);
-            }
-
-            @Override
-            public void handleFault(BackendlessFault fault) {
-
-                Toast.makeText(TuitionList.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-//
-//        viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
-//        lvTuitionList.setAdapter(viewTuitionAdapter);
 
         Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
 
@@ -123,10 +104,32 @@ public class TuitionList extends AppCompatActivity {
 
 
         fabMaps.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                Intent intentMap = new Intent(getApplicationContext(), Maps_Show_Tuitions.class);
-                startActivity(intentMap);
+
+                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    Activity#requestPermissions
+
+                    Log.i("location", "calling permission request window");
+
+
+                    ActivityCompat.requestPermissions(TuitionList.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_PERMISSION_CODE);
+
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for Activity#requestPermissions for more details.
+                    return;
+                }
+
+                else {
+
+                    Intent intentMap = new Intent(getApplicationContext(), Maps_Show_Tuitions.class);
+                    startActivity(intentMap);
+                }
             }
         });
 

@@ -39,7 +39,7 @@ public class CandidateList extends AppCompatActivity {
         final List<String> emails = new ArrayList<>();
         final ArrayAdapter<String> listViewNamesAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, names);
 
-        //getCandidatesList(index);
+
         final DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
         String whereClause = "offerID = '" + offerID + "'";
         System.out.println("whereclause in candidatesList: "+whereClause);
@@ -72,6 +72,10 @@ public class CandidateList extends AppCompatActivity {
                                     Log.i("responseSize", Integer.toString(response.size()));
                                     users.addAll(response);
                                     Log.i("userSize", Integer.toString(users.size()));
+
+                                    candidatesListAdapter = new CandidatesListAdapter(getApplicationContext(), users);
+                                    lvCandidatesList.setAdapter(candidatesListAdapter);
+
                                 }
 
                                 @Override
@@ -80,7 +84,6 @@ public class CandidateList extends AppCompatActivity {
                                 }
                             });
                         }
-                        loadListview(users);
                 }
             }
 
@@ -91,7 +94,6 @@ public class CandidateList extends AppCompatActivity {
         });
 
 
-        loadListview(users);
         lvCandidatesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -106,35 +108,35 @@ public class CandidateList extends AppCompatActivity {
         candidatesListAdapter = new CandidatesListAdapter(getApplicationContext(), users);
         lvCandidatesList.setAdapter(candidatesListAdapter);
     }
-    private LoadRelationsQueryBuilder prepareLoadRelaionQuery(String relationFieldName)
-    {
-        LoadRelationsQueryBuilder<BackendlessUser> loadRelationsQueryBuilder;
-        loadRelationsQueryBuilder = LoadRelationsQueryBuilder.of( BackendlessUser.class );
-        loadRelationsQueryBuilder.setRelationName( relationFieldName );
+//    private LoadRelationsQueryBuilder prepareLoadRelaionQuery(String relationFieldName)
+//    {
+//        LoadRelationsQueryBuilder<BackendlessUser> loadRelationsQueryBuilder;
+//        loadRelationsQueryBuilder = LoadRelationsQueryBuilder.of( BackendlessUser.class );
+//        loadRelationsQueryBuilder.setRelationName( relationFieldName );
+//
+//        return loadRelationsQueryBuilder;
+//    }
 
-        return loadRelationsQueryBuilder;
-    }
-
-    private void getCandidatesList(int index){
-        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelaionQuery("email");
-        Backendless.Data.of("Applicants").loadRelations(CONSTANTS.offers.get(index).getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
-            @Override
-            public void handleResponse(List<BackendlessUser> users) {
-                for(int i=0; i<users.size(); i++){
-                    String text = users.get(i).getProperty("first_name") + " " + users.get(i).getProperty("last_name");
-                    Log.i("NAME", text);
-                }
-                //loadListview(users);
-                Log.i("userSize", Integer.toString(users.size()));
-                candidatesListAdapter = new CandidatesListAdapter(getApplicationContext(), users);
-                lvCandidatesList.setAdapter(candidatesListAdapter);
-            }
-
-            @Override
-            public void handleFault(BackendlessFault fault) {
-                Log.i("relation query", "relation query error " + fault.getMessage());
-            }
-        });
-    }
+//    private void getCandidatesList(int index){
+//        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelaionQuery("email");
+//        Backendless.Data.of("Applicants").loadRelations(CONSTANTS.offers.get(index).getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
+//            @Override
+//            public void handleResponse(List<BackendlessUser> users) {
+//                for(int i=0; i<users.size(); i++){
+//                    String text = users.get(i).getProperty("first_name") + " " + users.get(i).getProperty("last_name");
+//                    Log.i("NAME", text);
+//                }
+//                //loadListview(users);
+//                Log.i("userSize", Integer.toString(users.size()));
+//                candidatesListAdapter = new CandidatesListAdapter(getApplicationContext(), users);
+//                lvCandidatesList.setAdapter(candidatesListAdapter);
+//            }
+//
+//            @Override
+//            public void handleFault(BackendlessFault fault) {
+//                Log.i("relation query", "relation query error " + fault.getMessage());
+//            }
+//        });
+//    }
 
 }

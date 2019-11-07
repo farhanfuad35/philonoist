@@ -125,6 +125,7 @@ public class TuitionDetails extends AppCompatActivity {
 
 
         Log.i("location", "entering button click location");
+        Log.i("location", offer.getLocation().getLatitude().toString());
 
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,13 +133,11 @@ public class TuitionDetails extends AppCompatActivity {
 
                 Log.i("location", "came to location");
 
-                Toast.makeText(getApplicationContext(), "lattitude", Toast.LENGTH_LONG).show();
-
                 //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: ,0"));
 
                 Log.i("location", "lattitude = " + lat + "longitude = " + lng);
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: 0,0?q=" + lat + ", " + lng));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: 0,0?q=" + offer.getLocation().getLatitude() + ", " + offer.getLocation().getLongitude()));
                 startActivity(intent);
             }
         });
@@ -158,6 +157,10 @@ public class TuitionDetails extends AppCompatActivity {
     private void setFieldValues(){
         salary.setText(offer.getSalary());
         subjects = new String[]{offer.getSubject()};            // Cannot be Null
+
+        // TODO
+
+        //subjects = processSubjectString(offer.getSubject());                      // Returns a string of subjects processed from the single line fetched from the database
         listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, subjects);
         listView.setAdapter(listViewAdapter);
         tvRemarksContent.setText(offer.getRemarks());
@@ -193,6 +196,8 @@ public class TuitionDetails extends AppCompatActivity {
             public void handleResponse(List<BackendlessUser> users) {
                 String text = users.get(0).getProperty("first_name") + " " + users.get(0).getProperty("last_name");
                 hostName.setText(text);
+
+                Log.i("listSize", Integer.toString(users.size()));
             }
 
             @Override
@@ -275,5 +280,18 @@ public class TuitionDetails extends AppCompatActivity {
         });
 
 
+    }
+
+
+    private String[] processSubjectString(String subjectString)
+    {
+//        String[] subjects = new String[11]{};
+//        subjects.
+
+        for(int i=0; i<subjects.length; i++){
+
+        }
+
+        return subjects;
     }
 }

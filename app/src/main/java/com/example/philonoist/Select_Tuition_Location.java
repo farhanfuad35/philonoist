@@ -1,9 +1,11 @@
 package com.example.philonoist;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -109,6 +111,7 @@ public class Select_Tuition_Location extends FragmentActivity implements OnMapRe
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -157,7 +160,7 @@ public class Select_Tuition_Location extends FragmentActivity implements OnMapRe
 
                         @Override
                         public void handleFault(BackendlessFault fault) {
-                            Log.i(CONSTANTS.getTAG_MAPS_SHOW_TUITIONS(), "Saving Unsuccessfull");
+                            Log.i(CONSTANTS.getTAG_MAPS_SHOW_TUITIONS(), "Saving Unsuccessfull" + "\t " + fault.getMessage());
                         }
                     });
 

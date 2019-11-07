@@ -1,6 +1,7 @@
 package com.example.philonoist;
 
 import com.backendless.BackendlessUser;
+import com.backendless.geo.GeoPoint;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -17,7 +18,15 @@ public class CONSTANTS {
     private static double LNG_MIN = 90.332829;
     private static double LNG_MAX = 90.451891;
     final private static BackendlessUser currentUser = new BackendlessUser();
+    private static List<GeoPoint> geoPointList;
 
+    public static List<GeoPoint> getGeoPointList() {
+        return geoPointList;
+    }
+
+    public static void setGeoPointList(List<GeoPoint> geoPointList) {
+        CONSTANTS.geoPointList = geoPointList;
+    }
 
     public static String getCurrentUserEmail() {
         return currentUser.getEmail();
