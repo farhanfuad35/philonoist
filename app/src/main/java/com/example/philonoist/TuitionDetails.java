@@ -125,6 +125,7 @@ public class TuitionDetails extends AppCompatActivity {
 
 
         Log.i("location", "entering button click location");
+        Log.i("location", offer.getLocation().getLatitude().toString());
 
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,13 +133,11 @@ public class TuitionDetails extends AppCompatActivity {
 
                 Log.i("location", "came to location");
 
-                Toast.makeText(getApplicationContext(), "lattitude", Toast.LENGTH_LONG).show();
-
                 //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: ,0"));
 
                 Log.i("location", "lattitude = " + lat + "longitude = " + lng);
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: 0,0?q=" + lat + ", " + lng));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: 0,0?q=" + offer.getLocation().getLatitude() + ", " + offer.getLocation().getLongitude()));
                 startActivity(intent);
             }
         });
