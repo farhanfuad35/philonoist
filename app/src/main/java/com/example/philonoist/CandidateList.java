@@ -32,70 +32,72 @@ public class CandidateList extends AppCompatActivity {
 
         final String offerID = getIntent().getStringExtra("offerID");
         final int index = getIntent().getIntExtra("index", 0);
-        Log.i("OFFERID", offerID);
+
+        lvCandidatesList = findViewById(R.id.lvCandidateList);
 
         final List<String> names = new ArrayList<>();
         final List<String> emails = new ArrayList<>();
-        lvCandidatesList = findViewById(R.id.lvCandidateList);
         final ArrayAdapter<String> listViewNamesAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, names);
 
-        getCandidatesList(index);
-//        final DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
-//        String whereClause = "offerID = '" + offerID + "'";
-//        System.out.println("whereclause in candidatesList: "+whereClause);
-//        dataQueryBuilder.setWhereClause(whereClause);
-//        dataQueryBuilder.addProperty("ID");
-//        dataQueryBuilder.addProperty("objectId");
-//        dataQueryBuilder.addProperty("offerID");
-//
-//        final List<BackendlessUser> users = new ArrayList<>();
-//
-//        Backendless.Data.of(Applicants.class).find(dataQueryBuilder, new AsyncCallback<List<Applicants>>() {
-//            @Override
-//            public void handleResponse(List<Applicants> applicants) {
-//                for (int i=0; i<applicants.size(); i++) {
-//                        if(applicants.get(i).getID() != null){
-//                            int length = applicants.get(i).getID().length();
-//                            length -= offerID.length();
-//                            String userEmail = applicants.get(i).getID().substring(0, length);
-//                            System.out.println("Check: "+userEmail);
-//
-//                            DataQueryBuilder dataQueryBuilder1 = DataQueryBuilder.create();
-//                            String whereClauseForUser = "email = '" + userEmail +"'";
-//                            dataQueryBuilder1.setWhereClause(whereClauseForUser);
-//                            dataQueryBuilder1.addProperty("first_name");
-//                            dataQueryBuilder1.addProperty("last_name");
-//
-//                            Backendless.Data.of(BackendlessUser.class).find(dataQueryBuilder1, new AsyncCallback<List<BackendlessUser>>() {
-//                                @Override
-//                                public void handleResponse(List<BackendlessUser> response) {
-//                                    Log.i("responseSize", Integer.toString(response.size()));
-//                                    users.addAll(response);
-//                                    Log.i("userSize", Integer.toString(users.size()));
-//                                }
-//
-//                                @Override
-//                                public void handleFault(BackendlessFault fault) {
-//                                    Toast.makeText(getApplicationContext(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-//                        }
-//                }
-//            }
-//
-//            @Override
-//            public void handleFault(BackendlessFault fault) {
-//                Toast.makeText(getApplicationContext(), "No applicants yet!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//
-//        lvCandidatesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//            }
-//        });
+        //getCandidatesList(index);
+        final DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+        String whereClause = "offerID = '" + offerID + "'";
+        System.out.println("whereclause in candidatesList: "+whereClause);
+        dataQueryBuilder.setWhereClause(whereClause);
+        dataQueryBuilder.addProperty("ID");
+        dataQueryBuilder.addProperty("objectId");
+        dataQueryBuilder.addProperty("offerID");
+
+        final List<BackendlessUser> users = new ArrayList<>();
+
+        Backendless.Data.of(Applicants.class).find(dataQueryBuilder, new AsyncCallback<List<Applicants>>() {
+            @Override
+            public void handleResponse(List<Applicants> applicants) {
+                for (int i=0; i<applicants.size(); i++) {
+                        if(applicants.get(i).getID() != null){
+                            int length = applicants.get(i).getID().length();
+                            length -= offerID.length();
+                            String userEmail = applicants.get(i).getID().substring(0, length);
+                            System.out.println("Check: "+userEmail);
+
+                            DataQueryBuilder dataQueryBuilder1 = DataQueryBuilder.create();
+                            String whereClauseForUser = "email = '" + userEmail +"'";
+                            dataQueryBuilder1.setWhereClause(whereClauseForUser);
+                            dataQueryBuilder1.addProperty("first_name");
+                            dataQueryBuilder1.addProperty("last_name");
+
+                            Backendless.Data.of(BackendlessUser.class).find(dataQueryBuilder1, new AsyncCallback<List<BackendlessUser>>() {
+                                @Override
+                                public void handleResponse(List<BackendlessUser> response) {
+                                    Log.i("responseSize", Integer.toString(response.size()));
+                                    users.addAll(response);
+                                    Log.i("userSize", Integer.toString(users.size()));
+                                }
+
+                                @Override
+                                public void handleFault(BackendlessFault fault) {
+                                    Toast.makeText(getApplicationContext(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        loadListview(users);
+                }
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Toast.makeText(getApplicationContext(), "No applicants yet!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        loadListview(users);
+        lvCandidatesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
     }
 
 
