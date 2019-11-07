@@ -76,6 +76,7 @@ public class TuitionDetails extends AppCompatActivity {
         Log.i("objectId", offer.getObjectId());
         Log.i("contact", offer.getContact());
         final int index = getIntent().getIntExtra("index", 0);
+        Log.i("index", CONSTANTS.offers.get(index).getObjectId());
         //the offer that came is basically CONSTANTS.offer.get(index)
         //but what about the offer that came from the maps??!!!!!!!!!!!!!
 
@@ -124,6 +125,7 @@ public class TuitionDetails extends AppCompatActivity {
 
 
         Log.i("location", "entering button click location");
+        Log.i("location", offer.getLocation().getLatitude().toString());
 
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,13 +133,11 @@ public class TuitionDetails extends AppCompatActivity {
 
                 Log.i("location", "came to location");
 
-                Toast.makeText(getApplicationContext(), "lattitude", Toast.LENGTH_LONG).show();
-
                 //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: ,0"));
 
                 Log.i("location", "lattitude = " + lat + "longitude = " + lng);
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: 0,0?q=" + lat + ", " + lng));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: 0,0?q=" + offer.getLocation().getLatitude() + ", " + offer.getLocation().getLongitude()));
                 startActivity(intent);
             }
         });

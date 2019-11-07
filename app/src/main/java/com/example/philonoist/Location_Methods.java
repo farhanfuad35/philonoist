@@ -94,14 +94,14 @@ class Location_Methods {
                         CONSTANTS.setLngMin(geoPoint.getLongitude() - 0.00001);
 
 
-                    LatLng temp = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
-
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(temp).title("Title"));
-                    marker.setTag(geoPoint.getObjectId());
-
-
-                    Log.i("lat lang", geoPoint.getLatitude().toString());
-                    test++;
+//                    LatLng temp = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
+//
+//                    Marker marker = mMap.addMarker(new MarkerOptions().position(temp).title("Title"));
+//                    marker.setTag(geoPoint.getObjectId());
+//
+//
+//                    Log.i("lat lang", geoPoint.getLatitude().toString());
+//                    test++;
                 }
 
                 Log.i("lat lang", "test = " + Integer.toString(test));

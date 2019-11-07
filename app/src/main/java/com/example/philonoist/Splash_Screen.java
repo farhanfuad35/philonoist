@@ -1,8 +1,7 @@
 package com.example.philonoist;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,9 +11,19 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.backendless.Backendless;
 import com.backendless.persistence.local.UserTokenStorageFactory;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.DataQueryBuilder;
+
+import java.util.Collection;
+import java.util.List;
 
 import static android.os.SystemClock.sleep;
 
@@ -47,7 +56,9 @@ public class Splash_Screen extends AppCompatActivity {
         Animation anim = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
         splashImage.startAnimation(anim);
 
+
         runWaitingThread();
+
 
 
     }
@@ -73,7 +84,38 @@ public class Splash_Screen extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                sleep(3000);
+
+                callTuitionListFromBackendless();
+
+            }
+        });
+
+        thread.start();
+    }
+
+    private void callTuitionListFromBackendless(){
+        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+        //dataQueryBuilder.addRelated("_class");
+        String whereClause = "_class is not null";
+        System.out.println(whereClause);
+        dataQueryBuilder.setWhereClause(whereClause);
+        dataQueryBuilder.addProperty("subject");
+        dataQueryBuilder.addProperty("salary");
+        dataQueryBuilder.addProperty("_class");
+        dataQueryBuilder.addProperty("objectId");
+        dataQueryBuilder.addProperty("remarks");
+        dataQueryBuilder.addProperty("contact");
+        dataQueryBuilder.addProperty("location");
+        //dataQueryBuilder.setGroupBy("_class");
+        //dataQueryBuilder.setSortBy("_class");
+
+
+        Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
+            @Override
+            public void handleResponse(List<Offer> response) {
+
+                CONSTANTS.offers = response;
+
 
 //                if (Backendless.UserService.loggedInUser() == "") {
 //
@@ -100,10 +142,40 @@ public class Splash_Screen extends AppCompatActivity {
                     startActivity(intent);
                     Splash_Screen.this.finish();
                 }
+
+
+
+
+                Log.i("Subject", "response size: "+Integer.toString(response.size()));
+                Log.i("Subject", "CONSTANTS' offers' size: "+Integer.toString(CONSTANTS.offers.size()));
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Splash_Screen.this);
+                alertDialogBuilder.setTitle("Connection Failed!");
+                alertDialogBuilder.setMessage("Please check your internet connection and try again");
+                        alertDialogBuilder.setPositiveButton("Okay",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        //Toast.makeText(Splash_Screen.this,"You clicked yes button",Toast.LENGTH_LONG).show();
+
+                                        Intent intent = getIntent();
+                                        finish();
+                                        startActivity(intent);
+                                    }
+                                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+
+                //Toast.makeText(getApplicationContext(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
-        thread.start();
     }
 
 }

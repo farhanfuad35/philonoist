@@ -23,7 +23,18 @@
 
 
     <TextView
-        android:id="@+id/etUserinfo_registrationnNumber"
+        android:id="@+id/tvUserinfo_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Name" />
+
+
+    <TextView
+        android:id="@+id/tvUserinfo_registrationnNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -34,29 +45,7 @@
 
 
     <TextView
-        android:id="@+id/etUserinfo_firstname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="First Name" />
-
-
-    <TextView
-        android:id="@+id/etUserinfo_lastname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
-        tools:text="Last Name" />
-
-
-    <TextView
-        android:id="@+id/etUserinfo_email"
+        android:id="@+id/tvUserinfo_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -65,24 +54,36 @@
         android:layout_marginBottom="5dp"
         android:text="email" />
 
-
-    <Button
-        android:id="@+id/btnUserinfo_updateAccount"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Update"
-        android:background="@color/colorPrimary"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/btn_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="Accept"
+            android:textStyle="bold" />
 
-
-
-
-
-
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="Cancel"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 
 </LinearLayout>
