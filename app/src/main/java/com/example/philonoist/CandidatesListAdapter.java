@@ -46,7 +46,9 @@ public class CandidatesListAdapter extends ArrayAdapter<BackendlessUser> {
         tvChar.setText(firstName.toUpperCase().charAt(0) + "");
         String lastName = (String) candidates.get(position).getProperty("last_name");
         tvName.setText(firstName + " " + lastName);
-        tvMail.setText(candidates.get(position).getEmail());
+        String email = (String)candidates.get(position).getUserId();
+        Log.i("candiMail", email);
+        tvMail.setText(email);
 
         return  convertView;
     }
