@@ -196,6 +196,8 @@ public class TuitionDetails extends AppCompatActivity {
             public void handleResponse(List<BackendlessUser> users) {
                 String text = users.get(0).getProperty("first_name") + " " + users.get(0).getProperty("last_name");
                 hostName.setText(text);
+
+                Log.i("listSize", Integer.toString(users.size()));
             }
 
             @Override
