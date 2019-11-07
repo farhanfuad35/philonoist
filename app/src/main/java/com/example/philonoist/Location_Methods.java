@@ -83,6 +83,8 @@ class Location_Methods {
                 int test = 0;
 
 
+                CONSTANTS.setGeoPointList(response);
+
                 for (GeoPoint geoPoint : response) {
                     if (geoPoint.getLatitude() > lat_max)
                         CONSTANTS.setLatMax(geoPoint.getLatitude() + 0.00001);

@@ -1,6 +1,7 @@
 package com.example.philonoist;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -68,6 +69,7 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
      * installed Google Play services and returned to the app.
      */
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap)
 
@@ -82,7 +84,18 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
 
        // Getting the list of geopoints and show it on map and move the camera
 
-        Location_Methods.getPointsFromDatabase(this, mMap);
+        //Location_Methods.getPointsFromDatabase(this, mMap);
+
+        for(GeoPoint geoPoint : CONSTANTS.getGeoPointList()){
+            LatLng temp = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
+
+            Marker marker = mMap.addMarker(new MarkerOptions().position(temp));
+            marker.setTag(geoPoint.getObjectId());
+        }
+
+        LatLngBounds cameraView = new LatLngBounds(new LatLng(CONSTANTS.getLatMin(), CONSTANTS.getLngMin()), new LatLng(CONSTANTS.getLatMax(), CONSTANTS.getLngMax()));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraView.getCenter(), 10));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cameraView.getCenter(), 11));
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 

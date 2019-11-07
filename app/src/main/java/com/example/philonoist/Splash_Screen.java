@@ -1,6 +1,7 @@
 package com.example.philonoist;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -17,10 +18,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.backendless.Backendless;
+import com.backendless.geo.BackendlessGeoQuery;
+import com.backendless.geo.GeoPoint;
 import com.backendless.persistence.local.UserTokenStorageFactory;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +42,6 @@ public class Splash_Screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash__screen);
-
 
         setStatusbarColor();
 
@@ -115,20 +121,84 @@ public class Splash_Screen extends AppCompatActivity {
             public void handleResponse(List<Offer> response) {
 
                 CONSTANTS.offers = response;
+                getPointsFromDatabase();
 
 
-//                if (Backendless.UserService.loggedInUser() == "") {
+
+                Log.i("Subject", "response size: "+Integer.toString(response.size()));
+                Log.i("Subject", "CONSTANTS' offers' size: "+Integer.toString(CONSTANTS.offers.size()));
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                showConnectionFailedDialog();
+
+                //Toast.makeText(getApplicationContext(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+
+    public void getPointsFromDatabase() {
+
+        final BackendlessGeoQuery geoQuery = new BackendlessGeoQuery();
+        geoQuery.addCategory("tuition_locations");
+
+
+        Backendless.Geo.getPoints(geoQuery, new AsyncCallback<List<GeoPoint>>() {
+            @Override
+            public void handleResponse(List<GeoPoint> response) {
+
+
+
+                CONSTANTS.setGeoPointList(response);
+
+
+
+
+                double lat_min = CONSTANTS.getLatMin();
+                double lat_max = CONSTANTS.getLatMax();
+                double lng_min = CONSTANTS.getLngMin();
+                double lng_max = CONSTANTS.getLngMax();
+
+                int test = 0;
+
+
+                CONSTANTS.setGeoPointList(response);
+
+                for (GeoPoint geoPoint : response) {
+                    if (geoPoint.getLatitude() > lat_max)
+                        CONSTANTS.setLatMax(geoPoint.getLatitude() + 0.00001);
+                    else if (geoPoint.getLatitude() < lat_min)
+                        CONSTANTS.setLatMin(geoPoint.getLatitude() - 0.00001);
+                    if (geoPoint.getLongitude() > lng_max)
+                        CONSTANTS.setLngMax(geoPoint.getLongitude() + 0.00001);
+                    else if (geoPoint.getLongitude() < lng_min)
+                        CONSTANTS.setLngMin(geoPoint.getLongitude() - 0.00001);
+
+
+//                    LatLng temp = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
 //
-//                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.Login.class);
-//                    startActivity(intent);
-//                    Splash_Screen.this.finish();
-//                } else {
+//                    Marker marker = mMap.addMarker(new MarkerOptions().position(temp).title("Title"));
+//                    marker.setTag(geoPoint.getObjectId());
 //
 //
-//                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
-//                    startActivity(intent);
-//                    Splash_Screen.this.finish();
-//                }
+//                    Log.i("lat lang", geoPoint.getLatitude().toString());
+//                    test++;
+                }
+
+                Log.i("lat lang", "test = " + Integer.toString(test));
+
+
+
+
+
+
+
+
 
                 String userToken = UserTokenStorageFactory.instance().getStorage().get();
 
@@ -144,38 +214,41 @@ public class Splash_Screen extends AppCompatActivity {
                 }
 
 
-
-
-                Log.i("Subject", "response size: "+Integer.toString(response.size()));
-                Log.i("Subject", "CONSTANTS' offers' size: "+Integer.toString(CONSTANTS.offers.size()));
             }
 
             @Override
             public void handleFault(BackendlessFault fault) {
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Splash_Screen.this);
-                alertDialogBuilder.setTitle("Connection Failed!");
-                alertDialogBuilder.setMessage("Please check your internet connection and try again");
-                        alertDialogBuilder.setPositiveButton("Okay",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        //Toast.makeText(Splash_Screen.this,"You clicked yes button",Toast.LENGTH_LONG).show();
-
-                                        Intent intent = getIntent();
-                                        finish();
-                                        startActivity(intent);
-                                    }
-                                });
-
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                showConnectionFailedDialog();
 
 
-                //Toast.makeText(getApplicationContext(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
+
     }
+
+    private void showConnectionFailedDialog()
+    {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Splash_Screen.this);
+        alertDialogBuilder.setTitle("Connection Failed!");
+        alertDialogBuilder.setMessage("Please check your internet connection and try again");
+        alertDialogBuilder.setPositiveButton("Okay",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        //Toast.makeText(Splash_Screen.this,"You clicked yes button",Toast.LENGTH_LONG).show();
+
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
 
 }
