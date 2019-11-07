@@ -106,7 +106,6 @@ public class CandidateList extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), UserInfo.class);
                 intent.putExtra("candidate", users.get(i));
                 startActivity(intent);
-
             }
         });
     }

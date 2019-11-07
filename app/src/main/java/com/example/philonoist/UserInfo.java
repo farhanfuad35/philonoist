@@ -3,6 +3,7 @@ package com.example.philonoist;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -32,6 +33,12 @@ public class UserInfo extends AppCompatActivity {
         tvRegistrationNumber.setText((String)user.getProperty("registration_no"));
 
 
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserInfo.this.finish();
+            }
+        });
 
 //        BackendlessUser user = Backendless.UserService.CurrentUser();
 //        String reg_no = (String)user.getProperty("registration_no");
