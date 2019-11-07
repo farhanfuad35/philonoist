@@ -57,7 +57,7 @@ public class CandidateList extends AppCompatActivity {
                         if(applicants.get(i).getID() != null){
                             int length = applicants.get(i).getID().length();
                             length -= offerID.length();
-                            String userEmail = applicants.get(i).getID().substring(0, length);
+                            final String userEmail = applicants.get(i).getID().substring(0, length);
                             System.out.println("Check: "+userEmail);
 
                             DataQueryBuilder dataQueryBuilder1 = DataQueryBuilder.create();
@@ -70,6 +70,9 @@ public class CandidateList extends AppCompatActivity {
                                 @Override
                                 public void handleResponse(List<BackendlessUser> response) {
                                     Log.i("responseSize", Integer.toString(response.size()));
+                                    for(int i=0; i<response.size(); i++){
+                                        response.get(i).setEmail(userEmail);
+                                    }
                                     users.addAll(response);
                                     Log.i("userSize", Integer.toString(users.size()));
 
