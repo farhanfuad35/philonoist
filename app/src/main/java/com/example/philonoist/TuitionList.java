@@ -72,39 +72,6 @@ public class TuitionList extends AppCompatActivity {
         lvTuitionList.setAdapter(viewTuitionAdapter);
 
 
-//        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
-//        //dataQueryBuilder.addRelated("_class");
-//        String whereClause = "_class is not null";
-//        System.out.println(whereClause);
-//        dataQueryBuilder.setWhereClause(whereClause);
-//        dataQueryBuilder.addProperty("subject");
-//        dataQueryBuilder.addProperty("salary");
-//        dataQueryBuilder.addProperty("_class");
-//        dataQueryBuilder.addProperty("objectId");
-//        dataQueryBuilder.addProperty("remarks");
-//        dataQueryBuilder.addProperty("contact");
-//        //dataQueryBuilder.setGroupBy("_class");
-//        //dataQueryBuilder.setSortBy("_class");
-//
-//
-//        Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
-//            @Override
-//            public void handleResponse(List<Offer> response) {
-//                CONSTANTS.offers = response;
-//                viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
-//                lvTuitionList.setAdapter(viewTuitionAdapter);
-//            }
-//
-//            @Override
-//            public void handleFault(BackendlessFault fault) {
-//
-//                Toast.makeText(TuitionList.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
-//        lvTuitionList.setAdapter(viewTuitionAdapter);
-
         Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
 
         lvTuitionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

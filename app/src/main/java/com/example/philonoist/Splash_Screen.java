@@ -1,9 +1,6 @@
 package com.example.philonoist;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -15,6 +12,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
@@ -138,26 +138,23 @@ public class Splash_Screen extends AppCompatActivity {
             @Override
             public void handleFault(BackendlessFault fault) {
 
-                new AlertDialog.Builder(getApplicationContext())
-                        .setTitle("Connection Failed!")
-                        .setMessage("Please connect to the internet")
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Splash_Screen.this);
+                alertDialogBuilder.setTitle("Connection Failed!");
+                alertDialogBuilder.setMessage("Please check your internet connection and try again");
+                        alertDialogBuilder.setPositiveButton("Okay",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        //Toast.makeText(Splash_Screen.this,"You clicked yes button",Toast.LENGTH_LONG).show();
 
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Continue with delete operation
+                                        Intent intent = getIntent();
+                                        finish();
+                                        startActivity(intent);
+                                    }
+                                });
 
-                                Intent intent = getIntent();
-                                finish();
-                                startActivity(intent);
-                            }
-                        })
-
-                        // A null listener allows the button to dismiss the dialog and take no further action.
-                        .setNegativeButton(android.R.string.no, null)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
 
 
                 //Toast.makeText(getApplicationContext(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
