@@ -132,9 +132,28 @@ public class Splash_Screen extends AppCompatActivity {
             @Override
             public void handleFault(BackendlessFault fault) {
 
-                showConnectionFailedDialog();
+                if( fault.getMessage() == getString(R.string.connectionErrorMessageBackendless))
+                    showConnectionFailedDialog();
 
-                //Toast.makeText(getApplicationContext(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                else{
+                     Backendless.UserService.logout(new AsyncCallback<Void>() {
+                         @Override
+                         public void handleResponse(Void response) {
+                             Intent intent = getIntent();
+                             finish();
+                             startActivity(intent);
+                         }
+
+                         @Override
+                         public void handleFault(BackendlessFault fault) {
+                             Log.i("logout", "logout failed");
+                         }
+                     });
+                }
+
+                Log.e("fault", fault.getMessage());
+
+                Toast.makeText(getApplicationContext(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

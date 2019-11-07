@@ -27,6 +27,7 @@ import com.backendless.geo.GeoPoint;
 import com.backendless.persistence.BackendlessDataQuery;
 import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.QueryOptions;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -80,7 +81,6 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
 
 
         Location_Methods.showMyLocation(this, mMap);
-
 
        // Getting the list of geopoints and show it on map and move the camera
 
