@@ -38,7 +38,7 @@ public class CandidatesListAdapter extends ArrayAdapter<BackendlessUser> {
 
         convertView = inflater.inflate(R.layout.row_candidate_list_layout, parent, false);
 
-        TextView tvChar = convertView.findViewById(R.id.tvChar);
+        TextView tvChar = convertView.findViewById(R.id.tvRowCandidateListLayout_char);
         TextView tvName = convertView.findViewById(R.id.tvName);
         TextView tvMail = convertView.findViewById(R.id.tvMail);
 

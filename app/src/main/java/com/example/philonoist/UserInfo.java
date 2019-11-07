@@ -3,12 +3,9 @@ package com.example.philonoist;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.renderscript.Script;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 
 public class UserInfo extends AppCompatActivity {
@@ -18,8 +15,9 @@ public class UserInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
+        TextView tvChar = findViewById(R.id.tvUserinfo_char);
         TextView tvName = findViewById(R.id.tvUserinfo_name);
-        TextView tvRegistrationNumber = findViewById(R.id.tvUserinfo_registrationnNumber);
+        TextView tvRegistrationNumber = findViewById(R.id.tvUserinfo_registrationNumber);
         TextView tvEmail = findViewById(R.id.tvUserinfo_email);
         Button btnAccept = findViewById(R.id.btn_accept);
         Button btnCancel = findViewById(R.id.btn_cancel);
@@ -28,6 +26,7 @@ public class UserInfo extends AppCompatActivity {
 
         String firstName = (String) user.getProperty("first_name");
         String lastName = (String) user.getProperty("last_name");
+        tvChar.setText(firstName.toUpperCase().charAt(0) + "");
         tvName.setText(firstName + " " + lastName);
         tvEmail.setText(user.getEmail());
         tvRegistrationNumber.setText((String)user.getProperty("registration_no"));
