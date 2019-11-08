@@ -162,7 +162,7 @@ public class TuitionDetails extends AppCompatActivity {
 
         subjects = processSubjectString(offer.getSubject());                      // Returns a string of subjects processed from the single line fetched from the database
 
-        Log.i("subjects", "After split :\t" + subjects[1]);
+        //Log.i("subjects", "After split :\t" + subjects[1]);
 
         listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, subjects);
         listView.setAdapter(listViewAdapter);
