@@ -17,8 +17,18 @@ public class CONSTANTS {
     private static double LAT_MAX = 23.892885;
     private static double LNG_MIN = 90.332829;
     private static double LNG_MAX = 90.451891;
+    private static int ACTIVITY_ID_MAPS_SHOW_TUITIONS = 65;
+    private static int ACTIVITY_ID_TUITIONLIST = 75;
     final private static BackendlessUser currentUser = new BackendlessUser();
     private static List<GeoPoint> geoPointList;
+
+    public static int getActivityIdMapsShowTuitions() {
+        return ACTIVITY_ID_MAPS_SHOW_TUITIONS;
+    }
+
+    public static int getActivityIdTuitionlist() {
+        return ACTIVITY_ID_TUITIONLIST;
+    }
 
     public static List<GeoPoint> getGeoPointList() {
         return geoPointList;

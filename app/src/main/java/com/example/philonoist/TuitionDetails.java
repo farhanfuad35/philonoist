@@ -47,6 +47,7 @@ public class TuitionDetails extends AppCompatActivity {
     private Button btnCall;
     private TextView tvRemarksContent;
     public  int interestedUserID;
+    private int callerActivityID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +67,19 @@ public class TuitionDetails extends AppCompatActivity {
 
 
 
-
+        callerActivityID = (int) getIntent().getIntExtra("ID", 0);          // From Maps, ID = 65 | From List, ID = 75
         offer = (Offer) getIntent().getSerializableExtra("offer");
-        lat = (String) offer.getLocation().getLatitude().toString();
-        lng = (String) offer.getLocation().getLongitude().toString();
+//        lat = getIntent().getStringExtra("lat");
+//        lng = getIntent().getStringExtra("lng");
+
+        if(callerActivityID == CONSTANTS.getActivityIdTuitionlist()) {
+            lat = (String) offer.getLocation().getLatitude().toString();
+            lng = (String) offer.getLocation().getLongitude().toString();
+        }
+        else if(callerActivityID == CONSTANTS.getActivityIdMapsShowTuitions()){
+            lat = getIntent().getStringExtra("lat");
+            lng = getIntent().getStringExtra("lng");
+        }
 
 
 
@@ -137,7 +147,7 @@ public class TuitionDetails extends AppCompatActivity {
 
                 Log.i("location", "lattitude = " + lat + "longitude = " + lng);
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: 0,0?q=" + offer.getLocation().getLatitude() + ", " + offer.getLocation().getLongitude()));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: 0,0?q=" + lat + ", " + lng));
                 startActivity(intent);
             }
         });

@@ -95,6 +95,7 @@ public class TuitionList extends AppCompatActivity {
                 Log.i("details", "details activity going to be created");
                 intent.putExtra("offer", CONSTANTS.offers.get(i));
                 intent.putExtra("index", i);
+                intent.putExtra("ID", CONSTANTS.getActivityIdTuitionlist());
                 startActivity(intent);
 
 
