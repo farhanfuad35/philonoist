@@ -68,8 +68,8 @@ public class TuitionDetails extends AppCompatActivity {
 
 
         offer = (Offer) getIntent().getSerializableExtra("offer");
-//        lat = getIntent().getStringExtra("lat");
-//        lng = getIntent().getStringExtra("lng");
+        lat = (String) offer.getLocation().getLatitude().toString();
+        lng = (String) offer.getLocation().getLongitude().toString();
 
 
 
@@ -125,7 +125,7 @@ public class TuitionDetails extends AppCompatActivity {
 
 
         Log.i("location", "entering button click location");
-        Log.i("location", offer.getLocation().getLatitude().toString());
+        //Log.i("location", offer.getLocation().getLatitude().toString());
 
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
