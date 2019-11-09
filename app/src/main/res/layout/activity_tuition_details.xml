@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fillViewport="true"
     tools:context=".TuitionDetails">
 
     <LinearLayout
@@ -98,20 +99,20 @@
             <TextView
                 android:id="@+id/tvDetails_Subject"
                 android:textColor="@color/white"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:text="Subject"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
 
             <ListView
                 android:id="@+id/lvDetails_Subject"
+                android:layout_weight="1000"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="10000" />
+                android:layout_height="wrap_content" />
 
 
         </LinearLayout>

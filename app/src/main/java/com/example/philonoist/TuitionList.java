@@ -84,7 +84,7 @@ public class TuitionList extends AppCompatActivity {
         lvTuitionList.setAdapter(viewTuitionAdapter);
 
 
-        Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
+        //Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
 
         lvTuitionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -95,6 +95,7 @@ public class TuitionList extends AppCompatActivity {
                 Log.i("details", "details activity going to be created");
                 intent.putExtra("offer", CONSTANTS.offers.get(i));
                 intent.putExtra("index", i);
+                intent.putExtra("ID", CONSTANTS.getActivityIdTuitionlist());
                 startActivity(intent);
 
 

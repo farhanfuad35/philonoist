@@ -142,6 +142,7 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
                 intent.putExtra("offer", offers.get(0));
                 intent.putExtra("lat", Double.toString(latLng.latitude) );
                 intent.putExtra("lng", Double.toString(latLng.longitude) );
+                intent.putExtra("ID", CONSTANTS.getActivityIdMapsShowTuitions());
                 startActivity(intent);
             }
 

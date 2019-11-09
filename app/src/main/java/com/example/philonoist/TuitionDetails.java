@@ -47,6 +47,7 @@ public class TuitionDetails extends AppCompatActivity {
     private Button btnCall;
     private TextView tvRemarksContent;
     public  int interestedUserID;
+    private int callerActivityID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +67,19 @@ public class TuitionDetails extends AppCompatActivity {
 
 
 
-
+        callerActivityID = (int) getIntent().getIntExtra("ID", 0);          // From Maps, ID = 65 | From List, ID = 75
         offer = (Offer) getIntent().getSerializableExtra("offer");
-        lat = getIntent().getStringExtra("lat");
-        lng = getIntent().getStringExtra("lng");
+//        lat = getIntent().getStringExtra("lat");
+//        lng = getIntent().getStringExtra("lng");
+
+        if(callerActivityID == CONSTANTS.getActivityIdTuitionlist()) {
+            lat = (String) offer.getLocation().getLatitude().toString();
+            lng = (String) offer.getLocation().getLongitude().toString();
+        }
+        else if(callerActivityID == CONSTANTS.getActivityIdMapsShowTuitions()){
+            lat = getIntent().getStringExtra("lat");
+            lng = getIntent().getStringExtra("lng");
+        }
 
 
 
@@ -121,11 +131,11 @@ public class TuitionDetails extends AppCompatActivity {
             }
         });
 
-        setFieldValues();
+        //setFieldValues();
 
 
         Log.i("location", "entering button click location");
-        Log.i("location", offer.getLocation().getLatitude().toString());
+        //Log.i("location", offer.getLocation().getLatitude().toString());
 
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +147,7 @@ public class TuitionDetails extends AppCompatActivity {
 
                 Log.i("location", "lattitude = " + lat + "longitude = " + lng);
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: 0,0?q=" + offer.getLocation().getLatitude() + ", " + offer.getLocation().getLongitude()));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: 0,0?q=" + lat + ", " + lng));
                 startActivity(intent);
             }
         });
@@ -156,11 +166,14 @@ public class TuitionDetails extends AppCompatActivity {
 
     private void setFieldValues(){
         salary.setText(offer.getSalary());
-        subjects = new String[]{offer.getSubject()};            // Cannot be Null
+        //subjects = new String[]{offer.getSubject()};            // Cannot be Null
 
         // TODO
 
-        //subjects = processSubjectString(offer.getSubject());                      // Returns a string of subjects processed from the single line fetched from the database
+        subjects = processSubjectString(offer.getSubject());                      // Returns a string of subjects processed from the single line fetched from the database
+
+        //Log.i("subjects", "After split :\t" + subjects[1]);
+
         listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, subjects);
         listView.setAdapter(listViewAdapter);
         tvRemarksContent.setText(offer.getRemarks());
@@ -178,7 +191,7 @@ public class TuitionDetails extends AppCompatActivity {
         tvRemarksContent = findViewById(R.id.tvDetails_remarksContent);
     }
 
-    private LoadRelationsQueryBuilder prepareLoadRelaionQuery(String relationFieldName)
+    private LoadRelationsQueryBuilder prepareLoadRelationQuery(String relationFieldName)
     {
         LoadRelationsQueryBuilder<BackendlessUser> loadRelationsQueryBuilder;
         loadRelationsQueryBuilder = LoadRelationsQueryBuilder.of( BackendlessUser.class );
@@ -190,7 +203,7 @@ public class TuitionDetails extends AppCompatActivity {
 
 
     private void getNameFromUsersTable(){
-        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelaionQuery("email");
+        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelationQuery("email");
         Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
             @Override
             public void handleResponse(List<BackendlessUser> users) {
@@ -209,7 +222,7 @@ public class TuitionDetails extends AppCompatActivity {
 
 
     private void getEmailFromUsersTable(){
-        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelaionQuery("email");
+        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelationQuery("email");
         Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
             @Override
             public void handleResponse(List<BackendlessUser> users) {
@@ -285,12 +298,14 @@ public class TuitionDetails extends AppCompatActivity {
 
     private String[] processSubjectString(String subjectString)
     {
-//        String[] subjects = new String[11]{};
-//        subjects.
 
-        for(int i=0; i<subjects.length; i++){
 
-        }
+        String[] subjects = subjectString.split("\\|");
+
+        Log.i("subjects", subjectString);
+
+        for(String s : subjects)
+            Log.i("subjects", s);
 
         return subjects;
     }

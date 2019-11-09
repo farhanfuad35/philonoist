@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, Splash_Screen.class);
         startActivity(intent);
+        finish();
             
     }
 
