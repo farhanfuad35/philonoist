@@ -2,7 +2,10 @@ package com.example.philonoist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,15 +25,39 @@ public class UserInfo extends AppCompatActivity {
         TextView tvEmail = findViewById(R.id.tvUserinfo_email);
         Button btnAccept = findViewById(R.id.btn_accept);
         Button btnCancel = findViewById(R.id.btn_cancel);
+        Button btnCall = findViewById(R.id.btnUserInfo_call);
+        Button btnMail = findViewById(R.id.btnUserInfo_mail);
 
-        BackendlessUser user = (BackendlessUser) getIntent().getSerializableExtra("candidate");
+        final BackendlessUser user = (BackendlessUser) getIntent().getSerializableExtra("candidate");
 
-        String firstName = (String) user.getProperty("first_name");
-        String lastName = (String) user.getProperty("last_name");
+        final String firstName = (String) user.getProperty("first_name");
+        final String lastName = (String) user.getProperty("last_name");
+        final String email = user.getEmail();
+        Log.i("userEmailCheck", email);
         tvChar.setText(firstName.toUpperCase().charAt(0) + "");
         tvName.setText(firstName + " " + lastName);
         tvEmail.setText(user.getEmail());
         tvRegistrationNumber.setText((String)user.getProperty("registration_no"));
+
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String uri = "tel:" + "01521526360";//user.getContact();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse(uri));
+                startActivity(intent);
+            }
+        });
+
+        btnMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/html");
+                intent.putExtra(Intent.EXTRA_EMAIL, email);
+                startActivity(Intent.createChooser(intent, "Send mail to "+firstName + " " + lastName));
+            }
+        });
 
 
         btnCancel.setOnClickListener(new View.OnClickListener() {

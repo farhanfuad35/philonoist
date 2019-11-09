@@ -67,6 +67,52 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUserInfo_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@android:color/transparent"
+            android:text="Call"
+            android:textAllCaps="false"
+            app:cornerRadius="90dp"
+            app:icon="@drawable/ic_call_black_24dp"
+            app:iconTint="@color/colorPrimaryLight"
+            app:strokeColor="#909090"
+            app:strokeWidth="5dp" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUserInfo_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@android:color/transparent"
+            android:text="Mail"
+            android:textAllCaps="false"
+            app:cornerRadius="90dp"
+            app:icon="@drawable/ic_email_black_24dp"
+            app:iconTint="@color/colorPrimaryLight"
+            app:strokeColor="#909090"
+            app:strokeWidth="5dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="230dp"
         android:orientation="horizontal">
 
