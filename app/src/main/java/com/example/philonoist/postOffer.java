@@ -79,6 +79,7 @@ public class postOffer extends AppCompatActivity {
     String subject;
     String contact;
     String remarks;
+    boolean active;
 
 
 
@@ -275,6 +276,7 @@ public class postOffer extends AppCompatActivity {
         name = etName.getText().toString().trim();
         contact = etContact.getText().toString().trim();
         remarks = etRemarks.getText().toString();
+        active = true;
 
         subject = etsubject1.getText().toString() + "|" + etsubject2.getText().toString() + "|" + etsubject3.getText().toString() + "|" +
                 etsubject4.getText().toString() + "|" + etsubject5.getText().toString() + "|" + etsubject6.getText().toString() + "|" +
@@ -295,6 +297,8 @@ public class postOffer extends AppCompatActivity {
         newoffer.setSubject(subject);
         newoffer.setContact(contact);
         newoffer.setRemarks(remarks);
+        newoffer.setActive(active);
+        
         final ArrayList<BackendlessUser> userlist = new ArrayList<>();
         BackendlessUser user = Backendless.UserService.CurrentUser();
         userlist.add(user);

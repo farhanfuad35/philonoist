@@ -102,7 +102,7 @@ public class Splash_Screen extends AppCompatActivity {
     private void callTuitionListFromBackendless(){
         DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
         //dataQueryBuilder.addRelated("_class");
-        String whereClause = "_class is not null";
+        String whereClause = "active = true";
         System.out.println(whereClause);
         dataQueryBuilder.setWhereClause(whereClause);
         dataQueryBuilder.addProperty("subject");
