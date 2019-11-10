@@ -56,6 +56,14 @@ public class MyOffers extends AppCompatActivity {
         String whereClause = "email.email = '" + useremail+ "'";
         System.out.println(whereClause);
         dataQuery.setWhereClause(whereClause);
+        dataQuery.addProperty("subject");
+        dataQuery.addProperty("salary");
+        dataQuery.addProperty("_class");
+        dataQuery.addProperty("objectId");
+        dataQuery.addProperty("remarks");
+        dataQuery.addProperty("contact");
+        dataQuery.addProperty("location");
+        dataQuery.addProperty("active");
 
         final ListView listView = findViewById(R.id.lvOffers_MyOffers);
         final ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, myOffers);
@@ -64,7 +72,7 @@ public class MyOffers extends AppCompatActivity {
             @Override
             public void handleResponse(List<Offer> offerList) {
                 myPostedOffers = offerList;
-                viewTuitionAdapter = new ViewTuitionAdapter(MyOffers.this, offerList);
+                viewTuitionAdapter = new ViewTuitionAdapter(MyOffers.this, myPostedOffers);
                 listView.setAdapter(viewTuitionAdapter);
 
 //                for (Offer offer : offerList) {

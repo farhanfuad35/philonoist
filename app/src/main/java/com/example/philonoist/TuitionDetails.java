@@ -46,6 +46,7 @@ public class TuitionDetails extends AppCompatActivity {
     private Button btnCandidates;
     private Button btnCall;
     private TextView tvRemarksContent;
+    private TextView tvAssigned;
     public  int interestedUserID;
     private int callerActivityID;
 
@@ -61,9 +62,10 @@ public class TuitionDetails extends AppCompatActivity {
 
         btnInterested.setVisibility(View.GONE);
         btnCandidates.setVisibility(View.GONE);
-        tvRemarksContent.setVisibility(View.INVISIBLE);
-        btnCall.setVisibility(View.INVISIBLE);
-        btnMap.setVisibility(View.INVISIBLE);
+        tvAssigned.setVisibility(View.GONE);
+        tvRemarksContent.setVisibility(View.GONE);
+        btnCall.setVisibility(View.GONE);
+        btnMap.setVisibility(View.GONE);
 
 
 
@@ -82,8 +84,14 @@ public class TuitionDetails extends AppCompatActivity {
         }
 
 
+        if(offer.isActive()){
+            Log.i("activeStatus", "active True");
+        }else{
+            Log.i("activeStatus", "active False");
+            tvAssigned.setVisibility(View.VISIBLE);
+        }
 
-        Log.i("objectId", offer.getObjectId());
+        Log.i("offerIDinTuitionDetails", offer.getObjectId());
         Log.i("contact", offer.getContact());
         final int index = getIntent().getIntExtra("index", 0);
         Log.i("index", CONSTANTS.offers.get(index).getObjectId());
@@ -189,6 +197,7 @@ public class TuitionDetails extends AppCompatActivity {
         btnMap = findViewById(R.id.btnTuitionDetails_map);
         btnCall = findViewById(R.id.btnTuitionDetails_call);
         tvRemarksContent = findViewById(R.id.tvDetails_remarksContent);
+        tvAssigned = findViewById(R.id.tvAssigned);
     }
 
     private LoadRelationsQueryBuilder prepareLoadRelationQuery(String relationFieldName)
@@ -237,7 +246,9 @@ public class TuitionDetails extends AppCompatActivity {
                     System.out.println("offer posted by "+email);
                     btnCall.setVisibility(View.GONE);
                     btnMap.setVisibility(View.GONE);
-                    btnCandidates.setVisibility(View.VISIBLE);
+                    if(offer.isActive()){
+                        btnCandidates.setVisibility(View.VISIBLE);
+                    }
                 }else{
                     System.out.println("else loaded email "+useremail);
                     System.out.println("else ffer posted by "+email);

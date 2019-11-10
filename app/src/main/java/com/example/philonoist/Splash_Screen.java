@@ -112,6 +112,7 @@ public class Splash_Screen extends AppCompatActivity {
         dataQueryBuilder.addProperty("remarks");
         dataQueryBuilder.addProperty("contact");
         dataQueryBuilder.addProperty("location");
+        dataQueryBuilder.addProperty("active");
         //dataQueryBuilder.setGroupBy("_class");
         //dataQueryBuilder.setSortBy("_class");
 

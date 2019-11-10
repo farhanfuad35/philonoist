@@ -80,6 +80,10 @@ public class TuitionList extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
 
+        for(int i=0; i<CONSTANTS.offers.size(); i++){
+            Log.i("oID", i+1 +": " + CONSTANTS.offers.get(i).getObjectId());
+        }
+
         viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
         lvTuitionList.setAdapter(viewTuitionAdapter);
 
@@ -92,7 +96,6 @@ public class TuitionList extends AppCompatActivity {
                 Intent intent = new Intent(TuitionList.this, TuitionDetails.class);
                 //intent.putExtra("index", i);
                 //startActivityForResult(intent, resultCodeForTuitionDetails);
-                Log.i("details", "details activity going to be created");
                 intent.putExtra("offer", CONSTANTS.offers.get(i));
                 intent.putExtra("index", i);
                 intent.putExtra("ID", CONSTANTS.getActivityIdTuitionlist());

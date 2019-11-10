@@ -9,8 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
 
 public class UserInfo extends AppCompatActivity {
 
@@ -29,6 +33,8 @@ public class UserInfo extends AppCompatActivity {
         Button btnMail = findViewById(R.id.btnUserInfo_mail);
 
         final BackendlessUser user = (BackendlessUser) getIntent().getSerializableExtra("candidate");
+        final String offerID = getIntent().getStringExtra("offerID");
+        Log.i("offerIDinUserInfo", offerID);
 
         final String firstName = (String) user.getProperty("first_name");
         final String lastName = (String) user.getProperty("last_name");
@@ -59,6 +65,41 @@ public class UserInfo extends AppCompatActivity {
             }
         });
 
+        btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Offer offer = new Offer();
+                int index = -1;
+                for(int i=0; i<CONSTANTS.offers.size(); i++){
+                    if(CONSTANTS.offers.get(i).getObjectId().equals(offerID)){
+                        Log.i("offerFound", "Offer found in index:" +i);
+                        offer = CONSTANTS.offers.get(i);
+                        index = i;
+                        break;
+                    }
+                }
+
+                if(index == -1){
+                    Toast.makeText(getApplicationContext(), "Server Error!...Please try again", Toast.LENGTH_SHORT).show();
+                    Log.i("OfferIdNotFound", "Offer ID not found Error!!!");
+                    System.out.println(CONSTANTS.offers.size());
+                }else{
+                    CONSTANTS.offers.get(index).setActive(false);
+                    Backendless.Persistence.save(CONSTANTS.offers.get(index), new AsyncCallback<Offer>() {
+                        @Override
+                        public void handleResponse(Offer response) {
+                            Toast.makeText(getApplicationContext(), "Teacher Accepted!",Toast.LENGTH_SHORT ).show();
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Toast.makeText(getApplicationContext(), "Error" + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

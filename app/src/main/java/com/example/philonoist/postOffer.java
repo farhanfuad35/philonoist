@@ -298,7 +298,7 @@ public class postOffer extends AppCompatActivity {
         newoffer.setContact(contact);
         newoffer.setRemarks(remarks);
         newoffer.setActive(active);
-        
+
         final ArrayList<BackendlessUser> userlist = new ArrayList<>();
         BackendlessUser user = Backendless.UserService.CurrentUser();
         userlist.add(user);
