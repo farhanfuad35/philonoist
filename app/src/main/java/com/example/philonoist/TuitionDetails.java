@@ -95,9 +95,6 @@ public class TuitionDetails extends AppCompatActivity {
         Log.i("contact", offer.getContact());
         final int index = getIntent().getIntExtra("index", 0);
         Log.i("index", CONSTANTS.offers.get(index).getObjectId());
-        //the offer that came is basically CONSTANTS.offer.get(index)
-        //but what about the offer that came from the maps??!!!!!!!!!!!!!
-
 
         getNameFromUsersTable();
         getEmailFromUsersTable();
@@ -115,17 +112,17 @@ public class TuitionDetails extends AppCompatActivity {
                 //String userEmail = Backendless.UserService.CurrentUser().getEmail();
                 saveNewApplicant(userEmail, offerID);
 
-                Backendless.Data.of(Offer.class).save(offer, new AsyncCallback<Offer>() {
-                    @Override
-                    public void handleResponse(Offer response) {
-                        Toast.makeText(TuitionDetails.this, "Your Application Submitted!", Toast.LENGTH_SHORT).show();
-
-                    }
-                    @Override
-                    public void handleFault(BackendlessFault fault) {
-                        Toast.makeText(TuitionDetails.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                Backendless.Data.of(Offer.class).save(offer, new AsyncCallback<Offer>() {
+//                    @Override
+//                    public void handleResponse(Offer response) {
+//                        Toast.makeText(TuitionDetails.this, "Your Application Submitted!", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                    @Override
+//                    public void handleFault(BackendlessFault fault) {
+//                        Toast.makeText(TuitionDetails.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
         });
 
@@ -138,8 +135,6 @@ public class TuitionDetails extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        //setFieldValues();
 
 
         Log.i("location", "entering button click location");
@@ -238,8 +233,6 @@ public class TuitionDetails extends AppCompatActivity {
                 String email = (String) users.get(0).getEmail().trim();
 
                 String useremail = FileMethods.load(getApplicationContext()).trim();
-                //System.out.println("loaded email "+useremail);
-                //System.out.println("offer posted by "+email);
 
                 if(useremail.equals(email)) {
                     System.out.println("loaded email "+useremail);
@@ -251,7 +244,7 @@ public class TuitionDetails extends AppCompatActivity {
                     }
                 }else{
                     System.out.println("else loaded email "+useremail);
-                    System.out.println("else ffer posted by "+email);
+                    System.out.println("else offer posted by "+email);
                     btnCall.setVisibility(View.VISIBLE);
                     btnMap.setVisibility(View.VISIBLE);
                     btnInterested.setVisibility(View.VISIBLE);
@@ -279,7 +272,8 @@ public class TuitionDetails extends AppCompatActivity {
 
             @Override
             public void handleResponse(Applicants applicants1) {
-                Toast.makeText(getApplicationContext(), "STRING MESSAGE", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Your Application Submitted!", Toast.LENGTH_LONG).show();
+                Log.i("Applicants1", applicants1.getID());
                 setRelation(applicants1, userlist);
             }
 

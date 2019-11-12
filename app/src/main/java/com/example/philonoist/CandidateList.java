@@ -26,6 +26,7 @@ import java.lang.String;
 public class CandidateList extends AppCompatActivity {
     ListView lvCandidatesList;
     CandidatesListAdapter candidatesListAdapter;
+    final int candidatesListRequestCode = -7878;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class CandidateList extends AppCompatActivity {
                             dataQueryBuilder1.addProperty("first_name");
                             dataQueryBuilder1.addProperty("last_name");
                             dataQueryBuilder1.addProperty("email");
-                            dataQueryBuilder1.addProperty("registration_no");
+                            dataQueryBuilder1.addProperty("contact_no");
 
                             Backendless.Data.of(BackendlessUser.class).find(dataQueryBuilder1, new AsyncCallback<List<BackendlessUser>>() {
                                 @Override
@@ -105,7 +106,7 @@ public class CandidateList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), UserInfo.class);
-                intent.putExtra("candidate", users.get(i));
+                intent.putExtra("user", users.get(i));
                 intent.putExtra("offerID", offerID);
                 startActivity(intent);
             }

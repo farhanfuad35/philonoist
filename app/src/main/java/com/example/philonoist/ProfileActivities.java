@@ -28,8 +28,7 @@ import java.util.zip.Inflater;
 public class ProfileActivities extends AppCompatActivity {
     
     final int MYOFFER = 55;
-
-
+    final int profileActivitiesRequestCode = -9898;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +65,8 @@ public class ProfileActivities extends AppCompatActivity {
 
                 if(position == 3){
                     Intent intent = new Intent(view.getContext(), com.example.philonoist.UserInfo.class);
+                    BackendlessUser user = Backendless.UserService.CurrentUser();
+                    intent.putExtra("user", user);
                     startActivity(intent);
                 }
 

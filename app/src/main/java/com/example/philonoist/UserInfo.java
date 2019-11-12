@@ -32,9 +32,14 @@ public class UserInfo extends AppCompatActivity {
         Button btnCall = findViewById(R.id.btnUserInfo_call);
         Button btnMail = findViewById(R.id.btnUserInfo_mail);
 
-        final BackendlessUser user = (BackendlessUser) getIntent().getSerializableExtra("candidate");
+        btnCall.setVisibility(View.GONE);
+        btnMail.setVisibility(View.GONE);
+        btnAccept.setVisibility(View.GONE);
+        btnCancel.setVisibility(View.GONE);
+
+        final BackendlessUser user = (BackendlessUser) getIntent().getSerializableExtra("user");
         final String offerID = getIntent().getStringExtra("offerID");
-        Log.i("offerIDinUserInfo", offerID);
+        //Log.i("offerIDinUserInfo", offerID);
 
         final String firstName = (String) user.getProperty("first_name");
         final String lastName = (String) user.getProperty("last_name");
@@ -44,6 +49,14 @@ public class UserInfo extends AppCompatActivity {
         tvName.setText(firstName + " " + lastName);
         tvEmail.setText(user.getEmail());
         tvRegistrationNumber.setText((String)user.getProperty("registration_no"));
+
+        String userEmail = FileMethods.load(getApplicationContext());
+        if(!userEmail.equals(email)){ //checking if its the user who is currently logged in or not
+            btnCall.setVisibility(View.VISIBLE);
+            btnMail.setVisibility(View.VISIBLE);
+            btnAccept.setVisibility(View.VISIBLE);
+            btnCancel.setVisibility(View.VISIBLE);
+        }
 
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
