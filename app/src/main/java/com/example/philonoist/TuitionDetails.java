@@ -47,6 +47,7 @@ public class TuitionDetails extends AppCompatActivity {
     private Button btnCall;
     private TextView tvRemarksContent;
     public  int interestedUserID;
+    private int callerActivityID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,19 +62,31 @@ public class TuitionDetails extends AppCompatActivity {
         btnInterested.setVisibility(View.GONE);
         btnCandidates.setVisibility(View.GONE);
         tvRemarksContent.setVisibility(View.INVISIBLE);
+        btnCall.setVisibility(View.INVISIBLE);
+        btnMap.setVisibility(View.INVISIBLE);
 
 
 
-
+        callerActivityID = (int) getIntent().getIntExtra("ID", 0);          // From Maps, ID = 65 | From List, ID = 75
         offer = (Offer) getIntent().getSerializableExtra("offer");
-        lat = getIntent().getStringExtra("lat");
-        lng = getIntent().getStringExtra("lng");
+//        lat = getIntent().getStringExtra("lat");
+//        lng = getIntent().getStringExtra("lng");
+
+        if(callerActivityID == CONSTANTS.getActivityIdTuitionlist()) {
+            lat = (String) offer.getLocation().getLatitude().toString();
+            lng = (String) offer.getLocation().getLongitude().toString();
+        }
+        else if(callerActivityID == CONSTANTS.getActivityIdMapsShowTuitions()){
+            lat = getIntent().getStringExtra("lat");
+            lng = getIntent().getStringExtra("lng");
+        }
 
 
 
         Log.i("objectId", offer.getObjectId());
         Log.i("contact", offer.getContact());
         final int index = getIntent().getIntExtra("index", 0);
+        Log.i("index", CONSTANTS.offers.get(index).getObjectId());
         //the offer that came is basically CONSTANTS.offer.get(index)
         //but what about the offer that came from the maps??!!!!!!!!!!!!!
 
@@ -112,23 +125,23 @@ public class TuitionDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TuitionDetails.this, CandidateList.class);
+                intent.putExtra("offerID", offer.getObjectId());
                 intent.putExtra("index", index);
                 startActivity(intent);
             }
         });
 
-        setFieldValues();
+        //setFieldValues();
 
 
         Log.i("location", "entering button click location");
+        //Log.i("location", offer.getLocation().getLatitude().toString());
 
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Log.i("location", "came to location");
-
-                Toast.makeText(getApplicationContext(), "lattitude", Toast.LENGTH_LONG).show();
 
                 //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo: ,0"));
 
@@ -153,7 +166,14 @@ public class TuitionDetails extends AppCompatActivity {
 
     private void setFieldValues(){
         salary.setText(offer.getSalary());
-        subjects = new String[]{offer.getSubject()};            // Cannot be Null
+        //subjects = new String[]{offer.getSubject()};            // Cannot be Null
+
+        // TODO
+
+        subjects = processSubjectString(offer.getSubject());                      // Returns a string of subjects processed from the single line fetched from the database
+
+        //Log.i("subjects", "After split :\t" + subjects[1]);
+
         listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, subjects);
         listView.setAdapter(listViewAdapter);
         tvRemarksContent.setText(offer.getRemarks());
@@ -171,7 +191,7 @@ public class TuitionDetails extends AppCompatActivity {
         tvRemarksContent = findViewById(R.id.tvDetails_remarksContent);
     }
 
-    private LoadRelationsQueryBuilder prepareLoadRelaionQuery(String relationFieldName)
+    private LoadRelationsQueryBuilder prepareLoadRelationQuery(String relationFieldName)
     {
         LoadRelationsQueryBuilder<BackendlessUser> loadRelationsQueryBuilder;
         loadRelationsQueryBuilder = LoadRelationsQueryBuilder.of( BackendlessUser.class );
@@ -183,12 +203,14 @@ public class TuitionDetails extends AppCompatActivity {
 
 
     private void getNameFromUsersTable(){
-        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelaionQuery("email");
+        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelationQuery("email");
         Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
             @Override
             public void handleResponse(List<BackendlessUser> users) {
                 String text = users.get(0).getProperty("first_name") + " " + users.get(0).getProperty("last_name");
                 hostName.setText(text);
+
+                Log.i("listSize", Integer.toString(users.size()));
             }
 
             @Override
@@ -200,19 +222,27 @@ public class TuitionDetails extends AppCompatActivity {
 
 
     private void getEmailFromUsersTable(){
-        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelaionQuery("email");
+        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelationQuery("email");
         Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
             @Override
             public void handleResponse(List<BackendlessUser> users) {
-                String email = (String) users.get(0).getEmail();
+                String email = (String) users.get(0).getEmail().trim();
 
-                String useremail = FileMethods.load(getApplicationContext());
-                System.out.println("loaded email "+useremail);
-                System.out.println("offer posted by "+email);
+                String useremail = FileMethods.load(getApplicationContext()).trim();
+                //System.out.println("loaded email "+useremail);
+                //System.out.println("offer posted by "+email);
 
                 if(useremail.equals(email)) {
+                    System.out.println("loaded email "+useremail);
+                    System.out.println("offer posted by "+email);
+                    btnCall.setVisibility(View.GONE);
+                    btnMap.setVisibility(View.GONE);
                     btnCandidates.setVisibility(View.VISIBLE);
                 }else{
+                    System.out.println("else loaded email "+useremail);
+                    System.out.println("else ffer posted by "+email);
+                    btnCall.setVisibility(View.VISIBLE);
+                    btnMap.setVisibility(View.VISIBLE);
                     btnInterested.setVisibility(View.VISIBLE);
                 }
             }
@@ -263,5 +293,20 @@ public class TuitionDetails extends AppCompatActivity {
         });
 
 
+    }
+
+
+    private String[] processSubjectString(String subjectString)
+    {
+
+
+        String[] subjects = subjectString.split("\\|");
+
+        Log.i("subjects", subjectString);
+
+        for(String s : subjects)
+            Log.i("subjects", s);
+
+        return subjects;
     }
 }

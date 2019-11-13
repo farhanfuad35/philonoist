@@ -1,6 +1,7 @@
 package com.example.philonoist;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -26,6 +27,7 @@ import com.backendless.geo.GeoPoint;
 import com.backendless.persistence.BackendlessDataQuery;
 import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.QueryOptions;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -68,6 +70,7 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
      * installed Google Play services and returned to the app.
      */
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap)
 
@@ -79,10 +82,20 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
 
         Location_Methods.showMyLocation(this, mMap);
 
-
        // Getting the list of geopoints and show it on map and move the camera
 
-        Location_Methods.getPointsFromDatabase(this, mMap);
+        //Location_Methods.getPointsFromDatabase(this, mMap);
+
+        for(GeoPoint geoPoint : CONSTANTS.getGeoPointList()){
+            LatLng temp = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
+
+            Marker marker = mMap.addMarker(new MarkerOptions().position(temp));
+            marker.setTag(geoPoint.getObjectId());
+        }
+
+        LatLngBounds cameraView = new LatLngBounds(new LatLng(CONSTANTS.getLatMin(), CONSTANTS.getLngMin()), new LatLng(CONSTANTS.getLatMax(), CONSTANTS.getLngMax()));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraView.getCenter(), 10));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cameraView.getCenter(), 11));
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
@@ -129,6 +142,7 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
                 intent.putExtra("offer", offers.get(0));
                 intent.putExtra("lat", Double.toString(latLng.latitude) );
                 intent.putExtra("lng", Double.toString(latLng.longitude) );
+                intent.putExtra("ID", CONSTANTS.getActivityIdMapsShowTuitions());
                 startActivity(intent);
             }
 

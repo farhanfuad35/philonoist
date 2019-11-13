@@ -1,12 +1,22 @@
 package com.example.philonoist;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 
 import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
@@ -28,12 +38,14 @@ import static androidx.core.content.ContextCompat.getSystemService;
 
 class Location_Methods {
 
+    static int FINE_LOCATION_PERMISSION_CODE = 43;
+
+
     static List<GeoPoint> geoPoints;
 
     // This method saves a geoPoint to given category
 
-    public static void saveGeoPoints(final Context context, LatLng latLng, String category)
-    {
+    public static void saveGeoPoints(final Context context, LatLng latLng, String category) {
         GeoPoint geoPoint = new GeoPoint(latLng.latitude, latLng.longitude);
         geoPoint.addCategory(category);
 
@@ -50,9 +62,6 @@ class Location_Methods {
             }
         });
     }
-
-
-
 
 
     // Getting all the geoPoints from database and showing them on the map
@@ -74,6 +83,8 @@ class Location_Methods {
                 int test = 0;
 
 
+                CONSTANTS.setGeoPointList(response);
+
                 for (GeoPoint geoPoint : response) {
                     if (geoPoint.getLatitude() > lat_max)
                         CONSTANTS.setLatMax(geoPoint.getLatitude() + 0.00001);
@@ -85,19 +96,19 @@ class Location_Methods {
                         CONSTANTS.setLngMin(geoPoint.getLongitude() - 0.00001);
 
 
-                    LatLng temp = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
-
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(temp).title("Title"));
-                    marker.setTag(geoPoint.getObjectId());
-
-
-                    Log.i("lat lang", geoPoint.getLatitude().toString());
-                    test++;
+//                    LatLng temp = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
+//
+//                    Marker marker = mMap.addMarker(new MarkerOptions().position(temp).title("Title"));
+//                    marker.setTag(geoPoint.getObjectId());
+//
+//
+//                    Log.i("lat lang", geoPoint.getLatitude().toString());
+//                    test++;
                 }
 
                 Log.i("lat lang", "test = " + Integer.toString(test));
 
-                LatLngBounds cameraView = new LatLngBounds(new LatLng(CONSTANTS.getLatMin(),CONSTANTS.getLngMin()), new LatLng(CONSTANTS.getLatMax(), CONSTANTS.getLngMax()));
+                LatLngBounds cameraView = new LatLngBounds(new LatLng(CONSTANTS.getLatMin(), CONSTANTS.getLngMin()), new LatLng(CONSTANTS.getLatMax(), CONSTANTS.getLngMax()));
                 //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraView.getCenter(), 10));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cameraView.getCenter(), 11));
 
@@ -113,11 +124,9 @@ class Location_Methods {
     }
 
 
-
     // Method to save geoPoints on server
 
-    public static void saveGeoPointsOnDatabase(Context context, LatLng latLng)
-    {
+    public static void saveGeoPointsOnDatabase(Context context, LatLng latLng) {
 
 //        Location_Methods.saveGeoPoints(context, 23.752219, 90.351246, "tuition_locations");
 //        Location_Methods.saveGeoPoints(context, 23.793516, 90.381235, "tuition_locations");
@@ -133,10 +142,10 @@ class Location_Methods {
 //        Location_Methods.saveGeoPoints(context, 23.703783, 90.3416737, "tuition_locations");
 
 
-
     }
 
-    public static void showMyLocation(final Context context, GoogleMap mMap){
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static void showMyLocation(final Context context, GoogleMap mMap) {
         mMap.setMyLocationEnabled(true);
         LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
 
@@ -146,7 +155,13 @@ class Location_Methods {
         // Getting the name of the best provider
         String provider = locationManager.getBestProvider(criteria, true);
 
+
+        Log.i("location", "going to use locaiton");
+
+
         Location location = locationManager.getLastKnownLocation(provider);
+
+        Log.i("location", "location used");
 
 
 
@@ -167,6 +182,31 @@ class Location_Methods {
                     .zoom(14)                   // Sets the zoom
                     .build();                   // Creates a CameraPosition from the builder
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
+    }
+
+
+    // TODO : On permission granted is not handled yet
+
+
+    private void requestLocationPermission(Context context)
+    {
+        if(ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.ACCESS_FINE_LOCATION)){
+            new AlertDialog.Builder(context).setTitle("Location Permission Needed").setMessage("To show you the map data with your location, the location access is required").setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            })
+            .setNegativeButton("Deny", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).create().show();
+        }
+        else{
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_PERMISSION_CODE);
         }
     }
 

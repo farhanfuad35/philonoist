@@ -15,7 +15,8 @@
         android:id="@+id/lvCandidateList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:clickable="true"
         tools:layout_editor_absoluteX="206dp"
-        tools:layout_editor_absoluteY="34dp"
-        />
+        tools:layout_editor_absoluteY="34dp" />
 </LinearLayout>

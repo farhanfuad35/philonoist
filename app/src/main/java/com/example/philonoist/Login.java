@@ -97,7 +97,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 btLogin.setText("Logging in...");
-                final String email = etEmail.getText().toString();
+                final String email = etEmail.getText().toString().toLowerCase();
                 String password = etPassword.getText().toString();
 
                 Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
