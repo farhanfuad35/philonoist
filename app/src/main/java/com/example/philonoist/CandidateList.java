@@ -33,6 +33,7 @@ public class CandidateList extends AppCompatActivity {
         setContentView(R.layout.activity_candidate_list);
 
         final String offerID = getIntent().getStringExtra("offerID");
+        Log.i("offerIDinCandidatesList", offerID);
         final int index = getIntent().getIntExtra("index", 0);
 
         lvCandidatesList = findViewById(R.id.lvCandidateList);
@@ -105,6 +106,7 @@ public class CandidateList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), UserInfo.class);
                 intent.putExtra("candidate", users.get(i));
+                intent.putExtra("offerID", offerID);
                 startActivity(intent);
             }
         });

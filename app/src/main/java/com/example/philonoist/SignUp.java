@@ -20,7 +20,7 @@ import static com.backendless.rt.RTTypes.log;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText etRegistrationNo;
+    EditText etContactNo;
     EditText etFirstName;
     EditText etLastName;
     EditText etEmail;
@@ -40,7 +40,7 @@ public class SignUp extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_SignUp);
         setSupportActionBar(toolbar);
 
-        etRegistrationNo = findViewById(R.id.etSignup_registrationnNumber);
+        etContactNo = findViewById(R.id.etSignup_contactNumber);
         etFirstName = findViewById(R.id.etSignup_firstname);
         etLastName = findViewById(R.id.etSignup_lastname);
         etEmail = findViewById(R.id.etSignup_email);
@@ -51,7 +51,7 @@ public class SignUp extends AppCompatActivity {
         btSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String registrationNo = etRegistrationNo.getText().toString().trim();
+                String contactNo = etContactNo.getText().toString().trim();
                 String firstName = etFirstName.getText().toString().trim();
                 String lastName = etLastName.getText().toString().trim();
                 String email = etEmail.getText().toString().trim();
@@ -59,9 +59,9 @@ public class SignUp extends AppCompatActivity {
                 String confirmPass = etConfirmPassword.getText().toString();
                 boolean hasError = false;
 
-                if(registrationNo.length() != 10){
+                if(contactNo.length() != 11){
                     hasError = true;
-                    etRegistrationNo.setError("Please type your valid Registration Number");
+                    etContactNo.setError("Please type your valid Contact Number");
                 }
                 if(!isEmailValid(email)) {
                     hasError = true;
@@ -81,7 +81,7 @@ public class SignUp extends AppCompatActivity {
                     user.setEmail(email);
                     user.setProperty("first_name", firstName);
                     user.setProperty("last_name", lastName);
-                    user.setProperty("registration_no", registrationNo);
+                    user.setProperty("contact_no", contactNo);
 
 
                     Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {

@@ -18,9 +18,18 @@ public class Offer implements Serializable{
     private String  name;
     private String subject;
     private String email;
+    private boolean active;
 
     public String getObjectId() {
         return objectId;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public void setObjectId(String objectId) {
