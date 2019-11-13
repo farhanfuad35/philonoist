@@ -65,7 +65,7 @@ public class ProfileActivities extends AppCompatActivity {
                 }
 
                 if(position == 3){
-                    Intent intent = new Intent(view.getContext(), com.example.philonoist.UserInfo.class);
+                    Intent intent = new Intent(getApplicationContext(), UserInfo.class);
                     startActivity(intent);
                 }
 

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyProfile">
+
+
+    <include
+        android:id="@+id/toolbar_MyProfile"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/tvMyProfile_char"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="175dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:text="A"
+        android:textSize="100sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/tvMyProfile_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_horizontal"
+        android:text="name"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/tvMyProfile_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_horizontal"
+        android:text="email"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvMyProfile_Contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_horizontal"
+        android:text="contact"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+
+</LinearLayout>
