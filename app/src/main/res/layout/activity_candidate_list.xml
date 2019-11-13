@@ -8,7 +8,7 @@
     tools:context=".CandidateList">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_CandidatesList"
         layout="@layout/toolbar" />
 
     <ListView

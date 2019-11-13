@@ -29,12 +29,6 @@ public class CandidateList extends AppCompatActivity {
     CandidatesListAdapter candidatesListAdapter;
     final int userInfo = 39;
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -42,9 +36,7 @@ public class CandidateList extends AppCompatActivity {
 
         if(requestCode == userInfo){
             if(resultCode == RESULT_OK){
-                //Intent intent = new Intent();
                 setResult(RESULT_OK);
-                //CandidateList.this.finish();
             }
         }
     }
@@ -53,6 +45,9 @@ public class CandidateList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_list);
+        setTitle("Candidates List");
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_CandidatesList);
+        setSupportActionBar(toolbar);
 
         final String offerID = getIntent().getStringExtra("offerID");
         Log.i("offerIDinCandidatesList", offerID);

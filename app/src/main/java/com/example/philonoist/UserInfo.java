@@ -22,6 +22,9 @@ public class UserInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        setTitle("Candidate Details");
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_Userinfo);
+        setSupportActionBar(toolbar);
 
         TextView tvChar = findViewById(R.id.tvUserinfo_char);
         TextView tvName = findViewById(R.id.tvUserinfo_name);
