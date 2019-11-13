@@ -1,5 +1,6 @@
 package com.example.philonoist;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
@@ -49,6 +50,19 @@ public class TuitionDetails extends AppCompatActivity {
     private TextView tvAssigned;
     public  int interestedUserID;
     private int callerActivityID;
+    final int candidatesList = 49;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == candidatesList){
+            if(resultCode == RESULT_OK){
+                tvAssigned.setVisibility(View.VISIBLE);
+                btnCandidates.setVisibility(View.GONE);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +146,8 @@ public class TuitionDetails extends AppCompatActivity {
                 Intent intent = new Intent(TuitionDetails.this, CandidateList.class);
                 intent.putExtra("offerID", offer.getObjectId());
                 intent.putExtra("index", index);
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent, candidatesList);
             }
         });
 

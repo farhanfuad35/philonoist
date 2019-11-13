@@ -227,7 +227,7 @@
             android:background="@android:color/transparent"
             android:gravity="center_horizontal"
             android:text="Teacher Already Assigned!"
-            android:textColor="3"
+            android:textColor="#AAAAAA"
             android:textSize="20sp"
             android:textStyle="bold" />
 

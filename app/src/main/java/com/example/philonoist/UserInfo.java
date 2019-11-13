@@ -100,6 +100,9 @@ public class UserInfo extends AppCompatActivity {
                         }
                     });
                 }
+
+                setResult(RESULT_OK);
+                //UserInfo.this.finish();
             }
         });
 

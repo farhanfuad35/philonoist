@@ -1,5 +1,6 @@
 package com.example.philonoist;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -26,7 +27,27 @@ import java.lang.String;
 public class CandidateList extends AppCompatActivity {
     ListView lvCandidatesList;
     CandidatesListAdapter candidatesListAdapter;
-    final int candidatesListRequestCode = -7878;
+    final int userInfo = 39;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == userInfo){
+            if(resultCode == RESULT_OK){
+                //Intent intent = new Intent();
+                setResult(RESULT_OK);
+                //CandidateList.this.finish();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +129,8 @@ public class CandidateList extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), UserInfo.class);
                 intent.putExtra("user", users.get(i));
                 intent.putExtra("offerID", offerID);
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent, userInfo);
             }
         });
     }
