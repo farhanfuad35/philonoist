@@ -48,7 +48,7 @@ public class TuitionList extends AppCompatActivity {
     String[] location;
     String[] salary;
     TuitionListAdapter adapter;
-    ArrayList<Tuition> tuitionArrayList = new ArrayList<>();
+    ArrayList<Offer> tuitionArrayList = new ArrayList<>();
     ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<>();
     FloatingActionButton fabMaps;
 

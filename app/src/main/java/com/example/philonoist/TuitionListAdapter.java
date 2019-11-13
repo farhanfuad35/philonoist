@@ -55,14 +55,14 @@ public class TuitionListAdapter extends BaseAdapter {
 
     Context context;
     LayoutInflater inflater;
-    List<Tuition> tuitionList;
-    ArrayList<Tuition> arrayList;
+    List<Offer> tuitionList;
+    ArrayList<Offer> arrayList;
 
-    public TuitionListAdapter(Context context, List<Tuition> tuitionList) {
+    public TuitionListAdapter(Context context, List<Offer> tuitionList) {
         this.context = context;
         this.tuitionList = tuitionList;
         inflater = LayoutInflater.from(context);
-        this.arrayList = new ArrayList<Tuition>();
+        this.arrayList = new ArrayList<Offer>();
         this.arrayList.addAll(tuitionList);
     }
 
@@ -127,7 +127,7 @@ public class TuitionListAdapter extends BaseAdapter {
         }
 
         else{
-            for(Tuition tuition : arrayList){
+            for(Offer tuition : arrayList){
                 if(tuition.getName().toLowerCase(Locale.getDefault()).contains(charText)){
                     tuitionList.add(tuition);
                 }

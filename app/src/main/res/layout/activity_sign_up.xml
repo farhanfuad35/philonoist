@@ -54,6 +54,39 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Department">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSignup_department"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Year">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSignup_year"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -75,7 +108,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Contact Number: +88***********">
+        android:hint="Contact Number">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSignup_contactNumber"
@@ -95,6 +128,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSignup_password"
+            android:inputType="textPassword"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
@@ -112,6 +146,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSignup_confirmpassword"
+            android:inputType="textPassword"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"

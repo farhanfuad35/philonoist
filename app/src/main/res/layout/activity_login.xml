@@ -10,14 +10,14 @@
 
 
     <ImageView
+        android:layout_width="400dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
         android:src="@drawable/philonoist_logo"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="60dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_gravity="center"
-        android:layout_width="400dp"
-        android:layout_height="70dp"/>
+        android:layout_marginRight="10dp" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -27,12 +27,12 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etLogin_email"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,35 +44,46 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etLogin_password"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin_Login"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimaryDark"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
+        android:background="@color/colorPrimaryDark"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:layout_height="wrap_content"
-        app:rippleColor="@color/colorPrimaryDark"
-        app:cornerRadius="90dp"
-        app:strokeColor="@color/colorPrimaryDark"
-        app:strokeWidth="4dp"
+        android:text="Login"
         app:backgroundTint="@color/colorPrimary"
-        android:text="Login"/>
+        app:cornerRadius="90dp"
+        app:rippleColor="@color/colorPrimaryDark"
+        app:strokeColor="@color/colorPrimaryDark"
+        app:strokeWidth="4dp" />
+
+
+    <TextView
+        android:id="@+id/tvLogin_ForgetPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:clickable="true"
+        android:text="Forgot Password?"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"  />
 
 
     <LinearLayout
@@ -82,24 +93,23 @@
 
         <TextView
             android:id="@+id/tvLogin_Signup"
-            android:text="Don't have an account yet?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:text="Don't have an account yet?" />
 
         <TextView
             android:id="@+id/tvLogin_createaccount"
-            android:layout_weight="19999"
-            android:clickable="true"
-            android:textStyle="bold"
-            android:text="SignUp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="19999"
+            android:clickable="true"
+            android:text="SignUp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

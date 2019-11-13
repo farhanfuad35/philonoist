@@ -118,7 +118,7 @@ public class MyOffers extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == POSTOFFER && resultCode == Activity.RESULT_OK){
-            Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
+            Offer tuition = (Offer) data.getSerializableExtra("newTuition");
             Intent intent = new Intent();
             intent.putExtra("newTuition", tuition);
             setResult(Activity.RESULT_OK, intent);

@@ -39,7 +39,7 @@
 
 
     <TextView
-        android:id="@+id/tvUserinfo_registrationNumber"
+        android:id="@+id/tvUserinfo_contactNo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -48,7 +48,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
         android:gravity="center_horizontal"
-        android:text="Registration Number"
+        android:text="contact"
         android:textSize="18sp"
         android:textStyle="bold" />
 
