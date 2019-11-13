@@ -72,13 +72,13 @@ public class Login extends AppCompatActivity {
         tvForgetpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tvSignup.setTextColor(Color.BLUE);
-                BackendlessUser user = Backendless.UserService.CurrentUser();
-                String useremail = user.getEmail();
+                tvForgetpassword.setTextColor(Color.BLUE);
+                String useremail = etEmail.getText().toString().toLowerCase().trim();
                 Backendless.UserService.restorePassword( useremail, new AsyncCallback<Void>()
                 {
                     public void handleResponse( Void response )
                     {
+                        Toast.makeText(getApplicationContext(), "Password has been sent to your email.", Toast.LENGTH_SHORT).show();
                         // Backendless has completed the operation - an email has been sent to the user
                     }
 
