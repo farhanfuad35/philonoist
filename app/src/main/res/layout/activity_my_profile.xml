@@ -64,5 +64,31 @@
         android:textStyle="bold" />
 
 
+    <TextView
+        android:id="@+id/tvMyProfile_department"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_horizontal"
+        android:text="department"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvMyProfile_year"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_horizontal"
+        android:text="year"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
 
 </LinearLayout>
