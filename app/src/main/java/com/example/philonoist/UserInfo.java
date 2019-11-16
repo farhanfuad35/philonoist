@@ -64,8 +64,10 @@ public class UserInfo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/html");
-                intent.putExtra(Intent.EXTRA_EMAIL, email);
+                String[] TO = {email};
+                intent.setData(Uri.parse("mailto:"));
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_EMAIL, TO);
                 startActivity(Intent.createChooser(intent, "Send mail to "+firstName + " " + lastName));
             }
         });
