@@ -1,6 +1,7 @@
 package com.example.philonoist;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -70,5 +71,19 @@ public class FileMethods {
 
     public static String getUserData(){
         return userData;
+    }
+
+    public static String[] processSubjectString(String subjectString)
+    {
+
+
+        String[] subjects = subjectString.split("\\|");
+
+        Log.i("subjects", subjectString);
+
+        for(String s : subjects)
+            Log.i("subjects", s);
+
+        return subjects;
     }
 }

@@ -75,8 +75,7 @@ public class postOffer extends AppCompatActivity {
     String name;
     String _class;
     String salary;
-    String subject1;
-    String subject;
+    String finalSubject;
     String contact;
     String remarks;
     boolean active;
@@ -118,7 +117,7 @@ public class postOffer extends AppCompatActivity {
 
                     llSubject2.setVisibility(View.VISIBLE);
                     ivAdd1.setVisibility(View.INVISIBLE);
-                    etsubject1.setEnabled(false);
+                    //etsubject1.setEnabled(false);
                 }
 
             }
@@ -133,7 +132,7 @@ public class postOffer extends AppCompatActivity {
                 else {
                     llSubject3.setVisibility(View.VISIBLE);
                     ivAdd2.setVisibility(View.INVISIBLE);
-                    etsubject2.setEnabled(false);
+                    //etsubject2.setEnabled(false);
                 }
             }
         });
@@ -147,7 +146,7 @@ public class postOffer extends AppCompatActivity {
                 else {
                     llSubject4.setVisibility(View.VISIBLE);
                     ivAdd3.setVisibility(View.INVISIBLE);
-                    etsubject3.setEnabled(false);
+                    //etsubject3.setEnabled(false);
                 }
             }
         });
@@ -161,7 +160,7 @@ public class postOffer extends AppCompatActivity {
                 else {
                     llSubject5.setVisibility(View.VISIBLE);
                     ivAdd4.setVisibility(View.INVISIBLE);
-                    etsubject4.setEnabled(false);
+                    //etsubject4.setEnabled(false);
                 }
             }
         });
@@ -175,7 +174,7 @@ public class postOffer extends AppCompatActivity {
                 else {
                     llSubject6.setVisibility(View.VISIBLE);
                     ivAdd5.setVisibility(View.INVISIBLE);
-                    etsubject5.setEnabled(false);
+                    //etsubject5.setEnabled(false);
                 }
             }
         });
@@ -189,7 +188,7 @@ public class postOffer extends AppCompatActivity {
                 else {
                     llSubject7.setVisibility(View.VISIBLE);
                     ivAdd6.setVisibility(View.INVISIBLE);
-                    etsubject6.setEnabled(false);
+                    //etsubject6.setEnabled(false);
                 }
             }
         });
@@ -203,7 +202,7 @@ public class postOffer extends AppCompatActivity {
                 else {
                     llSubject8.setVisibility(View.VISIBLE);
                     ivAdd7.setVisibility(View.INVISIBLE);
-                    etsubject7.setEnabled(false);
+                    //etsubject7.setEnabled(false);
                 }
             }
         });
@@ -216,7 +215,7 @@ public class postOffer extends AppCompatActivity {
                 } else {
                     llSubject9.setVisibility(View.VISIBLE);
                     ivAdd8.setVisibility(View.INVISIBLE);
-                    etsubject8.setEnabled(false);
+                    //etsubject8.setEnabled(false);
                 }
             }
         });
@@ -229,7 +228,7 @@ public class postOffer extends AppCompatActivity {
                 } else {
                     llSubject10.setVisibility(View.VISIBLE);
                     ivAdd9.setVisibility(View.INVISIBLE);
-                    etsubject9.setEnabled(false);
+                    //etsubject9.setEnabled(false);
                 }
             }
         });
@@ -250,7 +249,7 @@ public class postOffer extends AppCompatActivity {
                     GeoPoint geoPoint = (GeoPoint) data.getSerializableExtra("geoPoint");
 
                     if(etsubject1.getText().toString().isEmpty()){
-                        etsubject1.setText("Please enter a subject");
+                        etsubject1.setError("Please enter a subject");
                     }
                     else{
                             syncOfferWithDatabase(geoPoint);
@@ -270,6 +269,7 @@ public class postOffer extends AppCompatActivity {
 
 
         Log.i("post with map", "in Sync Offer with Database");
+        String subject;
 
         _class = etClass.getText().toString().trim();
         salary = etsalary.getText().toString().trim();
@@ -283,6 +283,26 @@ public class postOffer extends AppCompatActivity {
                 etsubject7.getText().toString() + "|" + etsubject8.getText().toString() + "|" + etsubject9.getText().toString() + "|" +
                 etsubject10.getText().toString();
 
+        String[] subjects = FileMethods.processSubjectString(subject);
+
+        Log.i("subject" , "subject : " + subject);
+
+        finalSubject = new String();
+
+//        for(String sub : subjects){
+//            finalSubject = finalSubject + sub + "|";
+//        }
+
+        for(int i=0; i<subjects.length-1; i++){
+            finalSubject = finalSubject + subjects[i] + "|";
+        }
+
+        finalSubject = finalSubject + subjects[subjects.length - 1];
+
+        //finalSubject.substring(0, finalSubject.length()-1);
+
+        Log.i("subject", "finalSubject : " + finalSubject);
+
         saveNewOffer(geoPoint);
         postOffer.this.finish();
     }
@@ -294,10 +314,11 @@ public class postOffer extends AppCompatActivity {
         Offer newoffer = new Offer();
         newoffer.set_class(_class);
         newoffer.setSalary(salary);
-        newoffer.setSubject(subject);
+        newoffer.setSubject(finalSubject);
         newoffer.setContact(contact);
         newoffer.setRemarks(remarks);
         newoffer.setActive(active);
+        newoffer.setName(name);
 
         final ArrayList<BackendlessUser> userlist = new ArrayList<>();
         BackendlessUser user = Backendless.UserService.CurrentUser();

@@ -21,13 +21,6 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.LoadRelationsQueryBuilder;
-import com.google.android.gms.maps.model.LatLng;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,7 +103,7 @@ public class TuitionDetails extends AppCompatActivity {
         final int index = getIntent().getIntExtra("index", 0);
         Log.i("index", CONSTANTS.offers.get(index).getObjectId());
 
-        getNameFromUsersTable();
+        //getNameFromUsersTable();
         getEmailFromUsersTable();
 
         setFieldValues();
@@ -126,17 +119,6 @@ public class TuitionDetails extends AppCompatActivity {
                 //String userEmail = Backendless.UserService.CurrentUser().getEmail();
                 saveNewApplicant(userEmail, offerID);
 
-//                Backendless.Data.of(Offer.class).save(offer, new AsyncCallback<Offer>() {
-//                    @Override
-//                    public void handleResponse(Offer response) {
-//                        Toast.makeText(TuitionDetails.this, "Your Application Submitted!", Toast.LENGTH_SHORT).show();
-//
-//                    }
-//                    @Override
-//                    public void handleFault(BackendlessFault fault) {
-//                        Toast.makeText(TuitionDetails.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
             }
         });
 
@@ -188,14 +170,15 @@ public class TuitionDetails extends AppCompatActivity {
 
         // TODO
 
-        subjects = processSubjectString(offer.getSubject());                      // Returns a string of subjects processed from the single line fetched from the database
-
+        //subjects = processSubjectString(offer.getSubject());                      // Returns a string of subjects processed from the single line fetched from the database
+        subjects = FileMethods.processSubjectString(offer.getSubject());
         //Log.i("subjects", "After split :\t" + subjects[1]);
 
         listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, subjects);
         listView.setAdapter(listViewAdapter);
         tvRemarksContent.setText(offer.getRemarks());
         tvRemarksContent.setVisibility(View.VISIBLE);
+        hostName.setText(offer.getName());
     }
 
     private void initializeFields(){
@@ -217,26 +200,6 @@ public class TuitionDetails extends AppCompatActivity {
         loadRelationsQueryBuilder.setRelationName( relationFieldName );
 
         return loadRelationsQueryBuilder;
-    }
-
-
-
-    private void getNameFromUsersTable(){
-        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelationQuery("email");
-        Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
-            @Override
-            public void handleResponse(List<BackendlessUser> users) {
-                String text = users.get(0).getProperty("first_name") + " " + users.get(0).getProperty("last_name");
-                hostName.setText(text);
-
-                Log.i("listSize", Integer.toString(users.size()));
-            }
-
-            @Override
-            public void handleFault(BackendlessFault fault) {
-                Log.i("relation query", "relation query error " + fault.getMessage());
-            }
-        });
     }
 
 
@@ -315,18 +278,4 @@ public class TuitionDetails extends AppCompatActivity {
 
     }
 
-
-    private String[] processSubjectString(String subjectString)
-    {
-
-
-        String[] subjects = subjectString.split("\\|");
-
-        Log.i("subjects", subjectString);
-
-        for(String s : subjects)
-            Log.i("subjects", s);
-
-        return subjects;
-    }
 }

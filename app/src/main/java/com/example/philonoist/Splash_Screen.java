@@ -18,21 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.backendless.Backendless;
-import com.backendless.geo.BackendlessGeoQuery;
-import com.backendless.geo.GeoPoint;
 import com.backendless.persistence.local.UserTokenStorageFactory;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-
-import java.util.Collection;
 import java.util.List;
-
-import static android.os.SystemClock.sleep;
 
 public class Splash_Screen extends AppCompatActivity {
 
@@ -113,6 +103,7 @@ public class Splash_Screen extends AppCompatActivity {
         dataQueryBuilder.addProperty("contact");
         dataQueryBuilder.addProperty("location");
         dataQueryBuilder.addProperty("active");
+        dataQueryBuilder.addProperty("name");
         //dataQueryBuilder.setGroupBy("_class");
         //dataQueryBuilder.setSortBy("_class");
 
@@ -122,12 +113,26 @@ public class Splash_Screen extends AppCompatActivity {
             public void handleResponse(List<Offer> response) {
 
                 CONSTANTS.offers = response;
-                getPointsFromDatabase();
+                //getPointsFromDatabase();
 
 
 
                 Log.i("Subject", "response size: "+Integer.toString(response.size()));
                 Log.i("Subject", "CONSTANTS' offers' size: "+Integer.toString(CONSTANTS.offers.size()));
+
+
+                String userToken = UserTokenStorageFactory.instance().getStorage().get();
+
+                if( userToken != null && !userToken.equals( "" ) )
+                {   Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
+                    startActivity(intent);
+                    Splash_Screen.this.finish();
+                }
+                else{
+                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.Login.class);
+                    startActivity(intent);
+                    Splash_Screen.this.finish();
+                }
             }
 
             @Override
@@ -160,93 +165,6 @@ public class Splash_Screen extends AppCompatActivity {
 
     }
 
-
-
-    public void getPointsFromDatabase() {
-
-        final BackendlessGeoQuery geoQuery = new BackendlessGeoQuery();
-        geoQuery.addCategory("tuition_locations");
-
-
-        Backendless.Geo.getPoints(geoQuery, new AsyncCallback<List<GeoPoint>>() {
-            @Override
-            public void handleResponse(List<GeoPoint> response) {
-
-
-
-                CONSTANTS.setGeoPointList(response);
-
-
-
-
-                double lat_min = CONSTANTS.getLatMin();
-                double lat_max = CONSTANTS.getLatMax();
-                double lng_min = CONSTANTS.getLngMin();
-                double lng_max = CONSTANTS.getLngMax();
-
-                int test = 0;
-
-
-                CONSTANTS.setGeoPointList(response);
-
-                for (GeoPoint geoPoint : response) {
-                    if (geoPoint.getLatitude() > lat_max)
-                        CONSTANTS.setLatMax(geoPoint.getLatitude() + 0.00001);
-                    else if (geoPoint.getLatitude() < lat_min)
-                        CONSTANTS.setLatMin(geoPoint.getLatitude() - 0.00001);
-                    if (geoPoint.getLongitude() > lng_max)
-                        CONSTANTS.setLngMax(geoPoint.getLongitude() + 0.00001);
-                    else if (geoPoint.getLongitude() < lng_min)
-                        CONSTANTS.setLngMin(geoPoint.getLongitude() - 0.00001);
-
-
-//                    LatLng temp = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
-//
-//                    Marker marker = mMap.addMarker(new MarkerOptions().position(temp).title("Title"));
-//                    marker.setTag(geoPoint.getObjectId());
-//
-//
-//                    Log.i("lat lang", geoPoint.getLatitude().toString());
-//                    test++;
-                }
-
-                Log.i("lat lang", "test = " + Integer.toString(test));
-
-
-
-
-
-
-
-
-
-                String userToken = UserTokenStorageFactory.instance().getStorage().get();
-
-                if( userToken != null && !userToken.equals( "" ) )
-                {   Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
-                    startActivity(intent);
-                    Splash_Screen.this.finish();
-                }
-                else{
-                    Intent intent = new Intent(getApplicationContext(), com.example.philonoist.Login.class);
-                    startActivity(intent);
-                    Splash_Screen.this.finish();
-                }
-
-
-            }
-
-            @Override
-            public void handleFault(BackendlessFault fault) {
-
-                showConnectionFailedDialog();
-
-
-            }
-        });
-
-
-    }
 
     private void showConnectionFailedDialog()
     {
