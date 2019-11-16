@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -51,6 +52,7 @@ public class TuitionList extends AppCompatActivity {
     ArrayList<Offer> tuitionArrayList = new ArrayList<>();
     ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<>();
     FloatingActionButton fabMaps;
+    Button btnPostOffer;
 
     final int FINE_LOCATION_PERMISSION_CODE = 44;
 
@@ -70,6 +72,7 @@ public class TuitionList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         fabMaps = findViewById(R.id.fabTuitionList_Map);
+        btnPostOffer = findViewById(R.id.btnTuitionList_PostOffer);
 
 
         final List<String> tuitionList = new ArrayList<>();
@@ -103,6 +106,14 @@ public class TuitionList extends AppCompatActivity {
 
 
                 Log.d("details", "details activity created");
+            }
+        });
+
+        btnPostOffer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), postOffer.class);
+                startActivity(intent);
             }
         });
 
@@ -164,7 +175,7 @@ public class TuitionList extends AppCompatActivity {
             return true;
         }
         if(id == R.id.menuMain_profile){
-            Intent intent = new Intent(this, com.example.philonoist.ProfileActivities.class);
+            Intent intent = new Intent(this, com.example.philonoist.MyProfile.class);
             startActivity(intent);
         }
         if(id == R.id.menuMain_Logout){

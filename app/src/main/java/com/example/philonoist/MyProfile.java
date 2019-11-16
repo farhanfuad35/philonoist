@@ -2,7 +2,10 @@ package com.example.philonoist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -41,6 +44,8 @@ public class MyProfile extends AppCompatActivity {
         TextView tvDepartment = findViewById(R.id.tvMyProfile_department);
         TextView tvYear = findViewById(R.id.tvMyProfile_year);
 
+        Button btnMyOffers = findViewById(R.id.btnMyProfile_MyOffers);
+
         BackendlessUser user = Backendless.UserService.CurrentUser();
         contact_no = (String)user.getProperty("contact_no");
         tvContact.setText(contact_no);
@@ -63,5 +68,13 @@ public class MyProfile extends AppCompatActivity {
 
         year = (String)user.getProperty("year");
         tvYear.setText(year);
+
+        btnMyOffers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MyOffers.class);
+                startActivity(intent);
+            }
+        });
     }
 }
