@@ -112,6 +112,7 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
                 queryBuilder.addProperty("remarks");
                 queryBuilder.addProperty("contact");
                 queryBuilder.addRelated("email");
+                queryBuilder.addProperty("active");
 
                 LatLng latLng = marker.getPosition();
 
