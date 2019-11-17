@@ -86,6 +86,8 @@ public class CandidateList extends AppCompatActivity {
                             dataQueryBuilder1.addProperty("last_name");
                             dataQueryBuilder1.addProperty("email");
                             dataQueryBuilder1.addProperty("contact_no");
+                            dataQueryBuilder1.addProperty("year");
+                            dataQueryBuilder1.addProperty("department");
 
                             Backendless.Data.of(BackendlessUser.class).find(dataQueryBuilder1, new AsyncCallback<List<BackendlessUser>>() {
                                 @Override

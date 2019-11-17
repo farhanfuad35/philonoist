@@ -28,8 +28,8 @@ public class UserInfo extends AppCompatActivity {
 
         TextView tvChar = findViewById(R.id.tvUserinfo_char);
         TextView tvName = findViewById(R.id.tvUserinfo_name);
-        TextView tvContactNo = findViewById(R.id.tvUserinfo_contactNo);
-        TextView tvEmail = findViewById(R.id.tvUserinfo_email);
+        TextView tvYear = findViewById(R.id.tvUserinfo_year);
+        TextView tvDepartment = findViewById(R.id.tvUserinfo_department);
         Button btnAccept = findViewById(R.id.btn_accept);
         Button btnCancel = findViewById(R.id.btn_cancel);
         Button btnCall = findViewById(R.id.btnUserInfo_call);
@@ -44,10 +44,14 @@ public class UserInfo extends AppCompatActivity {
         final String lastName = (String) user.getProperty("last_name");
         final String email = user.getEmail();
         Log.i("userEmailCheck", email);
+
         tvChar.setText(firstName.toUpperCase().charAt(0) + "");
+
         tvName.setText(firstName + " " + lastName);
-        tvEmail.setText(user.getEmail());
-        tvContactNo.setText((String)user.getProperty("contact_no"));
+
+        tvDepartment.setText((String)user.getProperty("department"));
+
+        tvYear.setText((String)user.getProperty("year") + " year");
 
 
         btnCall.setOnClickListener(new View.OnClickListener() {
