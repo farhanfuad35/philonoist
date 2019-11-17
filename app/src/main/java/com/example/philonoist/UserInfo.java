@@ -28,7 +28,7 @@ public class UserInfo extends AppCompatActivity {
 
         TextView tvChar = findViewById(R.id.tvUserinfo_char);
         TextView tvName = findViewById(R.id.tvUserinfo_name);
-        TextView tvRegistrationNumber = findViewById(R.id.tvUserinfo_registrationNumber);
+        TextView tvContactNo = findViewById(R.id.tvUserinfo_contactNo);
         TextView tvEmail = findViewById(R.id.tvUserinfo_email);
         Button btnAccept = findViewById(R.id.btn_accept);
         Button btnCancel = findViewById(R.id.btn_cancel);
@@ -47,7 +47,7 @@ public class UserInfo extends AppCompatActivity {
         tvChar.setText(firstName.toUpperCase().charAt(0) + "");
         tvName.setText(firstName + " " + lastName);
         tvEmail.setText(user.getEmail());
-        tvRegistrationNumber.setText((String)user.getProperty("registration_no"));
+        tvContactNo.setText((String)user.getProperty("contact_no"));
 
 
         btnCall.setOnClickListener(new View.OnClickListener() {
@@ -118,23 +118,6 @@ public class UserInfo extends AppCompatActivity {
             }
         });
 
-//        BackendlessUser user = Backendless.UserService.CurrentUser();
-//        String reg_no = (String)user.getProperty("registration_no");
-//        EditText registration = (EditText) findViewById(R.id.etUserinfo_registrationnNumber);
-//        registration.setText(reg_no);
-//
-//        String first_name = (String)user.getProperty("first_name");
-//        EditText firstname = (EditText)findViewById(R.id.etUserinfo_firstname);
-//        firstname.setText(first_name);
-//
-//        String last_name = (String)user.getProperty("last_name");
-//        EditText lastname = (EditText)findViewById(R.id.etUserinfo_lastname);
-//        lastname.setText(last_name);
-//
-//
-//        String email_ = (String)user.getProperty("email");
-//        EditText email = (EditText)findViewById(R.id.etUserinfo_email);
-//        email.setText(email_);
 
 
 

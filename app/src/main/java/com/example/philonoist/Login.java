@@ -33,7 +33,8 @@ public class Login extends AppCompatActivity {
     EditText etEmail;
     Button btLogin;
     TextView tvSignup;
-    //private  final String fileName = "userInfo.txt";
+    TextView tvForgetpassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class Login extends AppCompatActivity {
         etEmail = findViewById(R.id.etLogin_email);
         etPassword = findViewById(R.id.etLogin_password);
         btLogin = findViewById(R.id.btnLogin_Login);
+        tvForgetpassword = findViewById(R.id.tvLogin_ForgetPassword);
 
         tvSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +66,28 @@ public class Login extends AppCompatActivity {
                 tvSignup.setTextColor(Color.BLUE);
                 Intent intent = new Intent(view.getContext(),com.example.philonoist.SignUp.class);
                 startActivity(intent);
+            }
+        });
+
+        tvForgetpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvForgetpassword.setTextColor(Color.BLUE);
+                String useremail = etEmail.getText().toString().toLowerCase().trim();
+                Backendless.UserService.restorePassword( useremail, new AsyncCallback<Void>()
+                {
+                    public void handleResponse( Void response )
+                    {
+                        Toast.makeText(getApplicationContext(), "Password has been sent to your email.", Toast.LENGTH_SHORT).show();
+                        // Backendless has completed the operation - an email has been sent to the user
+                    }
+
+                    public void handleFault( BackendlessFault fault )
+                    {
+                        // password revovery failed, to get the error code call fault.getCode()
+                    }
+                });
+
             }
         });
 

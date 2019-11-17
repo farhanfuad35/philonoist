@@ -64,9 +64,7 @@ public class ProfileActivities extends AppCompatActivity {
                 }
 
                 if(position == 3){
-                    Intent intent = new Intent(view.getContext(), com.example.philonoist.UserInfo.class);
-                    BackendlessUser user = Backendless.UserService.CurrentUser();
-                    intent.putExtra("user", user);
+                    Intent intent = new Intent(getApplicationContext(), MyProfile.class);
                     startActivity(intent);
                 }
 
@@ -117,7 +115,7 @@ public class ProfileActivities extends AppCompatActivity {
         if(requestCode == MYOFFER){
             if(resultCode == RESULT_OK){
                 //Toast.makeText(ProfileActivities.this, "yes came here", Toast.LENGTH_SHORT).show();
-                Tuition tuition = (Tuition) data.getSerializableExtra("newTuition");
+                Offer tuition = (Offer) data.getSerializableExtra("newTuition");
                 Intent intent = new Intent();
                 intent.putExtra("newTuition", tuition);
                 setResult(Activity.RESULT_OK, intent);

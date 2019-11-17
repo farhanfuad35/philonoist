@@ -26,6 +26,8 @@ public class SignUp extends AppCompatActivity {
     EditText etEmail;
     EditText etPassWord;
     EditText etConfirmPassword;
+    EditText etDepartment;
+    EditText etYear;
     Button btSignup;
 
     boolean isEmailValid(CharSequence email) {
@@ -46,6 +48,8 @@ public class SignUp extends AppCompatActivity {
         etEmail = findViewById(R.id.etSignup_email);
         etPassWord = findViewById(R.id.etSignup_password);
         etConfirmPassword = findViewById(R.id.etSignup_confirmpassword);
+        etDepartment = findViewById(R.id.etSignup_department);
+        etYear = findViewById(R.id.etSignup_year);
         btSignup = findViewById(R.id.btnSignup_createAccount);
 
         btSignup.setOnClickListener(new View.OnClickListener() {
@@ -54,9 +58,12 @@ public class SignUp extends AppCompatActivity {
                 String contactNo = etContactNo.getText().toString().trim();
                 String firstName = etFirstName.getText().toString().trim();
                 String lastName = etLastName.getText().toString().trim();
-                String email = etEmail.getText().toString().trim();
+                String email = etEmail.getText().toString().toLowerCase().trim();
                 String password = etPassWord.getText().toString();
                 String confirmPass = etConfirmPassword.getText().toString();
+                String department = etDepartment.getText().toString();
+                String year = etYear.getText().toString();
+
                 boolean hasError = false;
 
                 if(contactNo.length() != 11){
@@ -82,6 +89,8 @@ public class SignUp extends AppCompatActivity {
                     user.setProperty("first_name", firstName);
                     user.setProperty("last_name", lastName);
                     user.setProperty("contact_no", contactNo);
+                    user.setProperty("department", department);
+                    user.setProperty("year",year);
 
 
                     Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
@@ -94,7 +103,7 @@ public class SignUp extends AppCompatActivity {
 
                         @Override
                         public void handleFault(BackendlessFault fault) {
-                            Toast.makeText(getApplicationContext(), "SignUp Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "SignUp Failed " , Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
