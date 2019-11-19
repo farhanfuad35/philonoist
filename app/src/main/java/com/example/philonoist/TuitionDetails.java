@@ -126,6 +126,23 @@ public class TuitionDetails extends AppCompatActivity {
                 notficationemail = "";
                 getEmailFromUsersTable();
                 System.out.println(notficationemail);
+                String whereClause = "email = '" + notficationemail+ "'";
+
+                Backendless.Data.of(BackendlessUser.class).find(new AsyncCallback<List<BackendlessUser>>() {
+                    @Override
+                    public void handleResponse(List<BackendlessUser> users) {
+                        String deviceid = (String)users.get(0).getProperty("device_id");
+                        System.out.print("this is device id " + deviceid);
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+
+                    }
+                });
+
+
+
 
                 Backendless.Messaging.getDeviceRegistration(new AsyncCallback<DeviceRegistration>() {
                     @Override
