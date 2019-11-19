@@ -42,12 +42,13 @@ public class UserInfo extends AppCompatActivity {
 
         final String firstName = (String) user.getProperty("first_name");
         final String lastName = (String) user.getProperty("last_name");
+        final String name = firstName + " " + lastName;
         final String email = user.getEmail();
         Log.i("userEmailCheck", email);
 
         tvChar.setText(firstName.toUpperCase().charAt(0) + "");
 
-        tvName.setText(firstName + " " + lastName);
+        tvName.setText(name);
 
         tvDepartment.setText((String)user.getProperty("department"));
 
@@ -121,11 +122,5 @@ public class UserInfo extends AppCompatActivity {
                 UserInfo.this.finish();
             }
         });
-
-
-
-
-
-
     }
 }
