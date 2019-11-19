@@ -105,16 +105,16 @@ public class TuitionListAdapter extends BaseAdapter {
         holder.title.setText(tuitionList.get(position).getName());
         holder.salary.setText(tuitionList.get(position).getSalary());
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(tuitionList.get(position).getName().equals("Farhan Fuad")){
-                    Intent intent = new Intent(view.getContext(), com.example.philonoist.TuitionDetails.class);
-                    view.getContext().startActivity(intent);
-                }
-                //Toast.makeText(context, "Item Clicked in Adapter", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(tuitionList.get(position).getName().equals("Farhan Fuad")){
+//                    Intent intent = new Intent(view.getContext(), com.example.philonoist.TuitionDetails.class);
+//                    view.getContext().startActivity(intent);
+//                }
+//                //Toast.makeText(context, "Item Clicked in Adapter", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         return view;
     }
