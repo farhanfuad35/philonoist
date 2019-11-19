@@ -3,9 +3,11 @@ package com.example.philonoist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.bluetooth.BluetoothClass;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,8 +20,13 @@ import android.widget.Toolbar;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
+import com.backendless.DeviceRegistration;
 import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessException;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.messaging.DeliveryOptions;
+import com.backendless.messaging.MessageStatus;
+import com.backendless.messaging.PublishOptions;
 import com.backendless.push.DeviceRegistrationResult;
 
 import org.w3c.dom.Text;
@@ -29,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Login extends AppCompatActivity {
@@ -107,8 +115,10 @@ public class Login extends AppCompatActivity {
                 final String password = etPassword.getText().toString();
                 final Boolean stayLoggedIn = cbStayLoggedIn.isChecked();
 
-                registerDeviceForNotification();
                 Login(email, password, stayLoggedIn);
+                Log.i("hiti","hewweoewhi");
+                BackendlessUser user = Backendless.UserService.CurrentUser();
+                System.out.println(user.getEmail());
 //                BackendlessAPIMethods.Login(getApplicationContext(), email, password, stayLoggedIn, getApplicationContext().getAct);
 
 
@@ -130,6 +140,8 @@ public class Login extends AppCompatActivity {
             public void handleResponse(DeviceRegistrationResult response) {
                 Toast.makeText( Login.this, "Device registered!",
                         Toast.LENGTH_LONG).show();
+
+
             }
 
             @Override
@@ -138,6 +150,39 @@ public class Login extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+
+        Backendless.Messaging.getDeviceRegistration(new AsyncCallback<DeviceRegistration>() {
+            @Override
+            public void handleResponse(DeviceRegistration response) {
+
+                System.out.println(response.getDeviceId());
+                BackendlessUser user = Backendless.UserService.CurrentUser();
+                System.out.println(user);
+                user.setProperty( "device_id",response.getDeviceId() );
+
+                Backendless.UserService.update( user, new AsyncCallback<BackendlessUser>()
+                {
+                    @Override
+                    public void handleResponse( BackendlessUser backendlessUser )
+                    {
+                        System.out.println( "User has been updated" );
+                        System.out.println( "Phone number - " + backendlessUser.getProperty( "device_id" ) );
+                    }
+                    @Override
+                    public void handleFault( BackendlessFault backendlessFault )
+                    {
+
+                    }
+                }  );
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+            }
+        });
+
     }
 
     private void Login(final String email, final String password, Boolean stayLoggedIn)
@@ -149,6 +194,8 @@ public class Login extends AppCompatActivity {
 
                 FileMethods.writes(getApplicationContext(), email);
                 System.out.println("logged in "+email);
+
+
 
                 Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
                 startActivity(intent);
@@ -162,4 +209,5 @@ public class Login extends AppCompatActivity {
             }
         }, stayLoggedIn);
     }
+
 }

@@ -8,11 +8,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
+import com.backendless.DeviceRegistration;
+import com.backendless.Messaging;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessException;
+import com.backendless.exceptions.BackendlessFault;
+import com.backendless.messaging.DeliveryOptions;
+import com.backendless.messaging.MessageStatus;
+import com.backendless.messaging.PublishOptions;
 
 import org.w3c.dom.Text;
+
+import java.util.Arrays;
 
 public class MyProfile extends AppCompatActivity {
 
@@ -36,7 +48,6 @@ public class MyProfile extends AppCompatActivity {
         String year;
 
 
-
         TextView tvName = findViewById(R.id.tvMyProfile_name);
         TextView tvEmail = findViewById(R.id.tvMyProfile_email);
         TextView tvContact = findViewById(R.id.tvMyProfile_Contact);
@@ -47,26 +58,26 @@ public class MyProfile extends AppCompatActivity {
         Button btnMyOffers = findViewById(R.id.btnMyProfile_MyOffers);
 
         BackendlessUser user = Backendless.UserService.CurrentUser();
-        contact_no = (String)user.getProperty("contact_no");
+        contact_no = (String) user.getProperty("contact_no");
         tvContact.setText(contact_no);
 
-        first_name = (String)user.getProperty("first_name");
-        last_name = (String)user.getProperty("last_name");
+        first_name = (String) user.getProperty("first_name");
+        last_name = (String) user.getProperty("last_name");
 
         name = first_name + " " + last_name;
         tvName.setText(name);
 
-        email = (String)user.getProperty("email");
+        email = (String) user.getProperty("email");
         tvEmail.setText(email);
 
 
-        character = ""+name.charAt(0)+"";
+        character = "" + name.charAt(0) + "";
         tvChar.setText(character);
 
-        department = (String)user.getProperty("department");
+        department = (String) user.getProperty("department");
         tvDepartment.setText(department);
 
-        year = (String)user.getProperty("year");
+        year = (String) user.getProperty("year");
         tvYear.setText(year);
 
         btnMyOffers.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +85,11 @@ public class MyProfile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MyOffers.class);
                 startActivity(intent);
+
             }
+
         });
+
     }
+
 }

@@ -18,10 +18,15 @@ import android.widget.Toast;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
+import com.backendless.DeviceRegistration;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.messaging.DeliveryOptions;
+import com.backendless.messaging.MessageStatus;
+import com.backendless.messaging.PublishOptions;
 import com.backendless.persistence.LoadRelationsQueryBuilder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TuitionDetails extends AppCompatActivity {
@@ -109,15 +114,50 @@ public class TuitionDetails extends AppCompatActivity {
         setFieldValues();
 
         btnInterested.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
 
+                Backendless.Messaging.getDeviceRegistration(new AsyncCallback<DeviceRegistration>() {
+                    @Override
+                    public void handleResponse(DeviceRegistration response) {
+
+                        System.out.println(response.getDeviceId());
+                        DeliveryOptions deliveryOptions = new DeliveryOptions();
+                        deliveryOptions.setPushSinglecast(Arrays.asList(response.getDeviceId()));
+                        PublishOptions publishOptions = new PublishOptions();
+                        publishOptions.putHeader("android-ticker-text", "You just got a private push notification!");
+                        publishOptions.putHeader("android-content-title", "This is a notification title");
+                        publishOptions.putHeader("android-content-text", "Push Notifications are cool");
+                        Backendless.Messaging.publish("this is a message!", publishOptions, deliveryOptions, new AsyncCallback<MessageStatus>() {
+                            @Override
+                            public void handleResponse(MessageStatus response) {
+
+                            }
+
+                            @Override
+                            public void handleFault(BackendlessFault fault) {
+
+                            }
+                        });
+
+
+
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+
+                    }
+                });
                 String userEmail = FileMethods.load(getApplicationContext());
                 System.out.println("in interested: "+userEmail);
                 String offerID = offer.getObjectId();
                 System.out.println("Offer ID: "+ offerID);
                 //String userEmail = Backendless.UserService.CurrentUser().getEmail();
                 saveNewApplicant(userEmail, offerID);
+
+
 
             }
         });
