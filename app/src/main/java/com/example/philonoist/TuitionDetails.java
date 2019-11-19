@@ -137,14 +137,14 @@ public class TuitionDetails extends AppCompatActivity {
 
 
 
-
+                        String message = (String)Backendless.UserService.CurrentUser().getProperty("first_name") + (String)Backendless.UserService.CurrentUser().getProperty("last_name")+ " has applied for a tution you posted";
                         DeliveryOptions deliveryOptions = new DeliveryOptions();
                         deliveryOptions.setPushSinglecast(Arrays.asList(deviceid));
                         PublishOptions publishOptions = new PublishOptions();
                         publishOptions.putHeader("android-ticker-text", "You just got a private push notification!");
-                        publishOptions.putHeader("android-content-title", "This is a notification title");
+                        publishOptions.putHeader("android-content-title", "New Candidate!!!");
                         publishOptions.putHeader("android-content-text", "Push Notifications are cool");
-                        Backendless.Messaging.publish("this is a message!", publishOptions, deliveryOptions, new AsyncCallback<MessageStatus>() {
+                        Backendless.Messaging.publish(message, publishOptions, deliveryOptions, new AsyncCallback<MessageStatus>() {
                             @Override
                             public void handleResponse(MessageStatus response) {
                                 System.out.println("Hello there you are here");
