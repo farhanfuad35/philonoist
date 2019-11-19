@@ -24,6 +24,7 @@ import com.backendless.exceptions.BackendlessFault;
 import com.backendless.messaging.DeliveryOptions;
 import com.backendless.messaging.MessageStatus;
 import com.backendless.messaging.PublishOptions;
+import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.LoadRelationsQueryBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +42,7 @@ public class TuitionDetails extends AppCompatActivity {
     private Button btnMap;
     private String lat;
     private String lng;
+    private String notficationemail;
     private Button btnInterested;
     private Button btnCandidates;
     private Button btnCall;
@@ -49,6 +51,7 @@ public class TuitionDetails extends AppCompatActivity {
     public  int interestedUserID;
     private int callerActivityID;
     final int candidatesList = 49;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -118,6 +121,12 @@ public class TuitionDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
+                String offerID = offer.getObjectId();
+                notficationemail = "";
+                getEmailFromUsersTable();
+                System.out.println(notficationemail);
+
                 Backendless.Messaging.getDeviceRegistration(new AsyncCallback<DeviceRegistration>() {
                     @Override
                     public void handleResponse(DeviceRegistration response) {
@@ -152,7 +161,6 @@ public class TuitionDetails extends AppCompatActivity {
                 });
                 String userEmail = FileMethods.load(getApplicationContext());
                 System.out.println("in interested: "+userEmail);
-                String offerID = offer.getObjectId();
                 System.out.println("Offer ID: "+ offerID);
                 //String userEmail = Backendless.UserService.CurrentUser().getEmail();
                 saveNewApplicant(userEmail, offerID);
@@ -249,7 +257,7 @@ public class TuitionDetails extends AppCompatActivity {
             @Override
             public void handleResponse(List<BackendlessUser> users) {
                 String email = (String) users.get(0).getEmail().trim();
-
+                notficationemail = email;
                 String useremail = FileMethods.load(getApplicationContext()).trim();
 
                 if(useremail.equals(email)) {
