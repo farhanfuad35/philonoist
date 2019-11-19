@@ -19,6 +19,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.push.DeviceRegistrationResult;
 
 import org.w3c.dom.Text;
 
@@ -26,6 +27,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Login extends AppCompatActivity {
 
@@ -99,6 +102,40 @@ public class Login extends AppCompatActivity {
                 btLogin.setText("Logging in...");
                 final String email = etEmail.getText().toString().toLowerCase();
                 String password = etPassword.getText().toString();
+
+
+
+
+
+                // Testing Backendless and FCM Service
+
+                List<String> channels = new ArrayList<String>();
+                channels.add( "default" );
+                Backendless.Messaging.registerDevice(channels, new AsyncCallback<DeviceRegistrationResult>() {
+                    @Override
+                    public void handleResponse(DeviceRegistrationResult response) {
+                        Toast.makeText( Login.this, "Device registered!",
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+                        Toast.makeText( Login.this, "Error registering " + fault.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+
+
 
                 Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                     @Override
