@@ -125,10 +125,12 @@ public class TuitionDetails extends AppCompatActivity {
                 String offerID = offer.getObjectId();
                 notficationemail = "";
                 getEmailFromUsersTable();
+                DataQueryBuilder dataQuery = DataQueryBuilder.create();
                 System.out.println(notficationemail);
                 String whereClause = "email = '" + notficationemail+ "'";
+                dataQuery.setWhereClause(whereClause);
 
-                Backendless.Data.of(BackendlessUser.class).find(new AsyncCallback<List<BackendlessUser>>() {
+                Backendless.Data.of(BackendlessUser.class).find(dataQuery,new AsyncCallback<List<BackendlessUser>>() {
                     @Override
                     public void handleResponse(List<BackendlessUser> users) {
                         String deviceid = (String)users.get(0).getProperty("device_id");
