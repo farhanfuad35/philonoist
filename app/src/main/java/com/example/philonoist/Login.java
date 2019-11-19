@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class Login extends AppCompatActivity {
     Button btLogin;
     TextView tvSignup;
     TextView tvForgetpassword;
+    CheckBox cbStayLoggedIn;
 
 
     @Override
@@ -62,6 +64,7 @@ public class Login extends AppCompatActivity {
         etPassword = findViewById(R.id.etLogin_password);
         btLogin = findViewById(R.id.btnLogin_Login);
         tvForgetpassword = findViewById(R.id.tvLogin_ForgetPassword);
+        cbStayLoggedIn = findViewById(R.id.cbLogin_StayLoggedIn);
 
         tvSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,66 +104,62 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 btLogin.setText("Logging in...");
                 final String email = etEmail.getText().toString().toLowerCase();
-                String password = etPassword.getText().toString();
+                final String password = etPassword.getText().toString();
+                final Boolean stayLoggedIn = cbStayLoggedIn.isChecked();
 
-
-
-
-
-                // Testing Backendless and FCM Service
-
-                List<String> channels = new ArrayList<String>();
-                channels.add( "default" );
-                Backendless.Messaging.registerDevice(channels, new AsyncCallback<DeviceRegistrationResult>() {
-                    @Override
-                    public void handleResponse(DeviceRegistrationResult response) {
-                        Toast.makeText( Login.this, "Device registered!",
-                                Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void handleFault(BackendlessFault fault) {
-                        Toast.makeText( Login.this, "Error registering " + fault.getMessage(),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-
-
-
-
-
-
-
-
-
-
-
-
-
-                Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
-                    @Override
-                    public void handleResponse(BackendlessUser response) {
-                        CONSTANTS.setCurrentUserEmail(email);
-
-                        FileMethods.writes(getApplicationContext(), email);
-                        System.out.println("logged in "+email);
-
-                        Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    @Override
-                    public void handleFault(BackendlessFault fault) {
-                        Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_SHORT).show();
-                        btLogin.setText("Login");
-                    }
-                }, true);
+                registerDeviceForNotification();
+                Login(email, password, stayLoggedIn);
+//                BackendlessAPIMethods.Login(getApplicationContext(), email, password, stayLoggedIn, getApplicationContext().getAct);
 
 
             }
         });
 
+
     }
 
+
+    private void registerDeviceForNotification() {
+
+        // Testing Backendless and FCM Service
+
+        List<String> channels = new ArrayList<String>();
+        channels.add( "default" );
+        Backendless.Messaging.registerDevice(channels, new AsyncCallback<DeviceRegistrationResult>() {
+            @Override
+            public void handleResponse(DeviceRegistrationResult response) {
+                Toast.makeText( Login.this, "Device registered!",
+                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Toast.makeText( Login.this, "Error registering " + fault.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void Login(final String email, final String password, Boolean stayLoggedIn)
+    {
+        Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
+            @Override
+            public void handleResponse(BackendlessUser response) {
+                CONSTANTS.setCurrentUserEmail(email);
+
+                FileMethods.writes(getApplicationContext(), email);
+                System.out.println("logged in "+email);
+
+                Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_SHORT).show();
+                btLogin.setText("Login");
+            }
+        }, stayLoggedIn);
+    }
 }

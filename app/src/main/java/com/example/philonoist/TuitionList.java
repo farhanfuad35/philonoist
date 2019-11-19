@@ -179,19 +179,7 @@ public class TuitionList extends AppCompatActivity {
             startActivity(intent);
         }
         if(id == R.id.menuMain_Logout){
-            Backendless.UserService.logout(new AsyncCallback<Void>() {
-                @Override
-                public void handleResponse(Void response) {
-                    Toast.makeText(getApplicationContext(), "You are successfully logged out!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), Login.class);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void handleFault(BackendlessFault fault) {
-                    Toast.makeText(getApplicationContext(), "Sorry couldn't logout right now. Please check your connection", Toast.LENGTH_SHORT).show();
-                }
-            });
+            BackendlessAPIMethods.logOut(TuitionList.this);
         }
 
 
