@@ -43,6 +43,7 @@ public class TuitionDetails extends AppCompatActivity {
     private String lat;
     private String lng;
     private String notficationemail;
+    private String deviceid;
     private Button btnInterested;
     private Button btnCandidates;
     private Button btnCall;
@@ -133,7 +134,7 @@ public class TuitionDetails extends AppCompatActivity {
                 Backendless.Data.of(BackendlessUser.class).find(dataQuery,new AsyncCallback<List<BackendlessUser>>() {
                     @Override
                     public void handleResponse(List<BackendlessUser> users) {
-                        String deviceid = (String)users.get(0).getProperty("device_id");
+                         deviceid = (String)users.get(0).getProperty("device_id");
                         System.out.print("this is device id " + deviceid);
                     }
 
@@ -144,33 +145,16 @@ public class TuitionDetails extends AppCompatActivity {
                 });
 
 
-
-
-                Backendless.Messaging.getDeviceRegistration(new AsyncCallback<DeviceRegistration>() {
+                DeliveryOptions deliveryOptions = new DeliveryOptions();
+                deliveryOptions.setPushSinglecast(Arrays.asList("device_id"));
+                PublishOptions publishOptions = new PublishOptions();
+                publishOptions.putHeader("android-ticker-text", "You just got a private push notification!");
+                publishOptions.putHeader("android-content-title", "This is a notification title");
+                publishOptions.putHeader("android-content-text", "Push Notifications are cool");
+                Backendless.Messaging.publish("this is a message!", publishOptions, deliveryOptions, new AsyncCallback<MessageStatus>() {
                     @Override
-                    public void handleResponse(DeviceRegistration response) {
-
-                        System.out.println(response.getDeviceId());
-                        DeliveryOptions deliveryOptions = new DeliveryOptions();
-                        deliveryOptions.setPushSinglecast(Arrays.asList(response.getDeviceId()));
-                        PublishOptions publishOptions = new PublishOptions();
-                        publishOptions.putHeader("android-ticker-text", "You just got a private push notification!");
-                        publishOptions.putHeader("android-content-title", "This is a notification title");
-                        publishOptions.putHeader("android-content-text", "Push Notifications are cool");
-                        Backendless.Messaging.publish("this is a message!", publishOptions, deliveryOptions, new AsyncCallback<MessageStatus>() {
-                            @Override
-                            public void handleResponse(MessageStatus response) {
-
-                            }
-
-                            @Override
-                            public void handleFault(BackendlessFault fault) {
-
-                            }
-                        });
-
-
-
+                    public void handleResponse(MessageStatus response) {
+                               System.out.println("Hello there you are here");
                     }
 
                     @Override
@@ -178,6 +162,41 @@ public class TuitionDetails extends AppCompatActivity {
 
                     }
                 });
+
+
+
+//                Backendless.Messaging.getDeviceRegistration(new AsyncCallback<DeviceRegistration>() {
+//                    @Override
+//                    public void handleResponse(DeviceRegistration response) {
+//
+//                        System.out.println(response.getDeviceId());
+//                        DeliveryOptions deliveryOptions = new DeliveryOptions();
+//                        deliveryOptions.setPushSinglecast(Arrays.asList(response.getDeviceId()));
+//                        PublishOptions publishOptions = new PublishOptions();
+//                        publishOptions.putHeader("android-ticker-text", "You just got a private push notification!");
+//                        publishOptions.putHeader("android-content-title", "This is a notification title");
+//                        publishOptions.putHeader("android-content-text", "Push Notifications are cool");
+//                        Backendless.Messaging.publish("this is a message!", publishOptions, deliveryOptions, new AsyncCallback<MessageStatus>() {
+//                            @Override
+//                            public void handleResponse(MessageStatus response) {
+//
+//                            }
+//
+//                            @Override
+//                            public void handleFault(BackendlessFault fault) {
+//
+//                            }
+//                        });
+//
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void handleFault(BackendlessFault fault) {
+//
+//                    }
+//                });
                 String userEmail = FileMethods.load(getApplicationContext());
                 System.out.println("in interested: "+userEmail);
                 System.out.println("Offer ID: "+ offerID);
