@@ -54,11 +54,11 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        BackendlessUser user = new BackendlessUser();
-
 //        setTitle("Login");
 //        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+
+        initializeGUIElements();
 
 
         Window window = this.getWindow();
@@ -67,12 +67,6 @@ public class Login extends AppCompatActivity {
         window.setStatusBarColor(ContextCompat.getColor(this,R.color.black));
 
 
-        tvSignup = findViewById(R.id.tvLogin_createaccount);
-        etEmail = findViewById(R.id.etLogin_email);
-        etPassword = findViewById(R.id.etLogin_password);
-        btLogin = findViewById(R.id.btnLogin_Login);
-        tvForgetpassword = findViewById(R.id.tvLogin_ForgetPassword);
-        cbStayLoggedIn = findViewById(R.id.cbLogin_StayLoggedIn);
 
         tvSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,20 +107,59 @@ public class Login extends AppCompatActivity {
                 btLogin.setText("Logging in...");
                 final String email = etEmail.getText().toString().toLowerCase();
                 final String password = etPassword.getText().toString();
-                final Boolean stayLoggedIn = cbStayLoggedIn.isChecked();
+                //final Boolean stayLoggedIn = cbStayLoggedIn.isChecked();
+                final Boolean stayLoggedIn = true;
 
                 Login(email, password, stayLoggedIn);
-                Log.i("hiti","hewweoewhi");
-                BackendlessUser user = Backendless.UserService.CurrentUser();
-                System.out.println(user.getEmail());
-//                BackendlessAPIMethods.Login(getApplicationContext(), email, password, stayLoggedIn, getApplicationContext().getAct);
 
+
+
+                Log.i("deviceid","hewweoewhi");
+//                BackendlessAPIMethods.Login(getApplicationContext(), email, password, stayLoggedIn, getApplicationContext().getAct);
 
             }
         });
 
 
     }
+
+
+
+
+    private void Login(final String email, final String password, Boolean stayLoggedIn)
+    {
+        Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
+            @Override
+            public void handleResponse(BackendlessUser response) {
+                CONSTANTS.setCurrentUserEmail(email);
+                CONSTANTS.setCurrentSavedUser(response);
+
+                FileMethods.writes(getApplicationContext(), email);
+                System.out.println("logged in "+email);
+
+                Log.i("deviceid", "Login Successful");
+
+                // If login successful, register user to the database with deviceID
+
+                registerDeviceForNotification();
+
+                Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_SHORT).show();
+                btLogin.setText("Login");
+
+                Log.i("deviceid", fault.getMessage());
+            }
+        }, stayLoggedIn);
+    }
+
+
+
 
 
     private void registerDeviceForNotification() {
@@ -140,7 +173,7 @@ public class Login extends AppCompatActivity {
             public void handleResponse(DeviceRegistrationResult response) {
                 Toast.makeText( Login.this, "Device registered!",
                         Toast.LENGTH_LONG).show();
-
+                Log.i("deviceid", "Device registered successfully on backendless");
 
             }
 
@@ -148,6 +181,8 @@ public class Login extends AppCompatActivity {
             public void handleFault(BackendlessFault fault) {
                 Toast.makeText( Login.this, "Error registering " + fault.getMessage(),
                         Toast.LENGTH_LONG).show();
+
+                Log.i("deviceid", fault.getMessage());
             }
         });
 
@@ -157,7 +192,11 @@ public class Login extends AppCompatActivity {
 
                 System.out.println(response.getDeviceId());
                 BackendlessUser user = Backendless.UserService.CurrentUser();
-                System.out.println(user);
+
+                Log.i("deviceid", "before get email");
+                Log.i("deviceid", "email of CurrentUser : " + user.getEmail());
+                Log.i("deviceid", "after get email");
+
                 user.setProperty( "device_id",response.getDeviceId() );
 
                 Backendless.UserService.update( user, new AsyncCallback<BackendlessUser>()
@@ -165,15 +204,15 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void handleResponse( BackendlessUser backendlessUser )
                     {
-                        System.out.println( "User has been updated" );
-                        System.out.println( "Phone number - " + backendlessUser.getProperty( "device_id" ) );
+                        Log.i("deviceid", "User has been updated" );
+                        Log.i("deviceid", "Device ID - " + backendlessUser.getProperty( "device_id" ) );
                     }
                     @Override
                     public void handleFault( BackendlessFault backendlessFault )
                     {
-
+                        Log.i("deviceid", backendlessFault.getMessage());
                     }
-                }  );
+                });
 
             }
 
@@ -185,29 +224,18 @@ public class Login extends AppCompatActivity {
 
     }
 
-    private void Login(final String email, final String password, Boolean stayLoggedIn)
+
+
+
+    private void initializeGUIElements()
     {
-        Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
-            @Override
-            public void handleResponse(BackendlessUser response) {
-                CONSTANTS.setCurrentUserEmail(email);
 
-                FileMethods.writes(getApplicationContext(), email);
-                System.out.println("logged in "+email);
-
-
-
-                Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
-                startActivity(intent);
-                finish();
-            }
-
-            @Override
-            public void handleFault(BackendlessFault fault) {
-                Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_SHORT).show();
-                btLogin.setText("Login");
-            }
-        }, stayLoggedIn);
+        tvSignup = findViewById(R.id.tvLogin_createaccount);
+        etEmail = findViewById(R.id.etLogin_email);
+        etPassword = findViewById(R.id.etLogin_password);
+        btLogin = findViewById(R.id.btnLogin_Login);
+        tvForgetpassword = findViewById(R.id.tvLogin_ForgetPassword);
+        cbStayLoggedIn = findViewById(R.id.cbLogin_StayLoggedIn);
     }
 
 }

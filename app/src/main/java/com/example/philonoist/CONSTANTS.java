@@ -19,8 +19,17 @@ public class CONSTANTS {
     private static double LNG_MAX = 90.451891;
     private static int ACTIVITY_ID_MAPS_SHOW_TUITIONS = 65;
     private static int ACTIVITY_ID_TUITIONLIST = 75;
-    final private static BackendlessUser currentUser = new BackendlessUser();
+    final private static BackendlessUser currentUser = new BackendlessUser();       // To be used as distinct property of the current user
     private static List<GeoPoint> geoPointList;
+    private static BackendlessUser currentSavedUser;                                // To be saved as a whole BackendlessUser from login activity
+
+    public static BackendlessUser getCurrentSavedUser() {
+        return currentSavedUser;
+    }
+
+    public static void setCurrentSavedUser(BackendlessUser currentSavedUser) {
+        CONSTANTS.currentSavedUser = currentSavedUser;
+    }
 
     public static int getActivityIdMapsShowTuitions() {
         return ACTIVITY_ID_MAPS_SHOW_TUITIONS;
