@@ -121,40 +121,6 @@ public class Select_Tuition_Location extends FragmentActivity implements OnMapRe
     }
 
 
-//    public void searchPlaces(final GoogleMap mMap){
-//
-//        if (!Places.isInitialized()) {
-//            Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
-//        }
-//
-//
-//
-//        autocompleteSupportFragment = (AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-//        autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-//        autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-//            @Override
-//            public void onPlaceSelected(@NonNull Place place) {
-//                Log.d("SelectTuition", "Trying to select Item");
-//
-//                LatLng newLatLng =  place.getLatLng();
-//                mMap.addMarker(new MarkerOptions().position(newLatLng).title(place.getName()));
-//
-//
-//                CameraPosition cameraPosition = new CameraPosition.Builder()
-//                        .target(newLatLng)      // Sets the center of the map to Mountain View
-//                        .zoom(17)                   // Sets the zoom
-//                        .build();                   // Creates a CameraPosition from the builder
-//                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-//            }
-//
-//            @Override
-//            public void onError(@NonNull Status status) {
-//                Log.d("SelectTuition", "Error occured trying to select Item");
-//            }
-//        });
-//    }
-
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
