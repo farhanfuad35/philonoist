@@ -143,8 +143,7 @@ public class TuitionDetails extends AppCompatActivity {
 
                     }
                 });
-
-                String message = Backendless.UserService.CurrentUser().getProperty("")
+                
                 DeliveryOptions deliveryOptions = new DeliveryOptions();
                 deliveryOptions.setPushSinglecast(Arrays.asList(deviceid));
                 PublishOptions publishOptions = new PublishOptions();
