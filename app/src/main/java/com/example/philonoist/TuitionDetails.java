@@ -144,9 +144,9 @@ public class TuitionDetails extends AppCompatActivity {
                     }
                 });
 
-
+                String message = Backendless.UserService.CurrentUser().getProperty("")
                 DeliveryOptions deliveryOptions = new DeliveryOptions();
-                deliveryOptions.setPushSinglecast(Arrays.asList("device_id"));
+                deliveryOptions.setPushSinglecast(Arrays.asList(deviceid));
                 PublishOptions publishOptions = new PublishOptions();
                 publishOptions.putHeader("android-ticker-text", "You just got a private push notification!");
                 publishOptions.putHeader("android-content-title", "This is a notification title");
