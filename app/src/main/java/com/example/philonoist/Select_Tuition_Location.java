@@ -2,9 +2,13 @@ package com.example.philonoist;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -37,16 +41,20 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 public class Select_Tuition_Location extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    AutocompleteSupportFragment autocompleteSupportFragment;
     FloatingActionButton fabSelect;
     private Boolean markerSelected = false;
     private LatLng currentLatLng;
+    SearchView svSearchLocation;
+    String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +62,7 @@ public class Select_Tuition_Location extends FragmentActivity implements OnMapRe
         setContentView(R.layout.activity_select__tuition__location);
 
         fabSelect = findViewById(R.id.fabSelectTuition_select);
-
-
-
+        svSearchLocation = findViewById(R.id.svMaps_search);
 
 
 
@@ -65,41 +71,88 @@ public class Select_Tuition_Location extends FragmentActivity implements OnMapRe
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-    }
 
-
-    public void searchPlaces(final GoogleMap mMap){
-
-        if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
-        }
-
-
-
-        autocompleteSupportFragment = (AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-        autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-        autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        svSearchLocation.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                Log.d("SelectTuition", "Trying to select Item");
+            public boolean onQueryTextSubmit(String query) {
+                Geocoder geocoder = new Geocoder(Select_Tuition_Location.this);
+                List<Address> list = new ArrayList<>();
+                try{
+                    list = geocoder.getFromLocationName(query,1);
 
-                LatLng newLatLng =  place.getLatLng();
-                mMap.addMarker(new MarkerOptions().position(newLatLng).title(place.getName()));
+                    if(list.size()>0){
+                        Address address = list.get(0);
 
 
-                CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(newLatLng)      // Sets the center of the map to Mountain View
-                        .zoom(17)                   // Sets the zoom
-                        .build();                   // Creates a CameraPosition from the builder
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                        mMap.clear();
+                        mMap.addMarker(new MarkerOptions().position(latLng).draggable(true));
+                        markerSelected = true;
+                        currentLatLng = latLng;
+
+
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(),address.getLongitude()), 16));
+
+                    }
+
+                    else{
+                        Toast.makeText(getApplicationContext(), "No location found", Toast.LENGTH_LONG).show();
+                    }
+
+
+                }catch (IOException e){
+                    Log.d("log","IOexception : "+e.getMessage());
+                    Toast.makeText(getApplicationContext(), "No location found", Toast.LENGTH_LONG).show();
+                }
+
+
+                return false;
             }
 
             @Override
-            public void onError(@NonNull Status status) {
-                Log.d("SelectTuition", "Error occured trying to select Item");
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
+
+
+
     }
+
+
+//    public void searchPlaces(final GoogleMap mMap){
+//
+//        if (!Places.isInitialized()) {
+//            Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
+//        }
+//
+//
+//
+//        autocompleteSupportFragment = (AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+//        autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+//        autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//            @Override
+//            public void onPlaceSelected(@NonNull Place place) {
+//                Log.d("SelectTuition", "Trying to select Item");
+//
+//                LatLng newLatLng =  place.getLatLng();
+//                mMap.addMarker(new MarkerOptions().position(newLatLng).title(place.getName()));
+//
+//
+//                CameraPosition cameraPosition = new CameraPosition.Builder()
+//                        .target(newLatLng)      // Sets the center of the map to Mountain View
+//                        .zoom(17)                   // Sets the zoom
+//                        .build();                   // Creates a CameraPosition from the builder
+//                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//            }
+//
+//            @Override
+//            public void onError(@NonNull Status status) {
+//                Log.d("SelectTuition", "Error occured trying to select Item");
+//            }
+//        });
+//    }
 
 
     /**
@@ -117,7 +170,7 @@ public class Select_Tuition_Location extends FragmentActivity implements OnMapRe
         mMap = googleMap;
 
         Location_Methods.showMyLocation(this, mMap);
-        searchPlaces(mMap);
+        //searchPlaces(mMap);
 
 
 
@@ -125,9 +178,12 @@ public class Select_Tuition_Location extends FragmentActivity implements OnMapRe
             @Override
             public void onMapClick(LatLng latLng) {
                 mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(latLng).title("Title").draggable(true));
+                mMap.addMarker(new MarkerOptions().position(latLng).draggable(true));
                 markerSelected = true;
                 currentLatLng = latLng;
+
+
+
             }
         });
 
