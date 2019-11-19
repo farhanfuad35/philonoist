@@ -137,7 +137,7 @@ public class TuitionDetails extends AppCompatActivity {
 
 
 
-                        String message = (String)Backendless.UserService.CurrentUser().getProperty("first_name") + (String)Backendless.UserService.CurrentUser().getProperty("last_name")+ " has applied for a tution you posted";
+                        String message = (String)Backendless.UserService.CurrentUser().getProperty("first_name") + (String)Backendless.UserService.CurrentUser().getProperty("last_name")+ " has applied for a tuition you posted. Check the Notification Page";
                         DeliveryOptions deliveryOptions = new DeliveryOptions();
                         deliveryOptions.setPushSinglecast(Arrays.asList(deviceid));
                         PublishOptions publishOptions = new PublishOptions();
