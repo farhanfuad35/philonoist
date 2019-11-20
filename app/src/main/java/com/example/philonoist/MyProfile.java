@@ -85,7 +85,7 @@ public class MyProfile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MyOffers.class);
                 startActivity(intent);
-
+                finish();
             }
 
         });

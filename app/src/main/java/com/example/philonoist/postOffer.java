@@ -7,6 +7,8 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.Image;
@@ -14,10 +16,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
@@ -86,7 +92,9 @@ public class postOffer extends AppCompatActivity {
     String remarks;
     boolean active;
 
-
+    ProgressBar progressBar;
+    TextView tvPostingOffer;
+    ScrollView svPostOffer;
 
     final int SELECT_LOCATION_INTENT_ID = 99;
     final int FINE_LOCATION_PERMISSION_CODE = 44;
@@ -101,6 +109,7 @@ public class postOffer extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         InitializeFields();
+
 
 
 
@@ -278,13 +287,32 @@ public class postOffer extends AppCompatActivity {
                 if(resultCode == RESULT_OK && requestCode == SELECT_LOCATION_INTENT_ID) {
                     Log.i("post with map", "returned with intent data");
 
-                    GeoPoint geoPoint = (GeoPoint) data.getSerializableExtra("geoPoint");
+                    final GeoPoint geoPoint = (GeoPoint) data.getSerializableExtra("geoPoint");
 
                     if(etsubject1.getText().toString().isEmpty()){
                         etsubject1.setError("Please enter a subject");
                     }
                     else{
-                            syncOfferWithDatabase(geoPoint);
+
+
+                        Dialog dialog = new Dialog(postOffer.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setCancelable(false);
+                        dialog.setContentView(R.layout.loadingdialog);
+                        dialog.show();
+
+
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                syncOfferWithDatabase(geoPoint);
+                            }
+                        });
+
+                        thread.start();
+
+
+
 
 
 
@@ -427,6 +455,7 @@ public class postOffer extends AppCompatActivity {
                             @Override
                             public void handleResponse(List<Offer> response) {
                                 CONSTANTS.offers = response;
+
                                 Intent intent = new Intent(postOffer.this, TuitionList.class);
                                 startActivity(intent);
                                 finish();
@@ -500,5 +529,9 @@ public class postOffer extends AppCompatActivity {
         etsubject8 = findViewById(R.id.etpostoffer_Subject8);
         etsubject9 = findViewById(R.id.etpostoffer_Subject9);
         etsubject10 = findViewById(R.id.etpostoffer_Subject10);
+
+        progressBar = findViewById(R.id.pbPostOffer_Loading);
+        tvPostingOffer = findViewById(R.id.tvPostOffer_PostingOffer);
+        svPostOffer = findViewById(R.id.svPostOffer_scrollview);
     }
 }

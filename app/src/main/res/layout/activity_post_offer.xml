@@ -1,93 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".postOffer">
-    <LinearLayout
-        android:orientation="vertical"
+
+<!--    <ProgressBar-->
+<!--        android:visibility="gone"-->
+<!--        android:id="@+id/pbPostOffer_Loading"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_marginLeft="50dp"-->
+<!--        android:layout_marginRight="50dp"-->
+<!--        android:indeterminate="true"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingBottom="10dp"-->
+<!--        android:paddingLeft="10dp"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:paddingRight="10dp"-->
+<!--        android:background="#151515"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:indeterminateTint="@color/colorPrimaryLight"-->
+<!--        android:indeterminateTintMode="src_atop" />-->
+
+
+<!--    <TextView-->
+<!--        android:visibility="gone"-->
+<!--        android:id="@+id/tvPostOffer_PostingOffer"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:gravity="left|center"-->
+<!--        android:layout_marginRight="50dp"-->
+<!--        android:textSize="20dp"-->
+<!--        android:layout_marginLeft="50dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:paddingRight="30dp"-->
+<!--        android:paddingLeft="30dp"-->
+<!--        android:text="Posting your offer..."-->
+<!--        android:background="#151515"-->
+<!--        android:textColor="#ffffff"-->
+<!--        android:layout_alignLeft="@+id/pbPostOffer_Loading"-->
+<!--        android:layout_centerInParent="true" />-->
+
+    <ScrollView
+        android:id="@+id/svPostOffer_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-        <include
-            android:id="@+id/toolbar_PostOffer"
-            layout="@layout/toolbar" />
-
-        <TextView
-            android:layout_marginBottom="10dp"
-            android:background="@color/colorPrimary"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:text="Create New Offer"
-            android:layout_width="match_parent"
-            android:layout_height="40dp" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etpostoffer_name"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Class">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etpostoffer_class"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Salary">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etpostoffer_salary"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
 
         <LinearLayout
-            android:id="@+id/llPostOffer_Subject1"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent" >
+            <include
+                android:id="@+id/toolbar_PostOffer"
+                layout="@layout/toolbar" />
+
+            <TextView
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorPrimary"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:text="Create New Offer"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Subject #1">
+                android:hint="Name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etpostoffer_Subject1"
+                    android:id="@+id/etpostoffer_name"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
@@ -95,36 +80,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-
-
             </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/ivPostOffer_Subject1"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="7"
-                android:src="@drawable/ic_add_circle_outline_black_24dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llPostOffer_Subject2"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Subject #2">
+                android:hint="Class">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etpostoffer_Subject2"
+                    android:id="@+id/etpostoffer_class"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
@@ -132,398 +96,477 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Salary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etpostoffer_salary"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/ivPostOffer_Subject2"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="8"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_outline_black_24dp"
+
+            <LinearLayout
+                android:id="@+id/llPostOffer_Subject1"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Subject #1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etpostoffer_Subject1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/ivPostOffer_Subject1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="7"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPostOffer_Subject2"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Subject #2">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etpostoffer_Subject2"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/ivPostOffer_Subject2"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="8"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPostOffer_Subject3"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Subject #3">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etpostoffer_Subject3"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/ivPostOffer_Subject3"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="8"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPostOffer_Subject4"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Subject #4">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etpostoffer_Subject4"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/ivPostOffer_Subject4"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="8"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPostOffer_Subject5"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Subject #5">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etpostoffer_Subject5"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/ivPostOffer_Subject5"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="8"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPostOffer_Subject6"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Subject #6">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etpostoffer_Subject6"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/ivPostOffer_Subject6"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="8"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPostOffer_Subject7"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Subject #7">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etpostoffer_Subject7"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/ivPostOffer_Subject7"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="8"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPostOffer_Subject8"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Subject #8">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etpostoffer_Subject8"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/ivPostOffer_Subject8"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="8"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPostOffer_Subject9"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Subject #9">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etpostoffer_Subject9"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/ivPostOffer_Subject9"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="8"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPostOffer_Subject10"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/colorPrimaryLight"
+                    android:hint="Subject #10">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etpostoffer_Subject10"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contact Number">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etpostoffer_Contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Remarks">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etpostoffer_Remarks"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPostoffer_location"
+                android:layout_width="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingRight="50dp"
+                android:paddingLeft="50dp"
+                app:rippleColor="#909090"
+                app:strokeColor="#505050"
+                app:strokeWidth="4dp"
+                app:backgroundTint="@android:color/transparent"
+                android:text="Set Location"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnpostoffer_Post"
+                android:layout_width="match_parent"
+                android:background="@color/colorPrimaryDark"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_height="wrap_content"
+                app:rippleColor="@color/colorPrimaryDark"
+                app:cornerRadius="90dp"
+                app:strokeColor="@color/colorPrimaryDark"
+                app:strokeWidth="4dp"
+                app:backgroundTint="@color/colorPrimary"
+                android:text="Post"/>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/llPostOffer_Subject3"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+    </ScrollView>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Subject #3">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etpostoffer_Subject3"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/ivPostOffer_Subject3"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="8"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_outline_black_24dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llPostOffer_Subject4"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Subject #4">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etpostoffer_Subject4"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/ivPostOffer_Subject4"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="8"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_outline_black_24dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llPostOffer_Subject5"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Subject #5">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etpostoffer_Subject5"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/ivPostOffer_Subject5"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="8"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_outline_black_24dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llPostOffer_Subject6"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Subject #6">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etpostoffer_Subject6"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/ivPostOffer_Subject6"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="8"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_outline_black_24dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llPostOffer_Subject7"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Subject #7">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etpostoffer_Subject7"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/ivPostOffer_Subject7"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="8"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_outline_black_24dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llPostOffer_Subject8"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Subject #8">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etpostoffer_Subject8"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/ivPostOffer_Subject8"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="8"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_outline_black_24dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llPostOffer_Subject9"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Subject #9">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etpostoffer_Subject9"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/ivPostOffer_Subject9"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="8"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_add_circle_outline_black_24dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llPostOffer_Subject10"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/colorPrimaryLight"
-                android:hint="Subject #10">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etpostoffer_Subject10"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Contact Number">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etpostoffer_Contact"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Remarks">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etpostoffer_Remarks"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnPostoffer_location"
-            android:layout_width="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingRight="50dp"
-            android:paddingLeft="50dp"
-            app:rippleColor="#909090"
-            app:strokeColor="#505050"
-            app:strokeWidth="4dp"
-            app:backgroundTint="@android:color/transparent"
-            android:text="Set Location"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnpostoffer_Post"
-            android:layout_width="match_parent"
-            android:background="@color/colorPrimaryDark"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:layout_height="wrap_content"
-            app:rippleColor="@color/colorPrimaryDark"
-            app:cornerRadius="90dp"
-            app:strokeColor="@color/colorPrimaryDark"
-            app:strokeWidth="4dp"
-            app:backgroundTint="@color/colorPrimary"
-            android:text="Post"/>
-
-    </LinearLayout>
-
-
-</ScrollView>
+</RelativeLayout>
