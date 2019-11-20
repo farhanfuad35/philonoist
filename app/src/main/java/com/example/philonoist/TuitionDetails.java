@@ -69,7 +69,7 @@ public class TuitionDetails extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tuition_details);
         setTitle("Tuition Details");
@@ -177,9 +177,6 @@ public class TuitionDetails extends AppCompatActivity {
                 });
 
 
-
-
-
 //                Backendless.Messaging.getDeviceRegistration(new AsyncCallback<DeviceRegistration>() {
 //                    @Override
 //                    public void handleResponse(DeviceRegistration response) {
@@ -213,14 +210,12 @@ public class TuitionDetails extends AppCompatActivity {
 //                    }
 //                });
                 String userEmail = FileMethods.load(getApplicationContext());
+                //String userEmail = Backendless.UserService.CurrentUser().getEmail();
                 System.out.println("in interested: "+userEmail);
                 System.out.println("Offer ID: "+ offerID);
                 //String userEmail = Backendless.UserService.CurrentUser().getEmail();
-                saveNewApplicant(loggedInUserEmail, offerID);
-                saveNewNotification(offerPostedByEmail, loggedInUserEmail, offerID);
-
-
-
+                saveNewApplicant(offerPostedByEmail, loggedInUserEmail, offerID);
+                //saveNewNotification(offerPostedByEmail, loggedInUserEmail, offerID);
             }
         });
 
@@ -313,8 +308,8 @@ public class TuitionDetails extends AppCompatActivity {
                 String email = (String) users.get(0).getEmail().trim();
                 notficationemail = email;
                 offerPostedByEmail = (String) users.get(0).getEmail().trim();
-
                 loggedInUserEmail = FileMethods.load(getApplicationContext()).trim();
+                //loggedInUserEmail = Backendless.UserService.CurrentUser().getEmail();
 
                 if(loggedInUserEmail.equals(offerPostedByEmail)) {
                     System.out.println("loaded email "+loggedInUserEmail);
@@ -357,11 +352,11 @@ public class TuitionDetails extends AppCompatActivity {
 
     }
 
-    public void saveNewApplicant(String email, String offerID) {
+    public void saveNewApplicant(final String user_email, final String teacher_email, final String offerID) {
         Applicants applicants = new Applicants();
-        String ID = email+offerID;
+        String ID = teacher_email+offerID;
         applicants.setOfferID(offerID);
-        applicants.setEmail(email);
+        applicants.setEmail(teacher_email);
         applicants.setID(ID);
 
 
@@ -372,6 +367,7 @@ public class TuitionDetails extends AppCompatActivity {
 
             @Override
             public void handleResponse(Applicants applicants1) {
+                saveNewNotification(user_email, teacher_email, offerID);
                 Toast.makeText(getApplicationContext(), "Your Application Submitted!", Toast.LENGTH_LONG).show();
                 Log.i("Applicants1", applicants1.getID());
                 setRelation(applicants1, userlist);
@@ -385,10 +381,17 @@ public class TuitionDetails extends AppCompatActivity {
     }
 
     public void saveNewNotification(String user_email, String teacher_email, String offerID){
+
+        BackendlessUser user = Backendless.UserService.CurrentUser();
+        String firstName = (String) user.getProperty("first_name");
+        String lastName = (String) user.getProperty("last_name");
+        String name = firstName + " " + lastName;
+        Log.i("userName!!", name);
+
         Notifications notifications = new Notifications();
         notifications.setUser_email(user_email);
         notifications.setTeacher_email(teacher_email);
-        notifications.setMessage(" applied for your tuition offer ");
+        notifications.setMessage(name + " has applied for your tuition offer");
         notifications.setOfferID(offerID);
 
         Backendless.Data.of(Notifications.class).save(notifications, new AsyncCallback<Notifications>() {

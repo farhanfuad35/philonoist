@@ -45,11 +45,9 @@ public class NotificationListAdapter extends ArrayAdapter<Notifications> {
         if(notifications.get(position).getTeacher_email().equals("Null")){
             ivAccept.setVisibility(View.VISIBLE);
             message = notifications.get(position).getMessage();
-            message += " " + notifications.get(position).getStudent_name();
         }else{
             ivRequest.setVisibility(View.VISIBLE);
-            message = notifications.get(position).getTeacher_email();
-            message += " " + notifications.get(position).getMessage();
+            message = notifications.get(position).getMessage();
         }
         tvMessage.setText(message);
 

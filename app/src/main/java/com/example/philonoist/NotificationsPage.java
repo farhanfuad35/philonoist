@@ -36,13 +36,13 @@ public class NotificationsPage extends AppCompatActivity {
         lvNotificationsList = findViewById(R.id.lvNotificationsList);
 
         String loggedInUserEmail = FileMethods.load(getApplicationContext()).trim();
+        //String loggedInUserEmail = Backendless.UserService.CurrentUser().getEmail();
 
         final DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
         String whereClause = "user_email = '" + loggedInUserEmail + "'";
         dataQueryBuilder.setWhereClause(whereClause);
         dataQueryBuilder.addProperty("teacher_email");
         dataQueryBuilder.addProperty("user_email");
-        dataQueryBuilder.addProperty("student_name");
         dataQueryBuilder.addProperty("offerID");
         dataQueryBuilder.addProperty("message");
         dataQueryBuilder.addProperty("created");

@@ -128,9 +128,8 @@ public class UserInfo extends AppCompatActivity {
     public void saveNewNotification(String user_email, String offerID, String studentName){
         Notifications notifications = new Notifications();
         notifications.setUser_email(user_email);
-        notifications.setMessage("Your application has been accepted for ");
+        notifications.setMessage("Your request to teach " + studentName +" has been accepted!");
         notifications.setOfferID(offerID);
-        notifications.setStudent_name(studentName);
 
         Backendless.Data.of(Notifications.class).save(notifications, new AsyncCallback<Notifications>() {
             @Override

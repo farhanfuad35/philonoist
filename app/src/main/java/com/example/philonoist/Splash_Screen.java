@@ -107,7 +107,6 @@ public class Splash_Screen extends AppCompatActivity {
         dataQueryBuilder.addProperty("name");
         dataQueryBuilder.setPageSize(20);               // Number of objects retrieved per page
         //dataQueryBuilder.setGroupBy("_class");
-        //dataQueryBuilder.setSortBy("_class");
 
 
         Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
