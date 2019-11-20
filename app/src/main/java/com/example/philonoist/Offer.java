@@ -1,5 +1,7 @@
 package com.example.philonoist;
 
+import android.widget.ScrollView;
+
 import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.geo.GeoPoint;
@@ -18,6 +20,7 @@ public class Offer implements Serializable{
     private String  name;
     private String subject;
     private String email;
+    private String mailAddress;
     private boolean active;
     private String datLatitude;
     private String datLongitude;
@@ -80,14 +83,14 @@ public class Offer implements Serializable{
         this.ID = ID;
     }
 
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
 
     public String getContact() { return contact; }
 
@@ -115,6 +118,13 @@ public class Offer implements Serializable{
     }
 
 
+    public String getMailAddress() {
+        return mailAddress;
+    }
+
+    public void setMailAddress(String mailAddress) {
+        this.mailAddress = mailAddress;
+    }
 
 }
 

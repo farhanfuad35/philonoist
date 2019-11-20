@@ -384,6 +384,7 @@ public class postOffer extends AppCompatActivity {
         newoffer.setName(name);
         newoffer.setDatLatitude(geoPoint.getLatitude().toString());
         newoffer.setDatLongitude(geoPoint.getLongitude().toString());
+        newoffer.setMailAddress(Backendless.UserService.CurrentUser().getEmail());
 
         final ArrayList<BackendlessUser> userlist = new ArrayList<>();
         BackendlessUser user = Backendless.UserService.CurrentUser();

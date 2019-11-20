@@ -21,11 +21,14 @@ import com.backendless.BackendlessUser;
 import com.backendless.DeviceRegistration;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.geo.GeoPoint;
 import com.backendless.messaging.DeliveryOptions;
 import com.backendless.messaging.MessageStatus;
 import com.backendless.messaging.PublishOptions;
 import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.LoadRelationsQueryBuilder;
+import com.backendless.rt.data.EventHandler;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,13 +45,13 @@ public class TuitionDetails extends AppCompatActivity {
     private Button btnMap;
     private String lat;
     private String lng;
-    private String notficationemail;
     private String deviceid;
     private Button btnInterested;
     private Button btnCandidates;
     private Button btnCall;
     private TextView tvRemarksContent;
     private TextView tvAssigned;
+    private TextView _class;
     private String loggedInUserEmail;
     private String offerPostedByEmail;
     public  int interestedUserID;
@@ -89,6 +92,9 @@ public class TuitionDetails extends AppCompatActivity {
 
         callerActivityID = (int) getIntent().getIntExtra("ID", 0);          // From Maps, ID = 65 | From List, ID = 75
         offer = (Offer) getIntent().getSerializableExtra("offer");
+        offerPostedByEmail = offer.getMailAddress();
+        loggedInUserEmail = Backendless.UserService.CurrentUser().getEmail();
+
 //        lat = getIntent().getStringExtra("lat");
 //        lng = getIntent().getStringExtra("lng");
 
@@ -110,12 +116,48 @@ public class TuitionDetails extends AppCompatActivity {
         }
 
 
-        if(offer.isActive()){
-            Log.i("activeStatus", "active True");
-        }else{
-            Log.i("activeStatus", "active False");
-            tvAssigned.setVisibility(View.VISIBLE);
-        }
+//
+//        if(offer.isActive()){
+//            Log.i("activeStatus", "active True");
+//        }else{
+//            Log.i("activeStatus", "active False");
+//            tvAssigned.setVisibility(View.VISIBLE);
+//        }
+
+        // If a teacher is accepted, the updates need to be applied on client side
+
+
+        EventHandler<Offer> offerEventHandler = Backendless.Data.of( Offer.class ).rt();
+
+        offerEventHandler.addUpdateListener("active = FALSE", new AsyncCallback<Offer>() {
+            @Override
+            public void handleResponse(final Offer newOffer) {
+
+                if(newOffer.getObjectId().equals(offer.getObjectId())){
+                    tvAssigned.setVisibility(View.VISIBLE);
+                    btnCall.setVisibility(View.GONE);
+                    btnMap.setVisibility(View.GONE);
+                    btnCandidates.setVisibility(View.INVISIBLE);
+                    btnInterested.setVisibility(View.INVISIBLE);
+                }
+
+                Log.i("realtime", "this message printed");
+                Log.i("realtime", "objectID = " + newOffer.getObjectId());
+
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Log.i("realtime", fault.getMessage());
+            }
+        });
+
+
+
+
+
+
 
         Log.i("offerIDinTuitionDetails", offer.getObjectId());
         Log.i("contact", offer.getContact());
@@ -123,9 +165,29 @@ public class TuitionDetails extends AppCompatActivity {
         Log.i("index", CONSTANTS.offers.get(index).getObjectId());
 
         //getNameFromUsersTable();
-        getEmailFromUsersTable();
+        //getEmailFromUsersTable();
 
         setFieldValues();
+
+
+
+
+
+
+        if(loggedInUserEmail.equals(offerPostedByEmail)) {
+            System.out.println("loaded email "+loggedInUserEmail);
+            System.out.println("offer posted by "+offerPostedByEmail);
+            btnCall.setVisibility(View.GONE);
+            btnMap.setVisibility(View.GONE);
+            btnCandidates.setVisibility(View.VISIBLE);
+        }else{
+            System.out.println("else loaded email "+loggedInUserEmail);
+            System.out.println("else offer posted by "+offerPostedByEmail);
+            btnCall.setVisibility(View.VISIBLE);
+            btnMap.setVisibility(View.VISIBLE);
+            btnInterested.setVisibility(View.VISIBLE);
+        }
+
 
         btnInterested.setOnClickListener(new View.OnClickListener() {
 
@@ -134,8 +196,7 @@ public class TuitionDetails extends AppCompatActivity {
 
                 String offerID = offer.getObjectId();
                 DataQueryBuilder dataQuery = DataQueryBuilder.create();
-                System.out.println(notficationemail);
-                String whereClause = "email = '" + notficationemail+ "'";
+                String whereClause = "email = '" + offerPostedByEmail+ "'";
                 dataQuery.setWhereClause(whereClause);
 
                 Backendless.Data.of(BackendlessUser.class).find(dataQuery,new AsyncCallback<List<BackendlessUser>>() {
@@ -176,41 +237,8 @@ public class TuitionDetails extends AppCompatActivity {
                     }
                 });
 
-
-//                Backendless.Messaging.getDeviceRegistration(new AsyncCallback<DeviceRegistration>() {
-//                    @Override
-//                    public void handleResponse(DeviceRegistration response) {
-//
-//                        System.out.println(response.getDeviceId());
-//                        DeliveryOptions deliveryOptions = new DeliveryOptions();
-//                        deliveryOptions.setPushSinglecast(Arrays.asList(response.getDeviceId()));
-//                        PublishOptions publishOptions = new PublishOptions();
-//                        publishOptions.putHeader("android-ticker-text", "You just got a private push notification!");
-//                        publishOptions.putHeader("android-content-title", "This is a notification title");
-//                        publishOptions.putHeader("android-content-text", "Push Notifications are cool");
-//                        Backendless.Messaging.publish("this is a message!", publishOptions, deliveryOptions, new AsyncCallback<MessageStatus>() {
-//                            @Override
-//                            public void handleResponse(MessageStatus response) {
-//
-//                            }
-//
-//                            @Override
-//                            public void handleFault(BackendlessFault fault) {
-//
-//                            }
-//                        });
-//
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void handleFault(BackendlessFault fault) {
-//
-//                    }
-//                });
-                String userEmail = FileMethods.load(getApplicationContext());
-                //String userEmail = Backendless.UserService.CurrentUser().getEmail();
+                //String userEmail = FileMethods.load(getApplicationContext());
+                String userEmail = Backendless.UserService.CurrentUser().getEmail();
                 System.out.println("in interested: "+userEmail);
                 System.out.println("Offer ID: "+ offerID);
                 //String userEmail = Backendless.UserService.CurrentUser().getEmail();
@@ -276,6 +304,7 @@ public class TuitionDetails extends AppCompatActivity {
         tvRemarksContent.setText(offer.getRemarks());
         tvRemarksContent.setVisibility(View.VISIBLE);
         hostName.setText(offer.getName());
+        _class.setText(offer.get_class());
     }
 
     private void initializeFields(){
@@ -288,6 +317,7 @@ public class TuitionDetails extends AppCompatActivity {
         btnCall = findViewById(R.id.btnTuitionDetails_call);
         tvRemarksContent = findViewById(R.id.tvDetails_remarksContent);
         tvAssigned = findViewById(R.id.tvAssigned);
+        _class = findViewById(R.id.tvDetails_classNumber);
     }
 
     private LoadRelationsQueryBuilder prepareLoadRelationQuery(String relationFieldName)
@@ -297,43 +327,6 @@ public class TuitionDetails extends AppCompatActivity {
         loadRelationsQueryBuilder.setRelationName( relationFieldName );
 
         return loadRelationsQueryBuilder;
-    }
-
-
-    private void getEmailFromUsersTable(){
-        LoadRelationsQueryBuilder loadRelationsQueryBuilder = prepareLoadRelationQuery("email");
-        Backendless.Data.of("Offer").loadRelations(offer.getObjectId(), loadRelationsQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
-            @Override
-            public void handleResponse(List<BackendlessUser> users) {
-                String email = (String) users.get(0).getEmail().trim();
-                notficationemail = email;
-                offerPostedByEmail = (String) users.get(0).getEmail().trim();
-                loggedInUserEmail = FileMethods.load(getApplicationContext()).trim();
-                //loggedInUserEmail = Backendless.UserService.CurrentUser().getEmail();
-
-                if(loggedInUserEmail.equals(offerPostedByEmail)) {
-                    System.out.println("loaded email "+loggedInUserEmail);
-                    System.out.println("offer posted by "+offerPostedByEmail);
-                    btnCall.setVisibility(View.GONE);
-                    btnMap.setVisibility(View.GONE);
-                    if(offer.isActive()){
-                        btnCandidates.setVisibility(View.VISIBLE);
-                    }
-                }else{
-                    System.out.println("else loaded email "+loggedInUserEmail);
-                    System.out.println("else offer posted by "+offerPostedByEmail);
-                    if(offer.isActive()){
-                        btnCall.setVisibility(View.VISIBLE);
-                        btnMap.setVisibility(View.VISIBLE);
-                        btnInterested.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-            @Override
-            public void handleFault(BackendlessFault fault) {
-                Log.i("relation query", "relation query error " + fault.getMessage());
-            }
-        });
     }
 
     private  void setRelation(final Applicants applicants, ArrayList<BackendlessUser>userList) {
