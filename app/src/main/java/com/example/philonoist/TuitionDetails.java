@@ -381,10 +381,17 @@ public class TuitionDetails extends AppCompatActivity {
     }
 
     public void saveNewNotification(String user_email, String teacher_email, String offerID){
+
+        BackendlessUser user = Backendless.UserService.CurrentUser();
+        String firstName = (String) user.getProperty("first_name");
+        String lastName = (String) user.getProperty("last_name");
+        String name = firstName + " " + lastName;
+        Log.i("userName!!", name);
+
         Notifications notifications = new Notifications();
         notifications.setUser_email(user_email);
         notifications.setTeacher_email(teacher_email);
-        notifications.setMessage(" applied for your tuition offer ");
+        notifications.setMessage(name + " has applied for your tuition offer");
         notifications.setOfferID(offerID);
 
         Backendless.Data.of(Notifications.class).save(notifications, new AsyncCallback<Notifications>() {

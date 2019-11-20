@@ -43,11 +43,10 @@ public class NotificationsPage extends AppCompatActivity {
         dataQueryBuilder.setWhereClause(whereClause);
         dataQueryBuilder.addProperty("teacher_email");
         dataQueryBuilder.addProperty("user_email");
-        dataQueryBuilder.addProperty("student_name");
         dataQueryBuilder.addProperty("offerID");
         dataQueryBuilder.addProperty("message");
         dataQueryBuilder.addProperty("created");
-        dataQueryBuilder.addSortBy("created");
+        dataQueryBuilder.setSortBy("created");
 
         Backendless.Data.of(Notifications.class).find(dataQueryBuilder, new AsyncCallback<List<Notifications>>() {
             @Override
