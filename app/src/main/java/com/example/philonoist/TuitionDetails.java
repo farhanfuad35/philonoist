@@ -18,10 +18,16 @@ import android.widget.Toast;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
+import com.backendless.DeviceRegistration;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.messaging.DeliveryOptions;
+import com.backendless.messaging.MessageStatus;
+import com.backendless.messaging.PublishOptions;
+import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.LoadRelationsQueryBuilder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TuitionDetails extends AppCompatActivity {
@@ -36,6 +42,8 @@ public class TuitionDetails extends AppCompatActivity {
     private Button btnMap;
     private String lat;
     private String lng;
+    private String notficationemail;
+    private String deviceid;
     private Button btnInterested;
     private Button btnCandidates;
     private Button btnCall;
@@ -44,6 +52,7 @@ public class TuitionDetails extends AppCompatActivity {
     public  int interestedUserID;
     private int callerActivityID;
     final int candidatesList = 49;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -81,7 +90,15 @@ public class TuitionDetails extends AppCompatActivity {
 //        lat = getIntent().getStringExtra("lat");
 //        lng = getIntent().getStringExtra("lng");
 
+        Log.i("newoffer", "check next line");
+        Log.i("newoffer", offer.getSubject());
+        Log.i("newoffer", offer.getLocation().getLatitude().toString());
+
         if(callerActivityID == CONSTANTS.getActivityIdTuitionlist()) {
+
+            Log.i("latlng", "On tuitiondetails, lat = " + offer.getLocation().getLatitude().toString());
+
+
             lat = (String) offer.getLocation().getLatitude().toString();
             lng = (String) offer.getLocation().getLongitude().toString();
         }
@@ -109,15 +126,98 @@ public class TuitionDetails extends AppCompatActivity {
         setFieldValues();
 
         btnInterested.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
 
+
+                String offerID = offer.getObjectId();
+                DataQueryBuilder dataQuery = DataQueryBuilder.create();
+                System.out.println(notficationemail);
+                String whereClause = "email = '" + notficationemail+ "'";
+                dataQuery.setWhereClause(whereClause);
+
+                Backendless.Data.of(BackendlessUser.class).find(dataQuery,new AsyncCallback<List<BackendlessUser>>() {
+                    @Override
+                    public void handleResponse(List<BackendlessUser> users) {
+                        deviceid = (String)users.get(0).getProperty("device_id");
+
+
+
+
+                        String message = (String)Backendless.UserService.CurrentUser().getProperty("first_name") + (String)Backendless.UserService.CurrentUser().getProperty("last_name")+ " has applied for a tuition you posted. Check the Notification Page";
+                        DeliveryOptions deliveryOptions = new DeliveryOptions();
+                        deliveryOptions.setPushSinglecast(Arrays.asList(deviceid));
+                        PublishOptions publishOptions = new PublishOptions();
+                        publishOptions.putHeader("android-ticker-text", "You just got a private push notification!");
+                        publishOptions.putHeader("android-content-title", "New Candidate!!!");
+                        publishOptions.putHeader("android-content-text", "Push Notifications are cool");
+                        Backendless.Messaging.publish(message, publishOptions, deliveryOptions, new AsyncCallback<MessageStatus>() {
+                            @Override
+                            public void handleResponse(MessageStatus response) {
+                                System.out.println("Hello there you are here");
+                            }
+
+                            @Override
+                            public void handleFault(BackendlessFault fault) {
+
+                            }
+                        });
+
+
+
+                        System.out.print("this is device id " + deviceid);
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+
+                    }
+                });
+
+
+
+
+
+//                Backendless.Messaging.getDeviceRegistration(new AsyncCallback<DeviceRegistration>() {
+//                    @Override
+//                    public void handleResponse(DeviceRegistration response) {
+//
+//                        System.out.println(response.getDeviceId());
+//                        DeliveryOptions deliveryOptions = new DeliveryOptions();
+//                        deliveryOptions.setPushSinglecast(Arrays.asList(response.getDeviceId()));
+//                        PublishOptions publishOptions = new PublishOptions();
+//                        publishOptions.putHeader("android-ticker-text", "You just got a private push notification!");
+//                        publishOptions.putHeader("android-content-title", "This is a notification title");
+//                        publishOptions.putHeader("android-content-text", "Push Notifications are cool");
+//                        Backendless.Messaging.publish("this is a message!", publishOptions, deliveryOptions, new AsyncCallback<MessageStatus>() {
+//                            @Override
+//                            public void handleResponse(MessageStatus response) {
+//
+//                            }
+//
+//                            @Override
+//                            public void handleFault(BackendlessFault fault) {
+//
+//                            }
+//                        });
+//
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void handleFault(BackendlessFault fault) {
+//
+//                    }
+//                });
                 String userEmail = FileMethods.load(getApplicationContext());
                 System.out.println("in interested: "+userEmail);
-                String offerID = offer.getObjectId();
                 System.out.println("Offer ID: "+ offerID);
                 //String userEmail = Backendless.UserService.CurrentUser().getEmail();
                 saveNewApplicant(userEmail, offerID);
+
+
 
             }
         });
@@ -209,7 +309,7 @@ public class TuitionDetails extends AppCompatActivity {
             @Override
             public void handleResponse(List<BackendlessUser> users) {
                 String email = (String) users.get(0).getEmail().trim();
-
+                notficationemail = email;
                 String useremail = FileMethods.load(getApplicationContext()).trim();
 
                 if(useremail.equals(email)) {

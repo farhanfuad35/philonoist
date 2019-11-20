@@ -1,18 +1,29 @@
 package com.example.philonoist;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
@@ -21,6 +32,7 @@ import com.backendless.UserService;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.geo.GeoPoint;
+import com.backendless.persistence.DataQueryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,9 +92,12 @@ public class postOffer extends AppCompatActivity {
     String remarks;
     boolean active;
 
-
+    ProgressBar progressBar;
+    TextView tvPostingOffer;
+    ScrollView svPostOffer;
 
     final int SELECT_LOCATION_INTENT_ID = 99;
+    final int FINE_LOCATION_PERMISSION_CODE = 44;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,11 +112,37 @@ public class postOffer extends AppCompatActivity {
 
 
 
+
         btnlocation.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Select_Tuition_Location.class);
-                startActivityForResult(intent, SELECT_LOCATION_INTENT_ID);
+
+
+                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    Activity#requestPermissions
+
+                    Log.i("location", "calling permission request window");
+
+
+                    ActivityCompat.requestPermissions(postOffer.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_PERMISSION_CODE);
+
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for Activity#requestPermissions for more details.
+
+                    return;
+                }
+
+                else {
+
+                    Intent intent = new Intent(getApplicationContext(), Select_Tuition_Location.class);
+                    startActivityForResult(intent, SELECT_LOCATION_INTENT_ID);
+                }
+
             }
         });
 
@@ -246,13 +287,35 @@ public class postOffer extends AppCompatActivity {
                 if(resultCode == RESULT_OK && requestCode == SELECT_LOCATION_INTENT_ID) {
                     Log.i("post with map", "returned with intent data");
 
-                    GeoPoint geoPoint = (GeoPoint) data.getSerializableExtra("geoPoint");
+                    final GeoPoint geoPoint = (GeoPoint) data.getSerializableExtra("geoPoint");
 
                     if(etsubject1.getText().toString().isEmpty()){
                         etsubject1.setError("Please enter a subject");
                     }
                     else{
-                            syncOfferWithDatabase(geoPoint);
+
+
+                        Dialog dialog = new Dialog(postOffer.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setCancelable(false);
+                        dialog.setContentView(R.layout.loadingdialog);
+                        dialog.show();
+
+
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                syncOfferWithDatabase(geoPoint);
+                            }
+                        });
+
+                        thread.start();
+
+
+
+
+
+
                     }
                 }
 
@@ -304,7 +367,7 @@ public class postOffer extends AppCompatActivity {
         Log.i("subject", "finalSubject : " + finalSubject);
 
         saveNewOffer(geoPoint);
-        postOffer.this.finish();
+        //postOffer.this.finish();
     }
 
 
@@ -336,6 +399,8 @@ public class postOffer extends AppCompatActivity {
                 // Log.i(TAG, "Order has been saved");
                 setRelation(NewOffer, userlist, geoPoint);
 
+
+
                 Log.i("post with map", "saved offer successfully");
             }
 
@@ -364,6 +429,47 @@ public class postOffer extends AppCompatActivity {
                     @Override
                     public void handleResponse(Integer response) {
                         Log.i("addRelation", "GeoRelation created successfully");
+
+
+
+
+
+
+                        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+                        //dataQueryBuilder.addRelated("_class");
+                        String whereClause = "active = true";
+                        dataQueryBuilder.setWhereClause(whereClause);
+                        dataQueryBuilder.addProperty("subject");
+                        dataQueryBuilder.addProperty("salary");
+                        dataQueryBuilder.addProperty("_class");
+                        dataQueryBuilder.addProperty("objectId");
+                        dataQueryBuilder.addProperty("remarks");
+                        dataQueryBuilder.addProperty("contact");
+                        dataQueryBuilder.addProperty("location");
+                        dataQueryBuilder.addProperty("active");
+                        dataQueryBuilder.addProperty("name");
+                        dataQueryBuilder.setPageSize(20);               // Number of objects retrieved per page
+
+
+                        Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
+                            @Override
+                            public void handleResponse(List<Offer> response) {
+                                CONSTANTS.offers = response;
+
+                                Intent intent = new Intent(postOffer.this, TuitionList.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                            @Override
+                            public void handleFault(BackendlessFault fault) {
+                                Log.e("refresh", "on TuitionList/swipeRefresh\t" + fault.getMessage());
+                            }
+                        });
+
+
+
+
                     }
 
                     @Override
@@ -423,5 +529,9 @@ public class postOffer extends AppCompatActivity {
         etsubject8 = findViewById(R.id.etpostoffer_Subject8);
         etsubject9 = findViewById(R.id.etpostoffer_Subject9);
         etsubject10 = findViewById(R.id.etpostoffer_Subject10);
+
+        progressBar = findViewById(R.id.pbPostOffer_Loading);
+        tvPostingOffer = findViewById(R.id.tvPostOffer_PostingOffer);
+        svPostOffer = findViewById(R.id.svPostOffer_scrollview);
     }
 }

@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".MyProfile">
-
 
     <include
         android:id="@+id/toolbar_MyProfile"
@@ -20,6 +19,7 @@
         android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
         android:text="A"
+        android:textColor="#7F7F7F"
         android:textSize="100sp"
         android:textStyle="bold|italic" />
 
@@ -89,6 +89,24 @@
         android:text="year"
         android:textSize="18sp"
         android:textStyle="bold" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMyProfile_MyOffers"
+        android:layout_width="match_parent"
+        android:text="My Offers"
+        app:backgroundTint="@color/colorPrimary"
+        app:strokeWidth="4dp"
+        app:strokeColor="@color/colorPrimaryDark"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        app:cornerRadius="90dp"
+        app:rippleColor="@color/colorPrimaryDark"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

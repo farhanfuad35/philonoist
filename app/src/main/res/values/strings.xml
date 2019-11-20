@@ -11,4 +11,5 @@
     <string name="_10">10</string>
     <string name="remarks">Remarks</string>
     <string name="connectionErrorMessageBackendless">Unable to resolve host \"api.backendless.com\": No address associated with hostname</string>
+    <string name="stay_logged_in">Stay Logged In</string>
 </resources>

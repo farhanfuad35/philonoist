@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "933427575875",
+    "firebase_url": "https://philonoist.firebaseio.com",
+    "project_id": "philonoist",
+    "storage_bucket": "philonoist.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933427575875:android:e57488c87c881007fe28f6",
+        "android_client_info": {
+          "package_name": "com.example.philonoist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933427575875-m27rskkokj2ook1ci20tn7c4g3f5u66c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.philonoist",
+            "certificate_hash": "39786ab94cc5c87f4b69526b429311937dbee5d5"
+          }
+        },
+        {
+          "client_id": "933427575875-q7s004gq08284mc9g4nq01t688otv8a9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC66LMyQOUDETsx4g744dXnQr4WhbqzlVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933427575875-q7s004gq08284mc9g4nq01t688otv8a9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

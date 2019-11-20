@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
 import com.backendless.persistence.local.UserTokenStorageFactory;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
@@ -104,6 +105,7 @@ public class Splash_Screen extends AppCompatActivity {
         dataQueryBuilder.addProperty("location");
         dataQueryBuilder.addProperty("active");
         dataQueryBuilder.addProperty("name");
+        dataQueryBuilder.setPageSize(20);               // Number of objects retrieved per page
         //dataQueryBuilder.setGroupBy("_class");
         //dataQueryBuilder.setSortBy("_class");
 
@@ -124,9 +126,32 @@ public class Splash_Screen extends AppCompatActivity {
                 String userToken = UserTokenStorageFactory.instance().getStorage().get();
 
                 if( userToken != null && !userToken.equals( "" ) )
-                {   Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
-                    startActivity(intent);
-                    Splash_Screen.this.finish();
+                {
+                    String currentUserId = Backendless.UserService.loggedInUser();
+
+                    Backendless.UserService.findById(currentUserId, new AsyncCallback<BackendlessUser>() {
+                        @Override
+                        public void handleResponse(BackendlessUser response) {
+                            Backendless.UserService.setCurrentUser( response );
+
+
+                            Intent intent = new Intent(getApplicationContext(), com.example.philonoist.TuitionList.class);
+                            startActivity(intent);
+                            Splash_Screen.this.finish();
+
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Intent intent = new Intent(getApplicationContext(), com.example.philonoist.Login.class);
+                            startActivity(intent);
+                            Splash_Screen.this.finish();
+                        }
+                    });
+
+
+
+
                 }
                 else{
                     Intent intent = new Intent(getApplicationContext(), com.example.philonoist.Login.class);

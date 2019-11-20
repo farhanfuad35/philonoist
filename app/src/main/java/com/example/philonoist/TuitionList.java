@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.app.Activity;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -51,6 +53,8 @@ public class TuitionList extends AppCompatActivity {
     ArrayList<Offer> tuitionArrayList = new ArrayList<>();
     ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<>();
     FloatingActionButton fabMaps;
+    Button btnPostOffer;
+    SwipeRefreshLayout swpRefresh;
 
     final int FINE_LOCATION_PERMISSION_CODE = 44;
 
@@ -70,6 +74,8 @@ public class TuitionList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         fabMaps = findViewById(R.id.fabTuitionList_Map);
+        btnPostOffer = findViewById(R.id.btnTuitionList_PostOffer);
+        swpRefresh = findViewById(R.id.swpTuitionList_refresh);
 
 
         final List<String> tuitionList = new ArrayList<>();
@@ -88,6 +94,9 @@ public class TuitionList extends AppCompatActivity {
         lvTuitionList.setAdapter(viewTuitionAdapter);
 
 
+        Log.i("newoffer", Integer.toString(CONSTANTS.offers.size()));
+
+
         //Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
 
         lvTuitionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -103,6 +112,14 @@ public class TuitionList extends AppCompatActivity {
 
 
                 Log.d("details", "details activity created");
+            }
+        });
+
+        btnPostOffer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), postOffer.class);
+                startActivity(intent);
             }
         });
 
@@ -137,6 +154,51 @@ public class TuitionList extends AppCompatActivity {
             }
         });
 
+
+        swpRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+
+                DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+                //dataQueryBuilder.addRelated("_class");
+                String whereClause = "active = true";
+                dataQueryBuilder.setWhereClause(whereClause);
+                dataQueryBuilder.addProperty("subject");
+                dataQueryBuilder.addProperty("salary");
+                dataQueryBuilder.addProperty("_class");
+                dataQueryBuilder.addProperty("objectId");
+                dataQueryBuilder.addProperty("remarks");
+                dataQueryBuilder.addProperty("contact");
+                dataQueryBuilder.addProperty("location");
+                dataQueryBuilder.addProperty("active");
+                dataQueryBuilder.addProperty("name");
+                dataQueryBuilder.setPageSize(20);               // Number of objects retrieved per page
+
+
+                Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
+                    @Override
+                    public void handleResponse(List<Offer> response) {
+                        CONSTANTS.offers = response;
+                        viewTuitionAdapter.clear();
+                        viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, response);
+                        lvTuitionList.setAdapter(viewTuitionAdapter);
+
+                        swpRefresh.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+                        swpRefresh.setRefreshing(false);
+                        Toast.makeText(getApplicationContext(), "Couldn't retrieve data", Toast.LENGTH_SHORT).show();
+                        Log.e("refresh", "on TuitionList/swipeRefresh\t" + fault.getMessage());
+                    }
+                });
+
+
+            }
+        });
+
     }
 
     @Override
@@ -164,23 +226,20 @@ public class TuitionList extends AppCompatActivity {
             return true;
         }
         if(id == R.id.menuMain_profile){
-            Intent intent = new Intent(this, com.example.philonoist.ProfileActivities.class);
+            Intent intent = new Intent(this, com.example.philonoist.MyProfile.class);
             startActivity(intent);
         }
         if(id == R.id.menuMain_Logout){
-            Backendless.UserService.logout(new AsyncCallback<Void>() {
-                @Override
-                public void handleResponse(Void response) {
-                    Toast.makeText(getApplicationContext(), "You are successfully logged out!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), Login.class);
-                    startActivity(intent);
-                }
 
-                @Override
-                public void handleFault(BackendlessFault fault) {
-                    Toast.makeText(getApplicationContext(), "Sorry couldn't logout right now. Please check your connection", Toast.LENGTH_SHORT).show();
-                }
-            });
+            // Updating device ID while logging out to ensure no more notification is sent to that device
+
+            BackendlessUser user = Backendless.UserService.CurrentUser();
+
+            BackendlessAPIMethods.updateDeviceId(TuitionList.this, user, "");
+
+
+            BackendlessAPIMethods.logOut(TuitionList.this);
+
         }
 
 

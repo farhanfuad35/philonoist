@@ -1,6 +1,7 @@
 package com.example.philonoist;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import android.content.Intent;
 import android.os.Build;
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import static com.example.philonoist.CONSTANTS.getActivityIdTuitionlist;
 import static com.example.philonoist.CONSTANTS.offers;
 
 public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapReadyCallback {
@@ -30,6 +32,9 @@ public class    Maps_Show_Tuitions extends FragmentActivity implements OnMapRead
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
     }
 
     /**
