@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.app.Activity;
@@ -53,6 +54,7 @@ public class TuitionList extends AppCompatActivity {
     ArrayList<ArrayList<String>> listOfSubjects = new ArrayList<>();
     FloatingActionButton fabMaps;
     Button btnPostOffer;
+    SwipeRefreshLayout swpRefresh;
 
     final int FINE_LOCATION_PERMISSION_CODE = 44;
 
@@ -73,6 +75,7 @@ public class TuitionList extends AppCompatActivity {
 
         fabMaps = findViewById(R.id.fabTuitionList_Map);
         btnPostOffer = findViewById(R.id.btnTuitionList_PostOffer);
+        swpRefresh = findViewById(R.id.swpTuitionList_refresh);
 
 
         final List<String> tuitionList = new ArrayList<>();
@@ -89,6 +92,9 @@ public class TuitionList extends AppCompatActivity {
 
         viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
         lvTuitionList.setAdapter(viewTuitionAdapter);
+
+
+        Log.i("newoffer", Integer.toString(CONSTANTS.offers.size()));
 
 
         //Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
@@ -148,6 +154,51 @@ public class TuitionList extends AppCompatActivity {
             }
         });
 
+
+        swpRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+
+                DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+                //dataQueryBuilder.addRelated("_class");
+                String whereClause = "active = true";
+                dataQueryBuilder.setWhereClause(whereClause);
+                dataQueryBuilder.addProperty("subject");
+                dataQueryBuilder.addProperty("salary");
+                dataQueryBuilder.addProperty("_class");
+                dataQueryBuilder.addProperty("objectId");
+                dataQueryBuilder.addProperty("remarks");
+                dataQueryBuilder.addProperty("contact");
+                dataQueryBuilder.addProperty("location");
+                dataQueryBuilder.addProperty("active");
+                dataQueryBuilder.addProperty("name");
+                dataQueryBuilder.setPageSize(20);               // Number of objects retrieved per page
+
+
+                Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
+                    @Override
+                    public void handleResponse(List<Offer> response) {
+                        CONSTANTS.offers = response;
+                        viewTuitionAdapter.clear();
+                        viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, response);
+                        lvTuitionList.setAdapter(viewTuitionAdapter);
+
+                        swpRefresh.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+                        swpRefresh.setRefreshing(false);
+                        Toast.makeText(getApplicationContext(), "Couldn't retrieve data", Toast.LENGTH_SHORT).show();
+                        Log.e("refresh", "on TuitionList/swipeRefresh\t" + fault.getMessage());
+                    }
+                });
+
+
+            }
+        });
+
     }
 
     @Override
@@ -179,7 +230,16 @@ public class TuitionList extends AppCompatActivity {
             startActivity(intent);
         }
         if(id == R.id.menuMain_Logout){
+
+            // Updating device ID while logging out to ensure no more notification is sent to that device
+
+            BackendlessUser user = Backendless.UserService.CurrentUser();
+
+            BackendlessAPIMethods.updateDeviceId(TuitionList.this, user, "");
+
+
             BackendlessAPIMethods.logOut(TuitionList.this);
+
         }
 
 

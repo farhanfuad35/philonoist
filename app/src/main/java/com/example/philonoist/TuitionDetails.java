@@ -90,7 +90,15 @@ public class TuitionDetails extends AppCompatActivity {
 //        lat = getIntent().getStringExtra("lat");
 //        lng = getIntent().getStringExtra("lng");
 
+        Log.i("newoffer", "check next line");
+        Log.i("newoffer", offer.getSubject());
+        Log.i("newoffer", offer.getLocation().getLatitude().toString());
+
         if(callerActivityID == CONSTANTS.getActivityIdTuitionlist()) {
+
+            Log.i("latlng", "On tuitiondetails, lat = " + offer.getLocation().getLatitude().toString());
+
+
             lat = (String) offer.getLocation().getLatitude().toString();
             lng = (String) offer.getLocation().getLongitude().toString();
         }

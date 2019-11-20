@@ -3,6 +3,7 @@ package com.example.philonoist;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
@@ -51,4 +52,31 @@ public class BackendlessAPIMethods {
 //            }
 //        }, stayLoggedIn);
 //    }
+
+
+    public static void updateDeviceId(Context context, BackendlessUser user, String deviceId) {
+
+        //BackendlessUser user = Backendless.UserService.CurrentUser();
+
+        Log.i("deviceid", "before get email");
+        //Log.i("deviceid", "email of CurrentUser : " + user.getEmail());
+        Log.i("deviceid", "after get email");
+
+        user.setProperty("device_id", deviceId);
+
+        Backendless.UserService.update(user, new AsyncCallback<BackendlessUser>() {
+            @Override
+            public void handleResponse(BackendlessUser backendlessUser) {
+                Log.i("deviceid", "User has been updated");
+                Log.i("deviceid", "Device ID - " + backendlessUser.getProperty("device_id"));
+            }
+
+            @Override
+            public void handleFault(BackendlessFault backendlessFault) {
+                Log.i("deviceid", backendlessFault.getMessage());
+            }
+        });
+    }
+
+
 }
