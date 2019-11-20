@@ -242,6 +242,11 @@ public class TuitionList extends AppCompatActivity {
 
         }
 
+        if(id == R.id.menuMain_notifications){
+            Intent intent = new Intent(getApplicationContext(), NotificationsPage.class);
+            startActivity(intent);
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

@@ -16,8 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp"
-        android:clickable="true"
-        tools:layout_editor_absoluteX="155dp"
-        tools:layout_editor_absoluteY="148dp" />
+        android:clickable="true" />
 
 </LinearLayout>
