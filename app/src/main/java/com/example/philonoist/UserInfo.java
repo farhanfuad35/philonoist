@@ -109,6 +109,7 @@ public class UserInfo extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Error" + fault.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+                    saveNewNotification(email, offerID, offer.getName());
                 }
 
                 setResult(RESULT_OK);
@@ -120,6 +121,26 @@ public class UserInfo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 UserInfo.this.finish();
+            }
+        });
+    }
+
+    public void saveNewNotification(String user_email, String offerID, String studentName){
+        Notifications notifications = new Notifications();
+        notifications.setUser_email(user_email);
+        notifications.setMessage("Your application has been accepted for ");
+        notifications.setOfferID(offerID);
+        notifications.setStudent_name(studentName);
+
+        Backendless.Data.of(Notifications.class).save(notifications, new AsyncCallback<Notifications>() {
+            @Override
+            public void handleResponse(Notifications response) {
+                Log.i("notification", "notification saved in database");
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Log.i("notification", "notification NOT!!! saved in database");
             }
         });
     }

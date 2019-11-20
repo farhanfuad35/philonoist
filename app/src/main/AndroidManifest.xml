@@ -46,7 +46,7 @@
         <activity android:name=".Login" />
         <activity android:name=".SearchResult" />
         <activity android:name=".CandidateList" />
-        <activity android:name=".Notifications" />
+        <activity android:name=".NotificationsPage" />
         <activity android:name=".TuitionList">
             <meta-data
                 android:name="android.app.searchable"
