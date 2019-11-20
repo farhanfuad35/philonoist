@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -35,7 +36,9 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.geo.GeoPoint;
 import com.backendless.persistence.DataQueryBuilder;
+import com.backendless.rt.data.EventHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -88,6 +91,7 @@ public class TuitionList extends AppCompatActivity {
 
         for(int i=0; i<CONSTANTS.offers.size(); i++){
             Log.i("oID", i+1 +": " + CONSTANTS.offers.get(i).getObjectId());
+
         }
 
         viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
@@ -199,6 +203,41 @@ public class TuitionList extends AppCompatActivity {
             }
         });
 
+
+
+
+
+        // Real-Time database object create listener
+
+        EventHandler<Offer> orderEventHandler = Backendless.Data.of( Offer.class ).rt();
+
+        orderEventHandler.addCreateListener(new AsyncCallback<Offer>() {
+            @Override
+            public void handleResponse(final Offer newOffer) {
+
+                Double lat = Double.parseDouble(newOffer.getDatLatitude());
+                Double lng = Double.parseDouble(newOffer.getDatLongitude());
+
+                GeoPoint geoPoint = new GeoPoint(lat, lng);
+                newOffer.setLocation(geoPoint);
+
+                Log.i("realtime", "this message printed");
+                Log.i("realtime", newOffer.getLocation().getLatitude().toString());
+
+                CONSTANTS.offers.add(newOffer);
+                viewTuitionAdapter.add(newOffer);
+                lvTuitionList.setAdapter(viewTuitionAdapter);
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Log.i("realtime", fault.getMessage());
+            }
+        });
+
+
+
     }
 
     @Override
@@ -250,5 +289,9 @@ public class TuitionList extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 
 }
