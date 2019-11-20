@@ -28,8 +28,8 @@ public class UserInfo extends AppCompatActivity {
 
         TextView tvChar = findViewById(R.id.tvUserinfo_char);
         TextView tvName = findViewById(R.id.tvUserinfo_name);
-        TextView tvContactNo = findViewById(R.id.tvUserinfo_contactNo);
-        TextView tvEmail = findViewById(R.id.tvUserinfo_email);
+        TextView tvYear = findViewById(R.id.tvUserinfo_year);
+        TextView tvDepartment = findViewById(R.id.tvUserinfo_department);
         Button btnAccept = findViewById(R.id.btn_accept);
         Button btnCancel = findViewById(R.id.btn_cancel);
         Button btnCall = findViewById(R.id.btnUserInfo_call);
@@ -42,12 +42,17 @@ public class UserInfo extends AppCompatActivity {
 
         final String firstName = (String) user.getProperty("first_name");
         final String lastName = (String) user.getProperty("last_name");
+        final String name = firstName + " " + lastName;
         final String email = user.getEmail();
         Log.i("userEmailCheck", email);
+
         tvChar.setText(firstName.toUpperCase().charAt(0) + "");
-        tvName.setText(firstName + " " + lastName);
-        tvEmail.setText(user.getEmail());
-        tvContactNo.setText((String)user.getProperty("contact_no"));
+
+        tvName.setText(name);
+
+        tvDepartment.setText((String)user.getProperty("department"));
+
+        tvYear.setText((String)user.getProperty("year") + " year");
 
 
         btnCall.setOnClickListener(new View.OnClickListener() {
@@ -64,8 +69,10 @@ public class UserInfo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/html");
-                intent.putExtra(Intent.EXTRA_EMAIL, email);
+                String[] TO = {email};
+                intent.setData(Uri.parse("mailto:"));
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_EMAIL, TO);
                 startActivity(Intent.createChooser(intent, "Send mail to "+firstName + " " + lastName));
             }
         });
@@ -102,6 +109,7 @@ public class UserInfo extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Error" + fault.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+                    saveNewNotification(email, offerID, offer.getName());
                 }
 
                 setResult(RESULT_OK);
@@ -115,11 +123,25 @@ public class UserInfo extends AppCompatActivity {
                 UserInfo.this.finish();
             }
         });
+    }
 
+    public void saveNewNotification(String user_email, String offerID, String studentName){
+        Notifications notifications = new Notifications();
+        notifications.setUser_email(user_email);
+        notifications.setMessage("Your application has been accepted for ");
+        notifications.setOfferID(offerID);
+        notifications.setStudent_name(studentName);
 
+        Backendless.Data.of(Notifications.class).save(notifications, new AsyncCallback<Notifications>() {
+            @Override
+            public void handleResponse(Notifications response) {
+                Log.i("notification", "notification saved in database");
+            }
 
-
-
-
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Log.i("notification", "notification NOT!!! saved in database");
+            }
+        });
     }
 }

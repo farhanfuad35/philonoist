@@ -1,36 +1,58 @@
 package com.example.philonoist;
 
-import androidx.appcompat.app.AppCompatActivity;
+public class Notifications {
+    private String user_email;
+    private String teacher_email;
+    private String teacher_name;
+    private String student_name;
+    private String message;
+    private String offerID;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+    public String getStudent_name() {
+        return student_name;
+    }
 
-public class Notifications extends AppCompatActivity {
+    public void setStudent_name(String student_name) {
+        this.student_name = student_name;
+    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications);
+    public String getUser_email() {
+        return user_email;
+    }
 
-        setTitle("Notifications");
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_Notifications);
-        setSupportActionBar(toolbar);
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
+    }
 
-        //Notification[]
-        String[] notifications = new String[]{"Notification1", "Notification2", "Notification3"};
+    public String getTeacher_email() {
+        return teacher_email;
+    }
 
-        ListView listView = findViewById(R.id.lvNotifications);
-        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, notifications);
-        listView.setAdapter(listViewAdapter);
+    public void setTeacher_email(String teacher_email) {
+        this.teacher_email = teacher_email;
+    }
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public String getTeacher_name() {
+        return teacher_name;
+    }
 
-            }
-        });
+    public void setTeacher_name(String teacher_name) {
+        this.teacher_name = teacher_name;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getOfferID() {
+        return offerID;
+    }
+
+    public void setOfferID(String offerID) {
+        this.offerID = offerID;
     }
 }

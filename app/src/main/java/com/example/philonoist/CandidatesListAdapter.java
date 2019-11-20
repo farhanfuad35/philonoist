@@ -39,8 +39,8 @@ public class CandidatesListAdapter extends ArrayAdapter<BackendlessUser> {
         convertView = inflater.inflate(R.layout.row_candidate_list_layout, parent, false);
 
         TextView tvChar = convertView.findViewById(R.id.tvRowCandidateListLayout_char);
-        TextView tvName = convertView.findViewById(R.id.tvName);
-        TextView tvMail = convertView.findViewById(R.id.tvMail);
+        TextView tvName = convertView.findViewById(R.id.tvRowCandidateListLayout_name);
+        TextView tvMail = convertView.findViewById(R.id.tvRowCandidateListLayout_email);
 
         String firstName = (String) candidates.get(position).getProperty("first_name");
         tvChar.setText(firstName.toUpperCase().charAt(0) + "");

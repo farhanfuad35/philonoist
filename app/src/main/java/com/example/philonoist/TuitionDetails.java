@@ -49,6 +49,8 @@ public class TuitionDetails extends AppCompatActivity {
     private Button btnCall;
     private TextView tvRemarksContent;
     private TextView tvAssigned;
+    private String loggedInUserEmail;
+    private String offerPostedByEmail;
     public  int interestedUserID;
     private int callerActivityID;
     final int candidatesList = 49;
@@ -129,7 +131,6 @@ public class TuitionDetails extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
 
                 String offerID = offer.getObjectId();
                 DataQueryBuilder dataQuery = DataQueryBuilder.create();
@@ -215,7 +216,8 @@ public class TuitionDetails extends AppCompatActivity {
                 System.out.println("in interested: "+userEmail);
                 System.out.println("Offer ID: "+ offerID);
                 //String userEmail = Backendless.UserService.CurrentUser().getEmail();
-                saveNewApplicant(userEmail, offerID);
+                saveNewApplicant(loggedInUserEmail, offerID);
+                saveNewNotification(offerPostedByEmail, loggedInUserEmail, offerID);
 
 
 
@@ -310,22 +312,26 @@ public class TuitionDetails extends AppCompatActivity {
             public void handleResponse(List<BackendlessUser> users) {
                 String email = (String) users.get(0).getEmail().trim();
                 notficationemail = email;
-                String useremail = FileMethods.load(getApplicationContext()).trim();
+                offerPostedByEmail = (String) users.get(0).getEmail().trim();
 
-                if(useremail.equals(email)) {
-                    System.out.println("loaded email "+useremail);
-                    System.out.println("offer posted by "+email);
+                loggedInUserEmail = FileMethods.load(getApplicationContext()).trim();
+
+                if(loggedInUserEmail.equals(offerPostedByEmail)) {
+                    System.out.println("loaded email "+loggedInUserEmail);
+                    System.out.println("offer posted by "+offerPostedByEmail);
                     btnCall.setVisibility(View.GONE);
                     btnMap.setVisibility(View.GONE);
                     if(offer.isActive()){
                         btnCandidates.setVisibility(View.VISIBLE);
                     }
                 }else{
-                    System.out.println("else loaded email "+useremail);
-                    System.out.println("else offer posted by "+email);
-                    btnCall.setVisibility(View.VISIBLE);
-                    btnMap.setVisibility(View.VISIBLE);
-                    btnInterested.setVisibility(View.VISIBLE);
+                    System.out.println("else loaded email "+loggedInUserEmail);
+                    System.out.println("else offer posted by "+offerPostedByEmail);
+                    if(offer.isActive()){
+                        btnCall.setVisibility(View.VISIBLE);
+                        btnMap.setVisibility(View.VISIBLE);
+                        btnInterested.setVisibility(View.VISIBLE);
+                    }
                 }
             }
             @Override
@@ -333,6 +339,22 @@ public class TuitionDetails extends AppCompatActivity {
                 Log.i("relation query", "relation query error " + fault.getMessage());
             }
         });
+    }
+
+    private  void setRelation(final Applicants applicants, ArrayList<BackendlessUser>userList) {
+
+        Backendless.Data.of(Applicants.class).addRelation(applicants, "email", userList, new AsyncCallback<Integer>(){
+            @Override
+            public void handleResponse(Integer response) {
+                Log.i("addRelation", "Relation has been set");
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+            }
+        });
+
+
     }
 
     public void saveNewApplicant(String email, String offerID) {
@@ -362,20 +384,24 @@ public class TuitionDetails extends AppCompatActivity {
         });
     }
 
-    private  void setRelation(final Applicants applicants, ArrayList<BackendlessUser>userList) {
+    public void saveNewNotification(String user_email, String teacher_email, String offerID){
+        Notifications notifications = new Notifications();
+        notifications.setUser_email(user_email);
+        notifications.setTeacher_email(teacher_email);
+        notifications.setMessage(" applied for your tuition offer ");
+        notifications.setOfferID(offerID);
 
-        Backendless.Data.of(Applicants.class).addRelation(applicants, "email", userList, new AsyncCallback<Integer>(){
+        Backendless.Data.of(Notifications.class).save(notifications, new AsyncCallback<Notifications>() {
             @Override
-            public void handleResponse(Integer response) {
-                Log.i("addRelation", "Relation has been set");
+            public void handleResponse(Notifications response) {
+                Log.i("notification", "notification saved in database");
             }
 
             @Override
             public void handleFault(BackendlessFault fault) {
+                Log.i("notification", "notification NOT!!! saved in database");
             }
         });
-
-
     }
 
 }

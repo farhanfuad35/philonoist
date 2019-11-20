@@ -71,7 +71,7 @@ public class MyProfile extends AppCompatActivity {
         tvEmail.setText(email);
 
 
-        character = "" + name.charAt(0) + "";
+        character = ""+name.toUpperCase().charAt(0)+"";
         tvChar.setText(character);
 
         department = (String) user.getProperty("department");
