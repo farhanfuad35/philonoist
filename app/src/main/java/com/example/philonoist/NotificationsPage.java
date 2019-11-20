@@ -36,6 +36,7 @@ public class NotificationsPage extends AppCompatActivity {
         lvNotificationsList = findViewById(R.id.lvNotificationsList);
 
         String loggedInUserEmail = FileMethods.load(getApplicationContext()).trim();
+        //String loggedInUserEmail = Backendless.UserService.CurrentUser().getEmail();
 
         final DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
         String whereClause = "user_email = '" + loggedInUserEmail + "'";
@@ -46,7 +47,7 @@ public class NotificationsPage extends AppCompatActivity {
         dataQueryBuilder.addProperty("offerID");
         dataQueryBuilder.addProperty("message");
         dataQueryBuilder.addProperty("created");
-        dataQueryBuilder.setSortBy("created");
+        dataQueryBuilder.addSortBy("created");
 
         Backendless.Data.of(Notifications.class).find(dataQueryBuilder, new AsyncCallback<List<Notifications>>() {
             @Override
