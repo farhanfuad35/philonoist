@@ -382,6 +382,8 @@ public class postOffer extends AppCompatActivity {
         newoffer.setRemarks(remarks);
         newoffer.setActive(active);
         newoffer.setName(name);
+        newoffer.setDatLatitude(geoPoint.getLatitude().toString());
+        newoffer.setDatLongitude(geoPoint.getLongitude().toString());
 
         final ArrayList<BackendlessUser> userlist = new ArrayList<>();
         BackendlessUser user = Backendless.UserService.CurrentUser();
@@ -432,40 +434,44 @@ public class postOffer extends AppCompatActivity {
 
 
 
+                        Intent intent = new Intent(postOffer.this, TuitionList.class);
+                        startActivity(intent);
+                        finish();
 
 
 
-                        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
-                        //dataQueryBuilder.addRelated("_class");
-                        String whereClause = "active = true";
-                        dataQueryBuilder.setWhereClause(whereClause);
-                        dataQueryBuilder.addProperty("subject");
-                        dataQueryBuilder.addProperty("salary");
-                        dataQueryBuilder.addProperty("_class");
-                        dataQueryBuilder.addProperty("objectId");
-                        dataQueryBuilder.addProperty("remarks");
-                        dataQueryBuilder.addProperty("contact");
-                        dataQueryBuilder.addProperty("location");
-                        dataQueryBuilder.addProperty("active");
-                        dataQueryBuilder.addProperty("name");
-                        dataQueryBuilder.setPageSize(20);               // Number of objects retrieved per page
 
-
-                        Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
-                            @Override
-                            public void handleResponse(List<Offer> response) {
-                                CONSTANTS.offers = response;
-
-                                Intent intent = new Intent(postOffer.this, TuitionList.class);
-                                startActivity(intent);
-                                finish();
-                            }
-
-                            @Override
-                            public void handleFault(BackendlessFault fault) {
-                                Log.e("refresh", "on TuitionList/swipeRefresh\t" + fault.getMessage());
-                            }
-                        });
+//                        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+//                        //dataQueryBuilder.addRelated("_class");
+//                        String whereClause = "active = true";
+//                        dataQueryBuilder.setWhereClause(whereClause);
+//                        dataQueryBuilder.addProperty("subject");
+//                        dataQueryBuilder.addProperty("salary");
+//                        dataQueryBuilder.addProperty("_class");
+//                        dataQueryBuilder.addProperty("objectId");
+//                        dataQueryBuilder.addProperty("remarks");
+//                        dataQueryBuilder.addProperty("contact");
+//                        dataQueryBuilder.addProperty("location");
+//                        dataQueryBuilder.addProperty("active");
+//                        dataQueryBuilder.addProperty("name");
+//                        dataQueryBuilder.setPageSize(20);               // Number of objects retrieved per page
+//
+//
+//                        Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
+//                            @Override
+//                            public void handleResponse(List<Offer> response) {
+//                                CONSTANTS.offers = response;
+//
+//                                Intent intent = new Intent(postOffer.this, TuitionList.class);
+//                                startActivity(intent);
+//                                finish();
+//                            }
+//
+//                            @Override
+//                            public void handleFault(BackendlessFault fault) {
+//                                Log.e("refresh", "on TuitionList/swipeRefresh\t" + fault.getMessage());
+//                            }
+//                        });
 
 
 

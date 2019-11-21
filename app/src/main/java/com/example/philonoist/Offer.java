@@ -19,6 +19,8 @@ public class Offer implements Serializable{
     private String subject;
     private String email;
     private boolean active;
+    private String datLatitude;
+    private String datLongitude;
 
     public String getObjectId() {
         return objectId;
@@ -94,6 +96,24 @@ public class Offer implements Serializable{
     public String getRemarks() {return remarks; }
 
     public void setRemarks(String remarks) { this.remarks = remarks; }
+
+
+    public String getDatLatitude() {
+        return datLatitude;
+    }
+
+    public void setDatLatitude(String datLatitude) {
+        this.datLatitude = datLatitude;
+    }
+
+    public String getDatLongitude() {
+        return datLongitude;
+    }
+
+    public void setDatLongitude(String datLongitude) {
+        this.datLongitude = datLongitude;
+    }
+
 
 
 }
