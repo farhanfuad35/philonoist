@@ -68,11 +68,7 @@ public class TuitionList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tuition_list);
-
         setTitle("Tuition List");
-
-
-
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_TuitionList);
         setSupportActionBar(toolbar);
 
@@ -80,28 +76,18 @@ public class TuitionList extends AppCompatActivity {
         btnPostOffer = findViewById(R.id.btnTuitionList_PostOffer);
         swpRefresh = findViewById(R.id.swpTuitionList_refresh);
 
-
         final List<String> tuitionList = new ArrayList<>();
         final ListView lvTuitionList = findViewById(R.id.lvTuitionList_TuitionList);
         final ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tuitionList);
 
-        fabMaps = findViewById(R.id.fabTuitionList_Map);
-
         Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
 
-        for(int i=0; i<CONSTANTS.offers.size(); i++){
-            Log.i("oID", i+1 +": " + CONSTANTS.offers.get(i).getObjectId());
-
-        }
-
-        viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
+        viewTuitionAdapter = new ViewTuitionAdapter(getApplicationContext(), CONSTANTS.offers);
         lvTuitionList.setAdapter(viewTuitionAdapter);
 
-
-        Log.i("newoffer", Integer.toString(CONSTANTS.offers.size()));
-
-
-        //Log.i("Subject", "looping"+Integer.toString(tuitionList.size()));
+        for(int i=0; i<CONSTANTS.offers.size(); i++){
+            Log.i("mailAddress" +i, CONSTANTS.offers.get(i).getMailAddress());
+        }
 
         lvTuitionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -113,9 +99,6 @@ public class TuitionList extends AppCompatActivity {
                 intent.putExtra("index", i);
                 intent.putExtra("ID", CONSTANTS.getActivityIdTuitionlist());
                 startActivity(intent);
-
-
-                Log.d("details", "details activity created");
             }
         });
 
@@ -165,7 +148,6 @@ public class TuitionList extends AppCompatActivity {
 
 
                 DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
-                //dataQueryBuilder.addRelated("_class");
                 String whereClause = "active = true";
                 dataQueryBuilder.setWhereClause(whereClause);
                 dataQueryBuilder.addProperty("subject");
@@ -202,9 +184,6 @@ public class TuitionList extends AppCompatActivity {
 
             }
         });
-
-
-
 
 
         // Real-Time database object create listener
@@ -289,9 +268,4 @@ public class TuitionList extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
 }

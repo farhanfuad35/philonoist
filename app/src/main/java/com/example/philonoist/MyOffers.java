@@ -33,6 +33,7 @@ public class MyOffers extends AppCompatActivity {
     ViewTuitionAdapter viewTuitionAdapter;
     List<Offer> myPostedOffers;
     final int POSTOFFER = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,54 +45,58 @@ public class MyOffers extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar_MyOffer);
         setSupportActionBar(toolbar);
 
+        final ListView lvMyOffersList = findViewById(R.id.lvOffers_MyOffers);
+        String loggedInUserEmail = FileMethods.load(getApplicationContext());
+        Log.i("myOfferUser", loggedInUserEmail);
 
-        final List<String> myOffers = new ArrayList<>();
-
-        BackendlessUser user = Backendless.UserService.CurrentUser();
-        //String useremail = user.getEmail();
-        String useremail = FileMethods.load(getApplicationContext());
-        System.out.println(useremail);
-        DataQueryBuilder dataQuery = DataQueryBuilder.create();
-        dataQuery.addRelated("email");
-        String whereClause = "email.email = '" + useremail+ "'";
-        System.out.println(whereClause);
-        dataQuery.setWhereClause(whereClause);
-        dataQuery.addProperty("subject");
-        dataQuery.addProperty("salary");
-        dataQuery.addProperty("_class");
-        dataQuery.addProperty("objectId");
-        dataQuery.addProperty("remarks");
-        dataQuery.addProperty("contact");
-        dataQuery.addProperty("location");
-        dataQuery.addProperty("active");
-
-        final ListView listView = findViewById(R.id.lvOffers_MyOffers);
-        final ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, myOffers);
-
-        Backendless.Data.of(Offer.class).find(dataQuery, new AsyncCallback<List<Offer>>() {
-            @Override
-            public void handleResponse(List<Offer> offerList) {
-                myPostedOffers = offerList;
-                viewTuitionAdapter = new ViewTuitionAdapter(MyOffers.this, myPostedOffers);
-                listView.setAdapter(viewTuitionAdapter);
-
-//                for (Offer offer : offerList) {
-//                    myOffers.add(offer.getSubject());
-//                    Log.i("subject", "in loop " + Integer.toString(myOffers.size()));
-//                    listView.setAdapter(listViewAdapter);
+//        BackendlessUser user = Backendless.UserService.CurrentUser();
+//        //String useremail = user.getEmail();
+//        String useremail = FileMethods.load(getApplicationContext());
+//        System.out.println(useremail);
+//        DataQueryBuilder dataQuery = DataQueryBuilder.create();
+//        dataQuery.addRelated("email");
+//        String whereClause = "email.email = '" + useremail+ "'";
+//        System.out.println(whereClause);
+//        dataQuery.setWhereClause(whereClause);
+//        dataQuery.addProperty("subject");
+//        dataQuery.addProperty("salary");
+//        dataQuery.addProperty("_class");
+//        dataQuery.addProperty("objectId");
+//        dataQuery.addProperty("remarks");
+//        dataQuery.addProperty("contact");
+//        dataQuery.addProperty("location");
+//        dataQuery.addProperty("active");
 //
-//                }
+//        Backendless.Data.of(Offer.class).find(dataQuery, new AsyncCallback<List<Offer>>() {
+//            @Override
+//            public void handleResponse(List<Offer> offerList) {
+//                myPostedOffers = offerList;
+//                viewTuitionAdapter = new ViewTuitionAdapter(MyOffers.this, myPostedOffers);
+//                lvMyOffersList.setAdapter(viewTuitionAdapter);
+//            }
+//
+//            @Override
+//            public void handleFault(BackendlessFault fault) {
+//
+//            }
+//        });
+
+        for(int i=0; i<CONSTANTS.offers.size(); i++){
+            if(loggedInUserEmail.equals((String)CONSTANTS.offers.get(i).getMailAddress())){
+                myPostedOffers.add((Offer)CONSTANTS.offers.get(i));
+                Log.i("mailAddress" +i, CONSTANTS.offers.get(i).getMailAddress());
             }
+        }
 
-            @Override
-            public void handleFault(BackendlessFault fault) {
+        if(myPostedOffers.size() == 0){
+            Log.i("myOfferSize", "00000000000");
+        }else{
+            Log.i("MyOffersSize", Integer.toString(myPostedOffers.size()));
+        }
+        viewTuitionAdapter = new ViewTuitionAdapter(getApplicationContext(), myPostedOffers);
+        lvMyOffersList.setAdapter(viewTuitionAdapter);
 
-            }
-        });
-
-        Log.i("subject", Integer.toString(myOffers.size()));
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvMyOffersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MyOffers.this, TuitionDetails.class);
@@ -107,7 +112,7 @@ public class MyOffers extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(listView.getContext(), com.example.philonoist.postOffer.class);
+                Intent intent = new Intent(lvMyOffersList.getContext(), com.example.philonoist.postOffer.class);
                 startActivityForResult(intent, POSTOFFER);
             }
         });

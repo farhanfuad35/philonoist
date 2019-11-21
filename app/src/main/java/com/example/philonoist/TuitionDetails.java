@@ -117,12 +117,8 @@ public class TuitionDetails extends AppCompatActivity {
             tvAssigned.setVisibility(View.VISIBLE);
         }
 
-        Log.i("offerIDinTuitionDetails", offer.getObjectId());
-        Log.i("contact", offer.getContact());
         final int index = getIntent().getIntExtra("index", 0);
-        Log.i("index", CONSTANTS.offers.get(index).getObjectId());
 
-        //getNameFromUsersTable();
         getEmailFromUsersTable();
 
         setFieldValues();
@@ -210,9 +206,6 @@ public class TuitionDetails extends AppCompatActivity {
 //                    }
 //                });
                 String userEmail = FileMethods.load(getApplicationContext());
-                //String userEmail = Backendless.UserService.CurrentUser().getEmail();
-                System.out.println("in interested: "+userEmail);
-                System.out.println("Offer ID: "+ offerID);
                 //String userEmail = Backendless.UserService.CurrentUser().getEmail();
                 saveNewApplicant(offerPostedByEmail, loggedInUserEmail, offerID);
                 //saveNewNotification(offerPostedByEmail, loggedInUserEmail, offerID);
@@ -369,7 +362,6 @@ public class TuitionDetails extends AppCompatActivity {
             public void handleResponse(Applicants applicants1) {
                 saveNewNotification(user_email, teacher_email, offerID);
                 Toast.makeText(getApplicationContext(), "Your Application Submitted!", Toast.LENGTH_LONG).show();
-                Log.i("Applicants1", applicants1.getID());
                 setRelation(applicants1, userlist);
             }
 

@@ -374,6 +374,9 @@ public class postOffer extends AppCompatActivity {
 
 
     public void saveNewOffer(final GeoPoint geoPoint) {
+
+        String loggedInUserEmail = FileMethods.load(getApplicationContext());
+
         Offer newoffer = new Offer();
         newoffer.set_class(_class);
         newoffer.setSalary(salary);
@@ -382,6 +385,7 @@ public class postOffer extends AppCompatActivity {
         newoffer.setRemarks(remarks);
         newoffer.setActive(active);
         newoffer.setName(name);
+        newoffer.setMailAddress(loggedInUserEmail);
         newoffer.setDatLatitude(geoPoint.getLatitude().toString());
         newoffer.setDatLongitude(geoPoint.getLongitude().toString());
 
