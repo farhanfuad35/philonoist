@@ -9,11 +9,11 @@
         android:icon="@drawable/ic_account_circle_black_24dp" />
 
     <item
-        android:id="@+id/menuMain_Search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:id="@+id/menuMain_notifications"
         app:showAsAction="collapseActionView|ifRoom"
-        android:title="Search"
-        app:actionViewClass="android.widget.SearchView" />
+        android:title="Profile"
+        android:icon="@drawable/ic_notifications_active_black_24dp" />
+    
     <item
         android:id="@+id/menuMain_Setting"
         android:title="Setting" />

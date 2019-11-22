@@ -52,7 +52,7 @@ public class MyOffers extends AppCompatActivity {
         String useremail = FileMethods.load(getApplicationContext());
         System.out.println(useremail);
         DataQueryBuilder dataQuery = DataQueryBuilder.create();
-        dataQuery.addRelated("email");
+        //dataQuery.addRelated("email");
         String whereClause = "email.email = '" + useremail+ "'";
         System.out.println(whereClause);
         dataQuery.setWhereClause(whereClause);
@@ -61,7 +61,9 @@ public class MyOffers extends AppCompatActivity {
         dataQuery.addProperty("_class");
         dataQuery.addProperty("objectId");
         dataQuery.addProperty("remarks");
+        dataQuery.addProperty("name");
         dataQuery.addProperty("contact");
+        dataQuery.addProperty("mailAddress");
         dataQuery.addProperty("location");
         dataQuery.addProperty("active");
 
@@ -75,12 +77,9 @@ public class MyOffers extends AppCompatActivity {
                 viewTuitionAdapter = new ViewTuitionAdapter(MyOffers.this, myPostedOffers);
                 listView.setAdapter(viewTuitionAdapter);
 
-//                for (Offer offer : offerList) {
-//                    myOffers.add(offer.getSubject());
-//                    Log.i("subject", "in loop " + Integer.toString(myOffers.size()));
-//                    listView.setAdapter(listViewAdapter);
-//
-//                }
+                Log.i("location", "location query in my offers : " + offerList.get(0).getLocation().getLatitude().toString());
+                Log.i("mail", "mail in my offer : " + offerList.get(0).getEmail());
+
             }
 
             @Override
@@ -95,10 +94,9 @@ public class MyOffers extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MyOffers.this, TuitionDetails.class);
-                //intent.putExtra("index", i);
-                //startActivityForResult(intent, resultCodeForTuitionDetails);
                 intent.putExtra("offer", myPostedOffers.get(i));
                 intent.putExtra("index", i);
+                intent.putExtra("ID", CONSTANTS.getActivityIdMyoffers());
                 startActivity(intent);
             }
         });

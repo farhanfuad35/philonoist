@@ -103,11 +103,12 @@ public class Splash_Screen extends AppCompatActivity {
         dataQueryBuilder.addProperty("remarks");
         dataQueryBuilder.addProperty("contact");
         dataQueryBuilder.addProperty("location");
+        dataQueryBuilder.addProperty("mailAddress");
         dataQueryBuilder.addProperty("active");
         dataQueryBuilder.addProperty("name");
+        //dataQueryBuilder.addRelated("email");
         dataQueryBuilder.setPageSize(20);               // Number of objects retrieved per page
         //dataQueryBuilder.setGroupBy("_class");
-        //dataQueryBuilder.setSortBy("_class");
 
 
         Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
@@ -121,6 +122,7 @@ public class Splash_Screen extends AppCompatActivity {
 
                 Log.i("Subject", "response size: "+Integer.toString(response.size()));
                 Log.i("Subject", "CONSTANTS' offers' size: "+Integer.toString(CONSTANTS.offers.size()));
+                Log.i("mail", "mail address = " + response.get(0).getEmail());
 
 
                 String userToken = UserTokenStorageFactory.instance().getStorage().get();
@@ -184,7 +186,7 @@ public class Splash_Screen extends AppCompatActivity {
 
                 Log.e("fault", fault.getMessage());
 
-                Toast.makeText(getApplicationContext(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

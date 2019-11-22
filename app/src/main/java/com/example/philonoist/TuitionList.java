@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -35,7 +36,9 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.geo.GeoPoint;
 import com.backendless.persistence.DataQueryBuilder;
+import com.backendless.rt.data.EventHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -84,10 +87,11 @@ public class TuitionList extends AppCompatActivity {
 
         fabMaps = findViewById(R.id.fabTuitionList_Map);
 
-        Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
 
         for(int i=0; i<CONSTANTS.offers.size(); i++){
             Log.i("oID", i+1 +": " + CONSTANTS.offers.get(i).getObjectId());
+
         }
 
         viewTuitionAdapter = new ViewTuitionAdapter(TuitionList.this, CONSTANTS.offers);
@@ -199,6 +203,63 @@ public class TuitionList extends AppCompatActivity {
             }
         });
 
+
+
+
+
+        // Real-Time database object create listener
+
+        EventHandler<Offer> orderEventHandler = Backendless.Data.of( Offer.class ).rt();
+
+        orderEventHandler.addCreateListener(new AsyncCallback<Offer>() {
+            @Override
+            public void handleResponse(final Offer newOffer) {
+
+                Double lat = Double.parseDouble(newOffer.getDatLatitude());
+                Double lng = Double.parseDouble(newOffer.getDatLongitude());
+
+                GeoPoint geoPoint = new GeoPoint(lat, lng);
+                newOffer.setLocation(geoPoint);
+
+                Log.i("realtime", "this message printed");
+                Log.i("realtime", newOffer.getLocation().getLatitude().toString());
+
+                CONSTANTS.offers.add(newOffer);
+                viewTuitionAdapter.add(newOffer);
+                lvTuitionList.setAdapter(viewTuitionAdapter);
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Log.i("realtime", fault.getMessage());
+            }
+        });
+
+
+
+        // Real time database object update listener
+
+        EventHandler<Offer> offerEventHandlerUpdate = Backendless.Data.of( Offer.class ).rt();
+
+        offerEventHandlerUpdate.addUpdateListener("active = FALSE" ,new AsyncCallback<Offer>() {
+            @Override
+            public void handleResponse(final Offer newOffer) {
+
+                Log.i("realtime", "offer " + newOffer.getObjectId() + " has been deactivated");
+
+                viewTuitionAdapter.remove(newOffer);
+                lvTuitionList.setAdapter(viewTuitionAdapter);
+                CONSTANTS.offers.remove(newOffer);
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Log.i("realtime", fault.getMessage());
+            }
+        });
+
+
     }
 
     @Override
@@ -242,8 +303,17 @@ public class TuitionList extends AppCompatActivity {
 
         }
 
+        if(id == R.id.menuMain_notifications){
+            Intent intent = new Intent(getApplicationContext(), NotificationsPage.class);
+            startActivity(intent);
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 
 }

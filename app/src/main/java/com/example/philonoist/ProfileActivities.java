@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,17 +17,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
-import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
-
-import java.util.List;
-import java.util.zip.Inflater;
 
 public class ProfileActivities extends AppCompatActivity {
     
     final int MYOFFER = 55;
-    final int profileActivitiesRequestCode = -9898;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +49,7 @@ public class ProfileActivities extends AppCompatActivity {
                     startActivityForResult(intent, MYOFFER);
                 }
                 if(position == 1){
-                    Intent intent = new Intent(view.getContext(), com.example.philonoist.Notifications.class);
+                    Intent intent = new Intent(view.getContext(), NotificationsPage.class);
                     startActivity(intent);
                 }
                 if(position == 2){

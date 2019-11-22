@@ -15,6 +15,13 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.messaging.DeliveryOptions;
+import com.backendless.messaging.MessageStatus;
+import com.backendless.messaging.PublishOptions;
+import com.backendless.persistence.DataQueryBuilder;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class UserInfo extends AppCompatActivity {
 
@@ -28,8 +35,8 @@ public class UserInfo extends AppCompatActivity {
 
         TextView tvChar = findViewById(R.id.tvUserinfo_char);
         TextView tvName = findViewById(R.id.tvUserinfo_name);
-        TextView tvContactNo = findViewById(R.id.tvUserinfo_contactNo);
-        TextView tvEmail = findViewById(R.id.tvUserinfo_email);
+        TextView tvYear = findViewById(R.id.tvUserinfo_year);
+        TextView tvDepartment = findViewById(R.id.tvUserinfo_department);
         Button btnAccept = findViewById(R.id.btn_accept);
         Button btnCancel = findViewById(R.id.btn_cancel);
         Button btnCall = findViewById(R.id.btnUserInfo_call);
@@ -42,12 +49,20 @@ public class UserInfo extends AppCompatActivity {
 
         final String firstName = (String) user.getProperty("first_name");
         final String lastName = (String) user.getProperty("last_name");
+        final String name = firstName + " " + lastName;
         final String email = user.getEmail();
         Log.i("userEmailCheck", email);
+
+
+
+
         tvChar.setText(firstName.toUpperCase().charAt(0) + "");
-        tvName.setText(firstName + " " + lastName);
-        tvEmail.setText(user.getEmail());
-        tvContactNo.setText((String)user.getProperty("contact_no"));
+
+        tvName.setText(name);
+
+        tvDepartment.setText((String)user.getProperty("department"));
+
+        tvYear.setText((String)user.getProperty("year") + " year");
 
 
         btnCall.setOnClickListener(new View.OnClickListener() {
@@ -64,8 +79,10 @@ public class UserInfo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/html");
-                intent.putExtra(Intent.EXTRA_EMAIL, email);
+                String[] TO = {email};
+                intent.setData(Uri.parse("mailto:"));
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_EMAIL, TO);
                 startActivity(Intent.createChooser(intent, "Send mail to "+firstName + " " + lastName));
             }
         });
@@ -95,6 +112,30 @@ public class UserInfo extends AppCompatActivity {
                         @Override
                         public void handleResponse(Offer response) {
                             Toast.makeText(getApplicationContext(), "Teacher Accepted!",Toast.LENGTH_SHORT ).show();
+
+
+
+                                String message = (String)Backendless.UserService.CurrentUser().getProperty("first_name") + " " + (String)Backendless.UserService.CurrentUser().getProperty("last_name")+ " has accepted you as teacher. Check the Notification Page";
+                                DeliveryOptions deliveryOptions = new DeliveryOptions();
+                                deliveryOptions.setPushSinglecast(Arrays.asList((String) user.getProperty("device_id")));
+                                PublishOptions publishOptions = new PublishOptions();
+                                publishOptions.putHeader("android-ticker-text", "You just got a private push notification!");
+                                publishOptions.putHeader("android-content-title", "You have been accepted as a teacher!");
+                                publishOptions.putHeader("android-content-text", "Push Notifications are cool");
+                                Backendless.Messaging.publish(message, publishOptions, deliveryOptions, new AsyncCallback<MessageStatus>() {
+                                    @Override
+                                    public void handleResponse(MessageStatus response) {
+                                        System.out.println("Hello there you are here");
+                                    }
+
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+
+                                    }
+                                });
+
+
+
                         }
 
                         @Override
@@ -102,6 +143,7 @@ public class UserInfo extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Error" + fault.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+                    saveNewNotification(email, offerID, offer.getName());
                 }
 
                 setResult(RESULT_OK);
@@ -115,11 +157,24 @@ public class UserInfo extends AppCompatActivity {
                 UserInfo.this.finish();
             }
         });
+    }
 
+    public void saveNewNotification(String user_email, String offerID, String studentName){
+        Notifications notifications = new Notifications();
+        notifications.setUser_email(user_email);
+        notifications.setMessage("Your request to teach " + studentName +" has been accepted!");
+        notifications.setOfferID(offerID);
 
+        Backendless.Data.of(Notifications.class).save(notifications, new AsyncCallback<Notifications>() {
+            @Override
+            public void handleResponse(Notifications response) {
+                Log.i("notification", "notification saved in database");
+            }
 
-
-
-
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Log.i("notification", "notification NOT!!! saved in database");
+            }
+        });
     }
 }
