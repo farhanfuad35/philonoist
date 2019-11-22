@@ -19,40 +19,6 @@ import java.util.Locale;
 
 public class TuitionListAdapter extends BaseAdapter {
 
-    /*
-    private Context context;
-    private List<Offer> tuitions;
-
-    public TuitionListAdapter(Context context, List<Offer> offers){
-
-        super(context, R.layout.row_tuition_list_layout, offers);
-        this.context = context;
-        this.tuitions = offers;
-
-    }
-
-    @NonNull
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        convertView = inflater.inflate(R.layout.row_tuition_list_layout, parent, false);
-
-        TextView tvClass = convertView.findViewById(R.id.tvClass);
-        TextView tvClassStatus = convertView.findViewById(R.id.tvClassStatus);
-        TextView tvSubject = convertView.findViewById(R.id.tvSubject);
-        TextView tvSalary = convertView.findViewById(R.id.tvSalary);
-
-        tvClass.setText("Class");
-        tvClassStatus.setText(tuitions.get(position).get_class());
-        tvSubject.setText("Subject: " + tuitions.get(position).getSubject());
-        tvSalary.setText("Remuneration: " + tuitions.get(position).getSalary());
-
-        return convertView;
-    }
-    */
-
     Context context;
     LayoutInflater inflater;
     List<Offer> tuitionList;
@@ -104,18 +70,6 @@ public class TuitionListAdapter extends BaseAdapter {
 
         holder.title.setText(tuitionList.get(position).getName());
         holder.salary.setText(tuitionList.get(position).getSalary());
-
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(tuitionList.get(position).getName().equals("Farhan Fuad")){
-//                    Intent intent = new Intent(view.getContext(), com.example.philonoist.TuitionDetails.class);
-//                    view.getContext().startActivity(intent);
-//                }
-//                //Toast.makeText(context, "Item Clicked in Adapter", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
         return view;
     }
 

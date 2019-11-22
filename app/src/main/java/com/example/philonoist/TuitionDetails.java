@@ -108,31 +108,13 @@ public class TuitionDetails extends AppCompatActivity {
         Log.i("newoffer", offer.getLocation().getLatitude().toString());
         Log.i("location", "location in tuitiondetails " + offer.getLocation().getLatitude().toString());
 
-//        if(callerActivityID == CONSTANTS.getActivityIdTuitionlist()) {
 
             Log.i("latlng", "On tuitiondetails, lat = " + offer.getLocation().getLatitude().toString());
 
 
             lat = (String) offer.getLocation().getLatitude().toString();
             lng = (String) offer.getLocation().getLongitude().toString();
-//        }
-//        else if(callerActivityID == CONSTANTS.getActivityIdMyoffers()){
-//            lat = (String) offer.getLocation().getLatitude().toString();
-//            lng = (String) offer.getLocation().getLongitude().toString();
-//        }
-//        else if(callerActivityID == CONSTANTS.getActivityIdMapsShowTuitions()){
-//            lat = getIntent().getStringExtra("lat");
-//            lng = getIntent().getStringExtra("lng");
-//        }
 
-
-//
-//        if(offer.isActive()){
-//            Log.i("activeStatus", "active True");
-//        }else{
-//            Log.i("activeStatus", "active False");
-//            tvAssigned.setVisibility(View.VISIBLE);
-//        }
 
         // If a teacher is accepted, the updates need to be applied on client side
 

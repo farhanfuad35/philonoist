@@ -38,10 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class postOffer extends AppCompatActivity {
-
-    int lastENabledEditText = 1;            // all other fields exccept the last one are added to the string when the add icon is clicked. But add icon
-                                        // is not clicked for the last field. hence the input needs to be taken manually
-
     EditText etName;
     EditText etClass;
     EditText etsalary;
@@ -352,9 +348,6 @@ public class postOffer extends AppCompatActivity {
 
         finalSubject = new String();
 
-//        for(String sub : subjects){
-//            finalSubject = finalSubject + sub + "|";
-//        }
 
         for(int i=0; i<subjects.length-1; i++){
             finalSubject = finalSubject + subjects[i] + "|";
@@ -438,43 +431,6 @@ public class postOffer extends AppCompatActivity {
                         Intent intent = new Intent(postOffer.this, TuitionList.class);
                         startActivity(intent);
                         finish();
-
-
-
-
-//                        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
-//                        //dataQueryBuilder.addRelated("_class");
-//                        String whereClause = "active = true";
-//                        dataQueryBuilder.setWhereClause(whereClause);
-//                        dataQueryBuilder.addProperty("subject");
-//                        dataQueryBuilder.addProperty("salary");
-//                        dataQueryBuilder.addProperty("_class");
-//                        dataQueryBuilder.addProperty("objectId");
-//                        dataQueryBuilder.addProperty("remarks");
-//                        dataQueryBuilder.addProperty("contact");
-//                        dataQueryBuilder.addProperty("location");
-//                        dataQueryBuilder.addProperty("active");
-//                        dataQueryBuilder.addProperty("name");
-//                        dataQueryBuilder.setPageSize(20);               // Number of objects retrieved per page
-//
-//
-//                        Backendless.Data.of(Offer.class).find(dataQueryBuilder, new AsyncCallback<List<Offer>>() {
-//                            @Override
-//                            public void handleResponse(List<Offer> response) {
-//                                CONSTANTS.offers = response;
-//
-//                                Intent intent = new Intent(postOffer.this, TuitionList.class);
-//                                startActivity(intent);
-//                                finish();
-//                            }
-//
-//                            @Override
-//                            public void handleFault(BackendlessFault fault) {
-//                                Log.e("refresh", "on TuitionList/swipeRefresh\t" + fault.getMessage());
-//                            }
-//                        });
-
-
 
 
                     }

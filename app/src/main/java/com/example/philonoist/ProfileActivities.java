@@ -23,7 +23,6 @@ import com.backendless.exceptions.BackendlessFault;
 public class ProfileActivities extends AppCompatActivity {
     
     final int MYOFFER = 55;
-    final int profileActivitiesRequestCode = -9898;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

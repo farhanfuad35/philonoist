@@ -28,32 +28,6 @@ public class BackendlessAPIMethods {
         });
     }
 
-//
-//    public static void Login(final Context context, final String email, final String password, Boolean stayLoggedIn, final Activity activity)
-//    {
-//        Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
-//            @Override
-//            public void handleResponse(BackendlessUser response) {
-//                CONSTANTS.setCurrentUserEmail(email);
-//
-//                FileMethods.writes(context, email);
-//                System.out.println("logged in "+email);
-//
-//                Intent intent = new Intent(context, com.example.philonoist.TuitionList.class);
-//                context.startActivity(intent);
-//                activity.finish();
-//
-//            }
-//
-//            @Override
-//            public void handleFault(BackendlessFault fault) {
-//                Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_SHORT).show();
-//                btLogin.setText("Login");
-//            }
-//        }, stayLoggedIn);
-//    }
-
-
     public static void updateDeviceId(Context context, BackendlessUser user, String deviceId) {
 
         //BackendlessUser user = Backendless.UserService.CurrentUser();

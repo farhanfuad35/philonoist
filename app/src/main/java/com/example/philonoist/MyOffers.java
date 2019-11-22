@@ -80,12 +80,6 @@ public class MyOffers extends AppCompatActivity {
                 Log.i("location", "location query in my offers : " + offerList.get(0).getLocation().getLatitude().toString());
                 Log.i("mail", "mail in my offer : " + offerList.get(0).getEmail());
 
-//                for (Offer offer : offerList) {
-//                    myOffers.add(offer.getSubject());
-//                    Log.i("subject", "in loop " + Integer.toString(myOffers.size()));
-//                    listView.setAdapter(listViewAdapter);
-//
-//                }
             }
 
             @Override
@@ -100,8 +94,6 @@ public class MyOffers extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MyOffers.this, TuitionDetails.class);
-                //intent.putExtra("index", i);
-                //startActivityForResult(intent, resultCodeForTuitionDetails);
                 intent.putExtra("offer", myPostedOffers.get(i));
                 intent.putExtra("index", i);
                 intent.putExtra("ID", CONSTANTS.getActivityIdMyoffers());

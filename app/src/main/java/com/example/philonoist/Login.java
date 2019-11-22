@@ -194,29 +194,6 @@ public class Login extends AppCompatActivity {
 
                 BackendlessAPIMethods.updateDeviceId(Login.this, user, response.getDeviceId());
 
-//                BackendlessUser user = Backendless.UserService.CurrentUser();
-//
-//                Log.i("deviceid", "before get email");
-//                Log.i("deviceid", "email of CurrentUser : " + user.getEmail());
-//                Log.i("deviceid", "after get email");
-//
-//                user.setProperty( "device_id",response.getDeviceId() );
-//
-//                Backendless.UserService.update( user, new AsyncCallback<BackendlessUser>()
-//                {
-//                    @Override
-//                    public void handleResponse( BackendlessUser backendlessUser )
-//                    {
-//                        Log.i("deviceid", "User has been updated" );
-//                        Log.i("deviceid", "Device ID - " + backendlessUser.getProperty( "device_id" ) );
-//                    }
-//                    @Override
-//                    public void handleFault( BackendlessFault backendlessFault )
-//                    {
-//                        Log.i("deviceid", backendlessFault.getMessage());
-//                    }
-//                });
-
             }
 
             @Override

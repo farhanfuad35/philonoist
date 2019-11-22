@@ -33,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
         Backendless.setUrl(backendless_credentials.SERVER_URL);
         Backendless.initApp(getApplicationContext(), backendless_credentials.APPLICATION_ID, backendless_credentials.API_KEY);
 
-    //        Intent intent = new Intent(this, TuitionList.class);
-    //        startActivity(intent);
-
 
         Intent intent = new Intent(this, Splash_Screen.class);
         startActivity(intent);
