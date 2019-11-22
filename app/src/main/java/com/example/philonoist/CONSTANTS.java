@@ -18,6 +18,8 @@ public class CONSTANTS {
     private static double LNG_MIN = 90.332829;
     private static double LNG_MAX = 90.451891;
     private static int ACTIVITY_ID_MAPS_SHOW_TUITIONS = 65;
+    private static int ACTIVITY_ID_NOTIFICATIONSPAGE = 95;
+    private static int ACTIVITY_ID_MYOFFERS = 85;
     private static int ACTIVITY_ID_TUITIONLIST = 75;
     final private static BackendlessUser currentUser = new BackendlessUser();       // To be used as distinct property of the current user
     private static List<GeoPoint> geoPointList;
@@ -94,6 +96,15 @@ public class CONSTANTS {
 
     public static double getLngMax() {
         return LNG_MAX;
+    }
+
+    public static int getActivityIdMyoffers() {
+        return ACTIVITY_ID_MYOFFERS;
+    }
+
+
+    public static int getActivityIdNotificationspage() {
+        return ACTIVITY_ID_NOTIFICATIONSPAGE;
     }
 
 

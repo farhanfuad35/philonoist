@@ -15,6 +15,13 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.messaging.DeliveryOptions;
+import com.backendless.messaging.MessageStatus;
+import com.backendless.messaging.PublishOptions;
+import com.backendless.persistence.DataQueryBuilder;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class UserInfo extends AppCompatActivity {
 
@@ -45,6 +52,9 @@ public class UserInfo extends AppCompatActivity {
         final String name = firstName + " " + lastName;
         final String email = user.getEmail();
         Log.i("userEmailCheck", email);
+
+
+
 
         tvChar.setText(firstName.toUpperCase().charAt(0) + "");
 
@@ -102,6 +112,30 @@ public class UserInfo extends AppCompatActivity {
                         @Override
                         public void handleResponse(Offer response) {
                             Toast.makeText(getApplicationContext(), "Teacher Accepted!",Toast.LENGTH_SHORT ).show();
+
+
+
+                                String message = (String)Backendless.UserService.CurrentUser().getProperty("first_name") + " " + (String)Backendless.UserService.CurrentUser().getProperty("last_name")+ " has accepted you as teacher. Check the Notification Page";
+                                DeliveryOptions deliveryOptions = new DeliveryOptions();
+                                deliveryOptions.setPushSinglecast(Arrays.asList((String) user.getProperty("device_id")));
+                                PublishOptions publishOptions = new PublishOptions();
+                                publishOptions.putHeader("android-ticker-text", "You just got a private push notification!");
+                                publishOptions.putHeader("android-content-title", "You have been accepted as a teacher!");
+                                publishOptions.putHeader("android-content-text", "Push Notifications are cool");
+                                Backendless.Messaging.publish(message, publishOptions, deliveryOptions, new AsyncCallback<MessageStatus>() {
+                                    @Override
+                                    public void handleResponse(MessageStatus response) {
+                                        System.out.println("Hello there you are here");
+                                    }
+
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+
+                                    }
+                                });
+
+
+
                         }
 
                         @Override

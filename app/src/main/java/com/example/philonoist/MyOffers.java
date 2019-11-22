@@ -52,7 +52,7 @@ public class MyOffers extends AppCompatActivity {
         String useremail = FileMethods.load(getApplicationContext());
         System.out.println(useremail);
         DataQueryBuilder dataQuery = DataQueryBuilder.create();
-        dataQuery.addRelated("email");
+        //dataQuery.addRelated("email");
         String whereClause = "email.email = '" + useremail+ "'";
         System.out.println(whereClause);
         dataQuery.setWhereClause(whereClause);
@@ -61,7 +61,9 @@ public class MyOffers extends AppCompatActivity {
         dataQuery.addProperty("_class");
         dataQuery.addProperty("objectId");
         dataQuery.addProperty("remarks");
+        dataQuery.addProperty("name");
         dataQuery.addProperty("contact");
+        dataQuery.addProperty("mailAddress");
         dataQuery.addProperty("location");
         dataQuery.addProperty("active");
 
@@ -74,6 +76,9 @@ public class MyOffers extends AppCompatActivity {
                 myPostedOffers = offerList;
                 viewTuitionAdapter = new ViewTuitionAdapter(MyOffers.this, myPostedOffers);
                 listView.setAdapter(viewTuitionAdapter);
+
+                Log.i("location", "location query in my offers : " + offerList.get(0).getLocation().getLatitude().toString());
+                Log.i("mail", "mail in my offer : " + offerList.get(0).getEmail());
 
 //                for (Offer offer : offerList) {
 //                    myOffers.add(offer.getSubject());
@@ -99,6 +104,7 @@ public class MyOffers extends AppCompatActivity {
                 //startActivityForResult(intent, resultCodeForTuitionDetails);
                 intent.putExtra("offer", myPostedOffers.get(i));
                 intent.putExtra("index", i);
+                intent.putExtra("ID", CONSTANTS.getActivityIdMyoffers());
                 startActivity(intent);
             }
         });

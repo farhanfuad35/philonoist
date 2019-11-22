@@ -384,7 +384,7 @@ public class postOffer extends AppCompatActivity {
         newoffer.setName(name);
         newoffer.setDatLatitude(geoPoint.getLatitude().toString());
         newoffer.setDatLongitude(geoPoint.getLongitude().toString());
-        newoffer.setMailAddress(Backendless.UserService.CurrentUser().getEmail());
+        newoffer.setMailAddress(FileMethods.load(postOffer.this));
 
         final ArrayList<BackendlessUser> userlist = new ArrayList<>();
         BackendlessUser user = Backendless.UserService.CurrentUser();
@@ -398,7 +398,7 @@ public class postOffer extends AppCompatActivity {
 
             @Override
             public void handleResponse(Offer NewOffer) {
-                Toast.makeText(getApplicationContext(), "STRING MESSAGE", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "STRING MESSAGE", Toast.LENGTH_LONG).show();
                 // Log.i(TAG, "Order has been saved");
                 setRelation(NewOffer, userlist, geoPoint);
 

@@ -87,7 +87,7 @@ public class TuitionList extends AppCompatActivity {
 
         fabMaps = findViewById(R.id.fabTuitionList_Map);
 
-        Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getApplicationContext(), "On TuitionList", Toast.LENGTH_SHORT).show();
 
         for(int i=0; i<CONSTANTS.offers.size(); i++){
             Log.i("oID", i+1 +": " + CONSTANTS.offers.get(i).getObjectId());
@@ -236,6 +236,28 @@ public class TuitionList extends AppCompatActivity {
             }
         });
 
+
+
+        // Real time database object update listener
+
+        EventHandler<Offer> offerEventHandlerUpdate = Backendless.Data.of( Offer.class ).rt();
+
+        offerEventHandlerUpdate.addUpdateListener("active = FALSE" ,new AsyncCallback<Offer>() {
+            @Override
+            public void handleResponse(final Offer newOffer) {
+
+                Log.i("realtime", "offer " + newOffer.getObjectId() + " has been deactivated");
+
+                viewTuitionAdapter.remove(newOffer);
+                lvTuitionList.setAdapter(viewTuitionAdapter);
+                CONSTANTS.offers.remove(newOffer);
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Log.i("realtime", fault.getMessage());
+            }
+        });
 
 
     }

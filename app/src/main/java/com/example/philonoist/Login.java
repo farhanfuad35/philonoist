@@ -171,8 +171,7 @@ public class Login extends AppCompatActivity {
         Backendless.Messaging.registerDevice(channels, new AsyncCallback<DeviceRegistrationResult>() {
             @Override
             public void handleResponse(DeviceRegistrationResult response) {
-                Toast.makeText( Login.this, "Device registered!",
-                        Toast.LENGTH_LONG).show();
+                // Toast.makeText( Login.this, "Device registered!", Toast.LENGTH_LONG).show();
                 Log.i("deviceid", "Device registered successfully on backendless");
 
             }

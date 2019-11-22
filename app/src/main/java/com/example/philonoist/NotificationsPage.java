@@ -115,6 +115,7 @@ public class NotificationsPage extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), UserInfo.class);
                             intent.putExtra("user", response.get(0));
                             intent.putExtra("offerID", notifications.get(i).getOfferID());
+                            intent.putExtra("ID", CONSTANTS.getActivityIdNotificationspage());
                             startActivity(intent);
                         }
 

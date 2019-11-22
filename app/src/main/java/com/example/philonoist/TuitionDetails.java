@@ -93,7 +93,12 @@ public class TuitionDetails extends AppCompatActivity {
         callerActivityID = (int) getIntent().getIntExtra("ID", 0);          // From Maps, ID = 65 | From List, ID = 75
         offer = (Offer) getIntent().getSerializableExtra("offer");
         offerPostedByEmail = offer.getMailAddress();
-        loggedInUserEmail = Backendless.UserService.CurrentUser().getEmail();
+        // loggedInUserEmail = Backendless.UserService.CurrentUser().getEmail();
+        loggedInUserEmail = FileMethods.load(TuitionDetails.this).trim();
+
+
+        Log.i("mail", "offerPostedBy = " + offerPostedByEmail);
+        Log.i("mail", "loggedInUserEmail = " + loggedInUserEmail);
 
 //        lat = getIntent().getStringExtra("lat");
 //        lng = getIntent().getStringExtra("lng");
@@ -101,19 +106,24 @@ public class TuitionDetails extends AppCompatActivity {
         Log.i("newoffer", "check next line");
         Log.i("newoffer", offer.getSubject());
         Log.i("newoffer", offer.getLocation().getLatitude().toString());
+        Log.i("location", "location in tuitiondetails " + offer.getLocation().getLatitude().toString());
 
-        if(callerActivityID == CONSTANTS.getActivityIdTuitionlist()) {
+//        if(callerActivityID == CONSTANTS.getActivityIdTuitionlist()) {
 
             Log.i("latlng", "On tuitiondetails, lat = " + offer.getLocation().getLatitude().toString());
 
 
             lat = (String) offer.getLocation().getLatitude().toString();
             lng = (String) offer.getLocation().getLongitude().toString();
-        }
-        else if(callerActivityID == CONSTANTS.getActivityIdMapsShowTuitions()){
-            lat = getIntent().getStringExtra("lat");
-            lng = getIntent().getStringExtra("lng");
-        }
+//        }
+//        else if(callerActivityID == CONSTANTS.getActivityIdMyoffers()){
+//            lat = (String) offer.getLocation().getLatitude().toString();
+//            lng = (String) offer.getLocation().getLongitude().toString();
+//        }
+//        else if(callerActivityID == CONSTANTS.getActivityIdMapsShowTuitions()){
+//            lat = getIntent().getStringExtra("lat");
+//            lng = getIntent().getStringExtra("lng");
+//        }
 
 
 //
@@ -137,8 +147,8 @@ public class TuitionDetails extends AppCompatActivity {
                     tvAssigned.setVisibility(View.VISIBLE);
                     btnCall.setVisibility(View.GONE);
                     btnMap.setVisibility(View.GONE);
-                    btnCandidates.setVisibility(View.INVISIBLE);
-                    btnInterested.setVisibility(View.INVISIBLE);
+                    btnCandidates.setVisibility(View.GONE);
+                    btnInterested.setVisibility(View.GONE);
                 }
 
                 Log.i("realtime", "this message printed");
@@ -180,12 +190,23 @@ public class TuitionDetails extends AppCompatActivity {
             btnCall.setVisibility(View.GONE);
             btnMap.setVisibility(View.GONE);
             btnCandidates.setVisibility(View.VISIBLE);
+            btnInterested.setVisibility(View.GONE);
         }else{
+            Log.i("mail", "ami ekhane");
+
             System.out.println("else loaded email "+loggedInUserEmail);
             System.out.println("else offer posted by "+offerPostedByEmail);
             btnCall.setVisibility(View.VISIBLE);
             btnMap.setVisibility(View.VISIBLE);
             btnInterested.setVisibility(View.VISIBLE);
+        }
+
+        if(! offer.isActive()){
+            btnCall.setVisibility(View.GONE);
+            btnMap.setVisibility(View.GONE);
+            btnInterested.setVisibility(View.GONE);
+            btnCandidates.setVisibility(View.GONE);
+            tvAssigned.setVisibility(View.VISIBLE);
         }
 
 
@@ -237,8 +258,8 @@ public class TuitionDetails extends AppCompatActivity {
                     }
                 });
 
-                //String userEmail = FileMethods.load(getApplicationContext());
-                String userEmail = Backendless.UserService.CurrentUser().getEmail();
+                String userEmail = FileMethods.load(getApplicationContext());
+                // String userEmail = Backendless.UserService.CurrentUser().getEmail();
                 System.out.println("in interested: "+userEmail);
                 System.out.println("Offer ID: "+ offerID);
                 //String userEmail = Backendless.UserService.CurrentUser().getEmail();
